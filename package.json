@@ -1,7 +1,7 @@
 {
   "name": "@halibegic/react-video-player",
   "description": "A React video player library with HLS.js/Dash.js support for VOD and Live streaming",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "license": "MIT",
   "keywords": [
     "react",
