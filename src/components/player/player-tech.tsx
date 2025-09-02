@@ -1,0 +1,99 @@
+import { PlayerSourceType } from "@/config/player";
+import { usePlayerStore } from "@/stores/player-store";
+import { getPlayerSourceType } from "@/utils/player";
+import { lazy, Suspense, useRef, type VideoHTMLAttributes } from "react";
+
+const PlayerHlsTech = lazy(() => import("./tech/player-hls-tech"));
+const PlayerDashTech = lazy(() => import("./tech/player-dash-tech"));
+
+type PlayerTechProps = {
+  url: string;
+  isLive: boolean;
+  isMuted?: boolean;
+};
+
+function PlayerTech({ url, isLive, isMuted = false }: PlayerTechProps) {
+  const handleDurationChange = usePlayerStore((s) => s.handleDurationChange);
+  const handleEnd = usePlayerStore((s) => s.handleEnd);
+  const handleLoadedMetadata = usePlayerStore((s) => s.handleLoadedMetadata);
+  const handleLoadStart = usePlayerStore((s) => s.handleLoadStart);
+  const handlePause = usePlayerStore((s) => s.handlePause);
+  const handlePlay = usePlayerStore((s) => s.handlePlay);
+  const handlePlaying = usePlayerStore((s) => s.handlePlaying);
+  const handleSeeked = usePlayerStore((s) => s.handleSeeked);
+  const handleSeeking = usePlayerStore((s) => s.handleSeeking);
+  const handleTimeUpdate = usePlayerStore((s) => s.handleTimeUpdate);
+  const handleWaiting = usePlayerStore((s) => s.handleWaiting);
+  const techRef = usePlayerStore((s) => s.techRef);
+  const timeUpdateRef = useRef<number | null>(null);
+
+  const handleNonLiveHandlers = (): Partial<
+    VideoHTMLAttributes<HTMLVideoElement>
+  > => {
+    if (isLive) return {};
+
+    return {
+      onDurationChange: handleDurationChange,
+      onSeeked: handleSeeked,
+      onSeeking: handleSeeking,
+      onTimeUpdate: handleThrottledTimeUpdate,
+    };
+  };
+
+  // Throttle the time update event to fire at most once per second
+  // to prevent performance issues caused by frequent updates.
+  const handleThrottledTimeUpdate = () => {
+    if (!timeUpdateRef.current || Date.now() - timeUpdateRef.current >= 1000) {
+      handleTimeUpdate();
+      timeUpdateRef.current = Date.now();
+    }
+  };
+
+  const handleTech = () => {
+    const sourceType = getPlayerSourceType(url);
+
+    switch (sourceType) {
+      case PlayerSourceType.hls:
+        return PlayerHlsTech;
+      case PlayerSourceType.dash:
+        return PlayerDashTech;
+    }
+
+    return null;
+  };
+
+  const Tech = handleTech();
+
+  if (!Tech) return null;
+
+  const nonLiveHandlers = handleNonLiveHandlers();
+
+  return (
+    <>
+      <Suspense fallback={null}>
+        <Tech isLive={isLive} url={url} />
+      </Suspense>
+      <video
+        className={"relative size-full md:pointer-events-none"}
+        ref={techRef}
+        playsInline
+        autoPlay
+        controls={false}
+        muted={isMuted}
+        preload="auto"
+        crossOrigin="anonymous"
+        onEnded={handleEnd}
+        onLoadedMetadata={handleLoadedMetadata}
+        onLoadStart={handleLoadStart}
+        onPause={handlePause}
+        onPlay={handlePlay}
+        onPlaying={handlePlaying}
+        onWaiting={handleWaiting}
+        tabIndex={-1}
+        {...nonLiveHandlers}
+      />
+    </>
+  );
+}
+
+export { PlayerTech };
