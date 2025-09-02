@@ -2,6 +2,7 @@ import { PlayerProvider } from "@/components/player/player-provider";
 import { PlayerTech } from "@/components/player/player-tech";
 import { PlayerFullscreen } from "@/components/player/ui/player-fullscreen";
 import { PlayerLoading } from "@/components/player/ui/player-loading";
+import { VodPlayerPlayback } from "@/components/vod-player/vod-player-playback";
 import { VodPlayerProgress } from "@/components/vod-player/vod-player-progress";
 import { usePlayerStore } from "@/stores/player-store";
 import styled from "styled-components";
@@ -29,7 +30,9 @@ function Player({ url }: VodPlayerProps) {
         <ControlsContainer>
           <VodPlayerProgress />
           <ControlsRow>
-            <ControlsSectionStart></ControlsSectionStart>
+            <ControlsSectionStart>
+              <VodPlayerPlayback />
+            </ControlsSectionStart>
             <ControlsSectionCenter></ControlsSectionCenter>
             <ControlsSectionEnd>
               <PlayerFullscreen />

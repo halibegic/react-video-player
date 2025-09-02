@@ -1,3 +1,4 @@
+import { LivePlayerPlayback } from "@/components/player/live-player/live-player-playback";
 import { PlayerProvider } from "@/components/player/player-provider";
 import { PlayerTech } from "@/components/player/player-tech";
 import { PlayerFullscreen } from "@/components/player/ui/player-fullscreen";
@@ -27,7 +28,9 @@ function Player({ url }: LivePlayerProps) {
       <ControlsOverlay>
         <ControlsContainer>
           <ControlsRow>
-            <ControlsSectionStart></ControlsSectionStart>
+            <ControlsSectionStart>
+              <LivePlayerPlayback />
+            </ControlsSectionStart>
             <ControlsSectionCenter></ControlsSectionCenter>
             <ControlsSectionEnd>
               <PlayerFullscreen />
