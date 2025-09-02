@@ -2,7 +2,9 @@ import { PlayerProvider } from "@/components/player/player-provider";
 import { PlayerTech } from "@/components/player/player-tech";
 import { PlayerFullscreen } from "@/components/player/ui/player-fullscreen";
 import { PlayerLoading } from "@/components/player/ui/player-loading";
+import { VodPlayerProgress } from "@/components/vod-player/vod-player-progress";
 import { usePlayerStore } from "@/stores/player-store";
+import styled from "styled-components";
 
 type VodPlayerProps = {
   url: string;
@@ -20,26 +22,95 @@ function Player({ url }: VodPlayerProps) {
   const containerRef = usePlayerStore((s) => s.containerRef);
 
   return (
-    <div
-      className="dark text-foreground absolute inset-0 size-full overflow-hidden bg-black"
-      ref={containerRef}
-    >
+    <PlayerContainer ref={containerRef}>
       <PlayerTech url={url} isLive={false} />
       <PlayerLoading />
-      <div className="absolute inset-x-0 bottom-0 z-10 bg-linear-to-t from-black/60 pt-4 md:pt-8">
-        <div className="flex h-14 flex-col px-2 leading-none text-[0] md:h-16 md:px-4">
-          <div className="my-auto flex w-full items-center">
-            <div className="flex flex-1 items-center justify-start md:gap-2"></div>
-            <div className="flex flex-1 items-center justify-center md:gap-2"></div>
-            <div className="flex flex-1 items-center justify-end md:gap-2">
+      <ControlsOverlay>
+        <ControlsContainer>
+          <VodPlayerProgress />
+          <ControlsRow>
+            <ControlsSectionStart></ControlsSectionStart>
+            <ControlsSectionCenter></ControlsSectionCenter>
+            <ControlsSectionEnd>
               <PlayerFullscreen />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            </ControlsSectionEnd>
+          </ControlsRow>
+        </ControlsContainer>
+      </ControlsOverlay>
+    </PlayerContainer>
   );
 }
+
+const PlayerContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  color: white;
+  overflow: hidden;
+`;
+
+const ControlsOverlay = styled.div`
+  position: absolute;
+  left: 0;
+  width: 100%;
+  bottom: 0;
+  z-index: 10;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+  padding-top: 1rem;
+
+  @media (min-width: 768px) {
+    padding-top: 2rem;
+  }
+`;
+
+const ControlsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  line-height: 1;
+  font-size: 0;
+  height: 3.5rem;
+
+  @media (min-width: 768px) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    height: 4rem;
+  }
+`;
+
+const ControlsRow = styled.div`
+  margin: auto 0;
+  display: flex;
+  width: 100%;
+  align-items: center;
+`;
+
+const ControlsSection = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 0.5rem;
+
+  @media (min-width: 768px) {
+    gap: 1rem;
+  }
+`;
+
+const ControlsSectionStart = styled(ControlsSection)`
+  justify-content: flex-start;
+`;
+
+const ControlsSectionCenter = styled(ControlsSection)`
+  justify-content: center;
+`;
+
+const ControlsSectionEnd = styled(ControlsSection)`
+  justify-content: flex-end;
+`;
 
 export { VodPlayer };
 export type { VodPlayerProps };

@@ -9,12 +9,7 @@ export default defineConfig({
     dts({
       insertTypesEntry: true,
       include: ["src/**/*"],
-      exclude: [
-        "src/**/*.test.*",
-        "src/**/*.spec.*",
-        "src/main.tsx",
-        "src/App.tsx",
-      ],
+      exclude: ["src/main.tsx", "src/App.tsx"],
     }),
   ],
   resolve: {
@@ -30,11 +25,12 @@ export default defineConfig({
       fileName: (format) => `react-video-player.${format}.js`,
     },
     rollupOptions: {
-      external: ["react", "react-dom", "hls.js", "dashjs"],
+      external: ["react", "react-dom", "lucide-react", "hls.js", "dashjs"],
       output: {
         globals: {
           react: "React",
           "react-dom": "ReactDOM",
+          "lucide-react": "lucide-react",
           "hls.js": "Hls",
           dashjs: "dashjs",
         },

@@ -14,7 +14,8 @@
     ],
     "exclude": [
       "src/main.tsx",
-      "src/App.tsx",
+      "src/app.tsx",
+      "src/app.css",
       "node_modules",
       "dist"
     ]

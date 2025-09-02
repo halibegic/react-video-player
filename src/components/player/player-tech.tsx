@@ -2,6 +2,7 @@ import { PlayerSourceType } from "@/config/player";
 import { usePlayerStore } from "@/stores/player-store";
 import { getPlayerSourceType } from "@/utils/player";
 import { lazy, Suspense, useRef, type VideoHTMLAttributes } from "react";
+import styled from "styled-components";
 
 const PlayerHlsTech = lazy(() => import("./tech/player-hls-tech"));
 const PlayerDashTech = lazy(() => import("./tech/player-dash-tech"));
@@ -73,8 +74,7 @@ function PlayerTech({ url, isLive, isMuted = false }: PlayerTechProps) {
       <Suspense fallback={null}>
         <Tech isLive={isLive} url={url} />
       </Suspense>
-      <video
-        className={"relative size-full md:pointer-events-none"}
+      <Video
         ref={techRef}
         playsInline
         autoPlay
@@ -95,5 +95,15 @@ function PlayerTech({ url, isLive, isMuted = false }: PlayerTechProps) {
     </>
   );
 }
+
+const Video = styled.video`
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  @media (min-width: 768px) {
+    pointer-events: none;
+  }
+`;
 
 export { PlayerTech };

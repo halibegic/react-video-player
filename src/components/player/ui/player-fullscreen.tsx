@@ -1,11 +1,11 @@
-import { Button, type ButtonProps } from "@/components/ui/button";
+import { PlayerButton } from "@/components/player/ui/player-button";
 import { usePlayerStore } from "@/stores/player-store";
 import { isiOS } from "@/utils/device";
 import { isActiveFullscreen, onFullscreenChange } from "@/utils/fullscreen";
 import { MaximizeIcon, MinimizeIcon } from "lucide-react";
 import { useCallback, useEffect } from "react";
 
-const PlayerFullscreen = (props: ButtonProps) => {
+const PlayerFullscreen = () => {
   const containerRef = usePlayerStore((s) => s.containerRef);
   const exitFullscreen = usePlayerStore((s) => s.exitFullscreen);
   const isFullscreen = usePlayerStore((s) => s.isFullscreen);
@@ -40,13 +40,9 @@ const PlayerFullscreen = (props: ButtonProps) => {
   }, [setIsFullscreenReady]);
 
   return (
-    <Button onClick={handleFullscreen} variant="ghost" size="icon" {...props}>
-      {isFullscreen ? (
-        <MinimizeIcon className="size-4" />
-      ) : (
-        <MaximizeIcon className="size-4" />
-      )}
-    </Button>
+    <PlayerButton onClick={handleFullscreen}>
+      {isFullscreen ? <MinimizeIcon /> : <MaximizeIcon />}
+    </PlayerButton>
   );
 };
 
