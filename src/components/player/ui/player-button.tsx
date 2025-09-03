@@ -1,13 +1,17 @@
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, forwardRef } from "react";
 import styled, { css } from "styled-components";
 
 type PlayerButtonProps = HTMLAttributes<HTMLButtonElement> & {
   shape?: "square" | "circle";
 };
 
-function PlayerButton({ shape = "circle", ...props }: PlayerButtonProps) {
-  return <Button $shape={shape} {...props} />;
-}
+const PlayerButton = forwardRef<HTMLButtonElement, PlayerButtonProps>(
+  ({ shape = "circle", ...props }, ref) => {
+    return <Button ref={ref} $shape={shape} {...props} />;
+  }
+);
+
+PlayerButton.displayName = "PlayerButton";
 
 const Button = styled.button<{ $shape: PlayerButtonProps["shape"] }>`
   margin: 0;

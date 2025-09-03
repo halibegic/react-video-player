@@ -1,14 +1,14 @@
 import * as Slider from "@radix-ui/react-slider";
-import { ComponentProps } from "react";
+import { ComponentProps, forwardRef } from "react";
 import styled from "styled-components";
 
-function PlayerSlider({
-  max = 100,
-  min = 0,
-  ...props
-}: ComponentProps<typeof Slider.Root>) {
+const PlayerSlider = forwardRef<
+  React.ElementRef<typeof Slider.Root>,
+  ComponentProps<typeof Slider.Root>
+>(({ max = 100, min = 0, ...props }, ref) => {
   return (
     <SliderRoot
+      ref={ref}
       min={min}
       max={max}
       aria-label="Player progress"
@@ -25,7 +25,9 @@ function PlayerSlider({
       <SliderThumb />
     </SliderRoot>
   );
-}
+});
+
+PlayerSlider.displayName = "PlayerSlider";
 
 const SliderRoot = styled(Slider.Root)`
   position: relative;
