@@ -15,12 +15,9 @@ const spinKeyframes = keyframes`
 `;
 
 const Spinner = styled.div`
-  --spinner-color: white;
-  --spinner-size: 1.5rem;
-  --spinner-border-width: 2px;
-  width: var(--spinner-size);
-  height: var(--spinner-size);
-  border: var(--spinner-border-width) solid var(--spinner-color);
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid white;
   border-bottom-color: transparent;
   border-radius: 50%;
   animation: ${spinKeyframes} 1s linear infinite;

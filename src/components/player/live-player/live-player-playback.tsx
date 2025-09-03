@@ -1,28 +1,33 @@
 import { PauseIcon } from "@/components/player/ui/icons/pause-icon";
 import { PlayIcon } from "@/components/player/ui/icons/play-icon";
 import { PlayerButton } from "@/components/player/ui/player-button";
+import { useLivePlayerStore } from "@/stores/live-player-store";
 import { usePlayerStore } from "@/stores/player-store";
-import { useEffect, useState } from "react";
 
 function LivePlayerPlayback() {
-  const [isVisible, setIsVisible] = useState<boolean>(false);
   const isPlaying = usePlayerStore((s) => s.isPlaying);
-  const isStarted = usePlayerStore((s) => s.isStarted);
+  const pause = usePlayerStore((s) => s.pause);
+  const pauseTime = usePlayerStore((s) => s.pauseTime);
+  const pauseTimeDiff = usePlayerStore((s) => s.pauseTimeDiff);
   const play = usePlayerStore((s) => s.play);
+  const delay = useLivePlayerStore((s) => s.delay);
+  const setDelay = useLivePlayerStore((s) => s.setDelay);
 
   const handleToggle = () => {
-    if (!isPlaying) play();
+    if (isPlaying) {
+      pause();
+    } else {
+      if (pauseTime) setDelay(delay + pauseTimeDiff());
+
+      play();
+    }
   };
 
-  useEffect(() => {
-    setIsVisible(!isStarted && !isPlaying);
-  }, [isStarted, isPlaying]);
-
-  return isVisible ? (
+  return (
     <PlayerButton onClick={handleToggle}>
       {isPlaying ? <PauseIcon /> : <PlayIcon />}
     </PlayerButton>
-  ) : null;
+  );
 }
 
 export { LivePlayerPlayback };

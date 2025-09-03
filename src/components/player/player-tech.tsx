@@ -1,4 +1,4 @@
-import PlayerHlsTech from "@/components/player/player-hls-tech";
+import PlayerHlsEngine from "@/components/player/player-hls-engine";
 import { usePlayerStore } from "@/stores/player-store";
 import { useRef, type VideoHTMLAttributes } from "react";
 import styled from "styled-components";
@@ -50,7 +50,7 @@ function PlayerTech({ url, isLive, isMuted = false }: PlayerTechProps) {
 
   return (
     <>
-      <PlayerHlsTech isLive={isLive} url={url} />
+      <PlayerHlsEngine isLive={isLive} url={url} />
       <Video
         ref={techRef}
         playsInline

@@ -12,6 +12,7 @@ import {
 import { PlayerFullscreen } from "@/components/player/ui/player-fullscreen";
 import { PlayerIdleCheck } from "@/components/player/ui/player-idle-check";
 import { PlayerLoading } from "@/components/player/ui/player-loading";
+import { PlayerVolume } from "@/components/player/ui/player-volume";
 import { VodPlayerPlayback } from "@/components/vod-player/vod-player-playback";
 import { VodPlayerPlaybackIndicator } from "@/components/vod-player/vod-player-playback-indicator";
 import { VodPlayerProgress } from "@/components/vod-player/vod-player-progress";
@@ -57,6 +58,7 @@ function Player({ url }: Pick<VodPlayerProps, "url">) {
             <ControlsRow>
               <ControlsSectionStart>
                 <VodPlayerPlayback />
+                <PlayerVolume />
                 <VodPlayerRemainingTime />
               </ControlsSectionStart>
               <ControlsSectionCenter></ControlsSectionCenter>

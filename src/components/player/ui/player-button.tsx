@@ -10,10 +10,11 @@ function PlayerButton({ shape = "circle", ...props }: PlayerButtonProps) {
 }
 
 const Button = styled.button<{ $shape: PlayerButtonProps["shape"] }>`
+  margin: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0;
+  flex-shrink: 0;
   line-height: 1;
   font-size: 0.875rem;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -23,7 +24,7 @@ const Button = styled.button<{ $shape: PlayerButtonProps["shape"] }>`
   color: white;
   background: none;
   border: none;
-  transition: background 0.2s ease-in-out;
+  transition: color 0.2s ease-in-out, background 0.2s ease-in-out;
 
   svg {
     width: 1.25rem;
@@ -32,7 +33,8 @@ const Button = styled.button<{ $shape: PlayerButtonProps["shape"] }>`
   }
 
   &:hover {
-    background: rgba(0, 0, 0, 0.6);
+    color: black;
+    background: #f7e406;
   }
 
   &:focus {
@@ -48,8 +50,8 @@ const Button = styled.button<{ $shape: PlayerButtonProps["shape"] }>`
     $shape === "circle" &&
     css`
       padding: 0;
-      width: 2.5rem;
-      height: 2.5rem;
+      width: 2.25rem;
+      height: 2.25rem;
       border-radius: 1.25rem;
     `}
 

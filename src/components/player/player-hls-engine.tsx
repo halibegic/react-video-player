@@ -2,12 +2,12 @@ import { usePlayerStore } from "@/stores/player-store";
 import Hls, { type HlsConfig } from "hls.js";
 import { useCallback, useEffect, useRef } from "react";
 
-type PlayerHlsTechProps = {
+type PlayerHlsEngineProps = {
   url: string;
   isLive: boolean;
 };
 
-function PlayerHlsTech({ url, isLive }: PlayerHlsTechProps) {
+function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
   const hlsRef = useRef<Hls | null>(null);
   const techRef = usePlayerStore((s) => s.techRef);
 
@@ -67,4 +67,4 @@ function PlayerHlsTech({ url, isLive }: PlayerHlsTechProps) {
   return null;
 }
 
-export default PlayerHlsTech;
+export default PlayerHlsEngine;

@@ -53,10 +53,6 @@ export const ControlsSection = styled.div`
   flex: 1;
   align-items: center;
   gap: 0.5rem;
-
-  @media (min-width: 768px) {
-    gap: 1rem;
-  }
 `;
 
 export const ControlsSectionStart = styled(ControlsSection)`

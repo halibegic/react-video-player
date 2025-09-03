@@ -5,7 +5,7 @@ import { LivePlayerPlaybackIndicator } from "@/components/player/live-player/liv
 import { LivePlayerProgress } from "@/components/player/live-player/live-player-progress";
 import { LivePlayerProvider } from "@/components/player/live-player/live-player-provider";
 import { LivePlayerRemainingTime } from "@/components/player/live-player/live-player-remaining-time";
-import { PlayerTech } from "@/components/player/player-tech";
+import { LivePlayerTech } from "@/components/player/live-player/live-player-tech";
 import {
   ControlsBottom,
   ControlsContainer,
@@ -17,6 +17,7 @@ import {
 import { PlayerFullscreen } from "@/components/player/ui/player-fullscreen";
 import { PlayerIdleCheck } from "@/components/player/ui/player-idle-check";
 import { PlayerLoading } from "@/components/player/ui/player-loading";
+import { PlayerVolume } from "@/components/player/ui/player-volume";
 import { usePlayerStore } from "@/stores/player-store";
 
 type LivePlayerProps = {
@@ -52,7 +53,7 @@ function Player({ url, messages }: Pick<LivePlayerProps, "url" | "messages">) {
         eventNotStartedMessage={messages?.eventNotStarted}
         eventStartingSoonMessage={messages?.eventStartingSoon}
       >
-        <PlayerTech url={url} isLive={true} />
+        <LivePlayerTech url={url} />
         <PlayerLoading />
         <PlayerIdleCheck>
           <LivePlayerPlaybackIndicator />
@@ -62,6 +63,7 @@ function Player({ url, messages }: Pick<LivePlayerProps, "url" | "messages">) {
               <ControlsRow>
                 <ControlsSectionStart>
                   <LivePlayerPlayback />
+                  <PlayerVolume />
                   <LivePlayerRemainingTime />
                 </ControlsSectionStart>
                 <ControlsSectionEnd>
