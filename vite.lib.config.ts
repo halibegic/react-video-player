@@ -25,13 +25,26 @@ export default defineConfig({
       fileName: (format) => `react-video-player.${format}.js`,
     },
     rollupOptions: {
-      external: ["react", "react-dom", "hls.js", "dashjs"],
+      external: [
+        "react",
+        "react-dom",
+        "hls.js",
+        "dashjs",
+        "styled-components",
+        "zustand",
+        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-slider",
+      ],
       output: {
         globals: {
           react: "React",
           "react-dom": "ReactDOM",
           "hls.js": "Hls",
           dashjs: "dashjs",
+          "styled-components": "styled",
+          zustand: "zustand",
+          "@radix-ui/react-dropdown-menu": "RadixUIDropdownMenu",
+          "@radix-ui/react-slider": "RadixUISlider",
         },
       },
     },
