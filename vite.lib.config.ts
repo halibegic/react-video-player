@@ -5,9 +5,7 @@ import dts from "vite-plugin-dts";
 
 export default defineConfig({
   plugins: [
-    react({
-      jsxRuntime: "automatic",
-    }),
+    react(),
     dts({
       insertTypesEntry: true,
       include: ["src/**/*"],
@@ -37,14 +35,10 @@ export default defineConfig({
         },
       },
     },
-    target: "es2020",
     sourcemap: true,
     emptyOutDir: true,
   },
   optimizeDeps: {
     exclude: ["react", "react-dom"],
-  },
-  define: {
-    __DEV__: JSON.stringify(process.env.NODE_ENV === "development"),
   },
 });
