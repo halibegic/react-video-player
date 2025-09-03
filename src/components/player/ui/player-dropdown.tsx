@@ -1,37 +1,20 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import React, { ComponentProps } from "react";
+import React, { forwardRef, RefObject } from "react";
 import styled from "styled-components";
 
-type PlayerDropdownProps = ComponentProps<typeof DropdownMenu.Root>;
+const PlayerDropdownMenu = DropdownMenu.Root;
 
-function PlayerDropdown(props: PlayerDropdownProps) {
-  return <DropdownMenu.Root {...props} />;
-}
+const PlayerDropdownMenuTrigger = DropdownMenu.Trigger;
 
-function PlayerDropdownMenu({
-  ...props
-}: React.ComponentProps<typeof DropdownMenu.Root>) {
-  return <DropdownMenu.Root {...props} />;
-}
+const PlayerDropdownMenuPortal = DropdownMenu.Portal;
 
-function PlayerDropdownMenuPortal({
-  ...props
-}: React.ComponentProps<typeof DropdownMenu.Portal>) {
-  return <DropdownMenu.Portal {...props} />;
-}
-
-function PlayerDropdownMenuTrigger({
-  ...props
-}: React.ComponentProps<typeof DropdownMenu.Trigger>) {
-  return <DropdownMenu.Trigger {...props} />;
-}
-
-function PlayerDropdownMenuContent({
-  sideOffset = 4,
-  ...props
-}: React.ComponentProps<typeof DropdownMenu.Content>) {
+const PlayerDropdownMenuContent = forwardRef<
+  React.ElementRef<typeof DropdownMenu.Content>,
+  React.ComponentProps<typeof DropdownMenu.Content>
+>(({ sideOffset = 4, ...props }, ref) => {
   return (
     <DropdownMenuContent
+      ref={ref as RefObject<HTMLDivElement>}
       sideOffset={sideOffset}
       onCloseAutoFocus={(event) => {
         event.preventDefault();
@@ -39,15 +22,22 @@ function PlayerDropdownMenuContent({
       {...props}
     />
   );
-}
+});
 
-function PlayerDropdownMenuItem(
-  props: React.ComponentProps<typeof DropdownMenu.Item>
-) {
-  return <DropdownMenuItem {...props} />;
-}
+PlayerDropdownMenuContent.displayName = "PlayerDropdownMenuContent";
 
-const DropdownMenuContent = styled(DropdownMenu.Content)`
+const PlayerDropdownMenuItem = forwardRef<
+  React.ElementRef<typeof DropdownMenu.Item>,
+  React.ComponentProps<typeof DropdownMenu.Item>
+>((props, ref) => {
+  return <DropdownMenuItem ref={ref as RefObject<HTMLDivElement>} {...props} />;
+});
+
+PlayerDropdownMenuItem.displayName = "PlayerDropdownMenuItem";
+
+const DropdownMenuContent = styled(DropdownMenu.Content).withConfig({
+  shouldForwardProp: (prop) => prop !== "ref",
+})`
   padding: 0.25rem;
   min-width: 8rem;
   max-height: 12rem;
@@ -166,5 +156,3 @@ export {
   PlayerDropdownMenuPortal,
   PlayerDropdownMenuTrigger,
 };
-
-export default PlayerDropdown;

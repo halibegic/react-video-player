@@ -19,6 +19,7 @@ import { VodPlayerProgress } from "@/components/vod-player/vod-player-progress";
 import { VodPlayerRemainingTime } from "@/components/vod-player/vod-player-remaining-time";
 import { VodPlayerWatchHistory } from "@/components/vod-player/vod-player-watch-history";
 import { usePlayerStore } from "@/stores/player-store";
+import { RefObject } from "react";
 
 type VodPlayerProps = {
   url: string;
@@ -43,7 +44,7 @@ function Player({ url }: Pick<VodPlayerProps, "url">) {
   const containerRef = usePlayerStore((s) => s.containerRef);
 
   return (
-    <PlayerContainer ref={containerRef}>
+    <PlayerContainer ref={containerRef as RefObject<HTMLDivElement>}>
       <PlayerTech url={url} isLive={false} />
       <PlayerLoading />
       <PlayerIdleCheck>

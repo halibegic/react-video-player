@@ -20,6 +20,7 @@ import { PlayerLoading } from "@/components/player/ui/player-loading";
 import { PlayerQualityControl } from "@/components/player/ui/player-quality-control";
 import { PlayerVolume } from "@/components/player/ui/player-volume";
 import { usePlayerStore } from "@/stores/player-store";
+import { RefObject } from "react";
 
 type LivePlayerProps = {
   url: string;
@@ -48,7 +49,7 @@ function Player({ url, messages }: Pick<LivePlayerProps, "url" | "messages">) {
   const containerRef = usePlayerStore((s) => s.containerRef);
 
   return (
-    <PlayerContainer ref={containerRef}>
+    <PlayerContainer ref={containerRef as RefObject<HTMLDivElement>}>
       <LivePlayerEventCheck
         eventFinishedMessage={messages?.eventFinished}
         eventNotStartedMessage={messages?.eventNotStarted}

@@ -1,7 +1,7 @@
 {
   "name": "@halibegic/react-video-player",
   "description": "A React video player library with HLS support for VOD and Live streaming",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "license": "MIT",
   "keywords": [
     "react",
@@ -43,7 +43,8 @@
     "build": "vite build --config vite.lib.config.ts",
     "lint": "eslint .",
     "preview": "vite preview",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
     "react": "^18.3.1",

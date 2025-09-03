@@ -1,6 +1,6 @@
 import { PlayerHlsEngine } from "@/components/player/player-hls-engine";
 import { usePlayerStore } from "@/stores/player-store";
-import { useRef, type VideoHTMLAttributes } from "react";
+import { RefObject, useRef, type VideoHTMLAttributes } from "react";
 import styled from "styled-components";
 
 type PlayerTechProps = {
@@ -52,7 +52,7 @@ function PlayerTech({ url, isLive, isMuted = false }: PlayerTechProps) {
     <>
       <PlayerHlsEngine isLive={isLive} url={url} />
       <Video
-        ref={techRef}
+        ref={techRef as RefObject<HTMLVideoElement>}
         playsInline
         autoPlay
         controls={false}
