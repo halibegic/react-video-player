@@ -8,7 +8,7 @@ function App() {
       <Title>Vod Player</Title>
       <PlayerContainer>
         <VodPlayer
-          url="https://fitnessanny-vod-staging.morescreens.com/vod_hls/barre_ingest_test_,480p,576p,720p,1080p,.mp4.urlset/playlist.m3u8?authority_instance_id=fitnessanny-test-auth&video_id=42&token=c1322cc89b446f4bff4735b1d96cb66cef5f8d10"
+          url="https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.mp4/.m3u8"
           watchHistory={{
             enabled: true,
             storageKey: "big-buck-bunny-watch-history",
@@ -18,8 +18,8 @@ function App() {
       <Title>Live Player</Title>
       <PlayerContainer>
         <LivePlayer
-          url="https://fitnessanny-live-staging.morescreens.com/ANNY_1_004/live/playlist.m3u8?authority_instance_id=fitnessanny-test-auth&video_id=42&token=c1322cc89b446f4bff4735b1d96cb66cef5f8d10"
-          startDate={new Date(Date.now() - 30 * 60 * 1000)}
+          url="https://storage.googleapis.com/shaka-live-assets/player-source.m3u8"
+          startDate={new Date(Date.now())}
           endDate={new Date(Date.now() + 30 * 60 * 1000)}
           messages={{
             eventFinished: "Live stream je završio.",
