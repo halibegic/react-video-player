@@ -3,6 +3,7 @@ import styled from "styled-components";
 const ProgressSlider = styled.div`
   position: relative;
   width: 100%;
+  margin-bottom: -0.25rem;
 `;
 
 const TipContainer = styled.div<{ $isVisible: boolean }>`
@@ -23,7 +24,7 @@ const TipContent = styled.p`
   margin: 0;
   padding: 0.25rem;
   font-variant-numeric: tabular-nums;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
   font-weight: 500;

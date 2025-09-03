@@ -1,4 +1,4 @@
-import PlayerHlsEngine from "@/components/player/player-hls-engine";
+import { PlayerHlsEngine } from "@/components/player/player-hls-engine";
 import { usePlayerStore } from "@/stores/player-store";
 import { useRef, type VideoHTMLAttributes } from "react";
 import styled from "styled-components";

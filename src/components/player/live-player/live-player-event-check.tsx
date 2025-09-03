@@ -123,4 +123,4 @@ const EventStatusMessageText = styled.p`
   font-weight: 500;
 `;
 
-export default LivePlayerEventCheck;
+export { LivePlayerEventCheck };

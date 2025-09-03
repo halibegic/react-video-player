@@ -66,4 +66,4 @@ function VodPlayerWatchHistory({ storageKey }: VodPlayerWatchHistoryProps) {
   return null;
 }
 
-export default VodPlayerWatchHistory;
+export { VodPlayerWatchHistory };

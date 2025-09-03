@@ -32,18 +32,16 @@ export const ControlsContainer = styled.div`
   padding-right: 0.5rem;
   line-height: 1;
   font-size: 0;
-  height: 4rem;
 
   @media (min-width: 768px) {
     padding-left: 1rem;
     padding-right: 1rem;
-    height: 4.5rem;
   }
 `;
 
 export const ControlsRow = styled.div`
-  margin: auto 0;
   display: flex;
+  padding: 0.5rem 0;
   width: 100%;
   align-items: center;
 `;
@@ -57,10 +55,6 @@ export const ControlsSection = styled.div`
 
 export const ControlsSectionStart = styled(ControlsSection)`
   justify-content: flex-start;
-`;
-
-export const ControlsSectionCenter = styled(ControlsSection)`
-  justify-content: center;
 `;
 
 export const ControlsSectionEnd = styled(ControlsSection)`

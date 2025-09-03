@@ -9,7 +9,7 @@ const Time = styled.p`
   margin: 0;
   padding: 0;
   font-variant-numeric: tabular-nums;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
   font-weight: 500;
@@ -26,7 +26,7 @@ const Duration = styled(Time)`
 const Separator = styled.p`
   margin: 0;
   padding: 0;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
   font-weight: 500;

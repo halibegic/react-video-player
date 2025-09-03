@@ -16,7 +16,7 @@ const Button = styled.button<{ $shape: PlayerButtonProps["shape"] }>`
   justify-content: center;
   flex-shrink: 0;
   line-height: 1;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
   font-weight: 500;
@@ -24,17 +24,18 @@ const Button = styled.button<{ $shape: PlayerButtonProps["shape"] }>`
   color: white;
   background: none;
   border: none;
+  border-radius: 1rem;
   transition: color 0.2s ease-in-out, background 0.2s ease-in-out;
 
   svg {
     width: 1.25rem;
     height: 1.25rem;
     flex-shrink: 0;
+    pointer-events: none;
   }
 
   &:hover {
-    color: black;
-    background: #f7e406;
+    background: rgba(255, 255, 255, 0.1);
   }
 
   &:focus {
@@ -50,16 +51,14 @@ const Button = styled.button<{ $shape: PlayerButtonProps["shape"] }>`
     $shape === "circle" &&
     css`
       padding: 0;
-      width: 2.25rem;
-      height: 2.25rem;
-      border-radius: 1.25rem;
+      width: 2rem;
+      height: 2rem;
     `}
 
   ${({ $shape }) =>
     $shape === "square" &&
     css`
       padding: 0.25rem 0.5rem;
-      border-radius: 1rem;
     `}
 `;
 

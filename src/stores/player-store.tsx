@@ -1,6 +1,7 @@
 import type { StateCreator, StoreApi } from "zustand";
 import { create, useStore } from "zustand";
 
+import { PlayerLevel } from "@/types/player";
 import { millisecondsToSeconds } from "@/utils/date-time";
 import { isiOS } from "@/utils/device";
 import { exitFullscreen, requestFullscreen } from "@/utils/fullscreen";
@@ -71,6 +72,20 @@ type IdleLockActions = {
 
 type IdleLockSlice = IdleLockState & IdleLockActions;
 
+// Quality slice
+
+type QualityState = {
+  level: number | null;
+  levels: PlayerLevel[] | null;
+};
+
+type QualityActions = {
+  setLevel: (level: number | null) => void;
+  setLevels: (levels: PlayerLevel[] | null) => void;
+};
+
+type QualitySlice = QualityState & QualityActions;
+
 // Fullscreen slice
 
 type FullscreenState = {
@@ -110,6 +125,7 @@ type RefSlice = RefState;
 
 type PlayerStore = PlaybackSlice &
   IdleLockSlice &
+  QualitySlice &
   FullscreenSlice &
   AssetSlice &
   RefSlice;
@@ -326,6 +342,20 @@ const createIdleLockSlice: StateCreator<
     }),
 });
 
+// Quality slice creator
+
+const createQualitySlice: StateCreator<
+  QualitySlice & RefSlice,
+  [],
+  [],
+  QualitySlice
+> = (set) => ({
+  level: null,
+  levels: null,
+  setLevels: (levels) => set({ levels }),
+  setLevel: (level) => set({ level }),
+});
+
 // Fullscreen slice creator
 
 const createFullscreenSlice: StateCreator<
@@ -385,6 +415,7 @@ const createPlayerStore = (
     ...createPlaybackSlice(...a),
     ...createIdleLockSlice(...a),
     ...createFullscreenSlice(...a),
+    ...createQualitySlice(...a),
     ...createAssetSlice(...a),
     ...createRefSlice({ techRef, containerRef })(...a),
   }));

@@ -4,7 +4,6 @@ import {
   ControlsBottom,
   ControlsContainer,
   ControlsRow,
-  ControlsSectionCenter,
   ControlsSectionEnd,
   ControlsSectionStart,
   PlayerContainer,
@@ -12,17 +11,14 @@ import {
 import { PlayerFullscreen } from "@/components/player/ui/player-fullscreen";
 import { PlayerIdleCheck } from "@/components/player/ui/player-idle-check";
 import { PlayerLoading } from "@/components/player/ui/player-loading";
+import { PlayerQualityControl } from "@/components/player/ui/player-quality-control";
 import { PlayerVolume } from "@/components/player/ui/player-volume";
 import { VodPlayerPlayback } from "@/components/vod-player/vod-player-playback";
 import { VodPlayerPlaybackIndicator } from "@/components/vod-player/vod-player-playback-indicator";
 import { VodPlayerProgress } from "@/components/vod-player/vod-player-progress";
 import { VodPlayerRemainingTime } from "@/components/vod-player/vod-player-remaining-time";
+import { VodPlayerWatchHistory } from "@/components/vod-player/vod-player-watch-history";
 import { usePlayerStore } from "@/stores/player-store";
-import { lazy } from "react";
-
-const VodPlayerWatchHistory = lazy(
-  () => import("./vod-player/vod-player-watch-history")
-);
 
 type VodPlayerProps = {
   url: string;
@@ -61,8 +57,8 @@ function Player({ url }: Pick<VodPlayerProps, "url">) {
                 <PlayerVolume />
                 <VodPlayerRemainingTime />
               </ControlsSectionStart>
-              <ControlsSectionCenter></ControlsSectionCenter>
               <ControlsSectionEnd>
+                <PlayerQualityControl />
                 <PlayerFullscreen />
               </ControlsSectionEnd>
             </ControlsRow>

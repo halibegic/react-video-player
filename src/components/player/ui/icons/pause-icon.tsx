@@ -5,7 +5,7 @@ function PauseIcon() {
       viewBox="0 0 24 24"
       fill="currentColor"
     >
-      <path d="M6 3H8V21H6V3ZM16 3H18V21H16V3Z"></path>
+      <path d="M6 5H8V19H6V5ZM16 5H18V19H16V5Z"></path>
     </svg>
   );
 }

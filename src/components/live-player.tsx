@@ -1,4 +1,4 @@
-import LivePlayerEventCheck from "@/components/player/live-player/live-player-event-check";
+import { LivePlayerEventCheck } from "@/components/player/live-player/live-player-event-check";
 import { LivePlayerGoLive } from "@/components/player/live-player/live-player-go-live";
 import { LivePlayerPlayback } from "@/components/player/live-player/live-player-playback";
 import { LivePlayerPlaybackIndicator } from "@/components/player/live-player/live-player-playback-indicator";
@@ -17,6 +17,7 @@ import {
 import { PlayerFullscreen } from "@/components/player/ui/player-fullscreen";
 import { PlayerIdleCheck } from "@/components/player/ui/player-idle-check";
 import { PlayerLoading } from "@/components/player/ui/player-loading";
+import { PlayerQualityControl } from "@/components/player/ui/player-quality-control";
 import { PlayerVolume } from "@/components/player/ui/player-volume";
 import { usePlayerStore } from "@/stores/player-store";
 
@@ -68,6 +69,7 @@ function Player({ url, messages }: Pick<LivePlayerProps, "url" | "messages">) {
                 </ControlsSectionStart>
                 <ControlsSectionEnd>
                   <LivePlayerGoLive message={messages?.live} />
+                  <PlayerQualityControl />
                   <PlayerFullscreen />
                 </ControlsSectionEnd>
               </ControlsRow>

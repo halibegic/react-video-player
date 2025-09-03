@@ -62,8 +62,8 @@ const SliderRange = styled(Slider.Range)`
 
 const SliderThumb = styled(Slider.Thumb)`
   display: block;
-  width: 1rem;
-  height: 1rem;
+  width: 0.875rem;
+  height: 0.875rem;
   cursor: pointer;
   background: white;
   transition: all 0.2s ease-in-out;
