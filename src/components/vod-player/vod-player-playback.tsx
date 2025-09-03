@@ -1,6 +1,7 @@
+import { PauseIcon } from "@/components/player/ui/icons/pause-icon";
+import { PlayIcon } from "@/components/player/ui/icons/play-icon";
 import { PlayerButton } from "@/components/player/ui/player-button";
 import { usePlayerStore } from "@/stores/player-store";
-import { PauseIcon, PlayIcon } from "lucide-react";
 
 function VodPlayerPlayback() {
   const isPlaying = usePlayerStore((s) => s.isPlaying);

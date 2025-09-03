@@ -391,7 +391,7 @@ const createPlayerStore = (
 
 const PlayerStoreContext = createContext<StoreApi<PlayerStore> | null>(null);
 
-const PlayerStoreProvider = ({ children }: PropsWithChildren) => {
+function PlayerStoreProvider({ children }: PropsWithChildren) {
   const storeRef = useRef<ReturnType<typeof createPlayerStore> | null>(null);
   const techRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -404,7 +404,7 @@ const PlayerStoreProvider = ({ children }: PropsWithChildren) => {
       {children}
     </PlayerStoreContext.Provider>
   );
-};
+}
 
 const usePlayerStore = <T,>(selector: (state: PlayerStore) => T): T => {
   const store = useContext(PlayerStoreContext);

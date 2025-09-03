@@ -1,15 +1,15 @@
-import { PlayerSourceType } from "@/config/player";
+const getLiveDelay = (startTime: number, skipTime: number): number => {
+  return parseInt(
+    Math.max(0, (Date.now() - (startTime + skipTime * 1000)) / 1000).toFixed(0)
+  );
+};
 
-function getPlayerSourceType(
-  url: string | undefined | null
-): keyof typeof PlayerSourceType {
-  if (url) {
-    const hlsExtRE = /\.m3u8/i;
+const getLiveCurrentTime = (startTime: number, delay: number): number => {
+  return Math.max(0, (Date.now() - startTime - delay * 1000) / 1000);
+};
 
-    if (hlsExtRE.test(url)) return PlayerSourceType.hls;
-  }
+const getLiveDurationTime = (startTime: number, endTime: number): number => {
+  return Math.max(0, (endTime - startTime) / 1000);
+};
 
-  return PlayerSourceType.dash;
-}
-
-export { getPlayerSourceType };
+export { getLiveCurrentTime, getLiveDelay, getLiveDurationTime };

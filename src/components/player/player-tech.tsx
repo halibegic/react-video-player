@@ -1,11 +1,7 @@
-import { PlayerSourceType } from "@/config/player";
+import PlayerHlsTech from "@/components/player/player-hls-tech";
 import { usePlayerStore } from "@/stores/player-store";
-import { getPlayerSourceType } from "@/utils/player";
-import { lazy, Suspense, useRef, type VideoHTMLAttributes } from "react";
+import { useRef, type VideoHTMLAttributes } from "react";
 import styled from "styled-components";
-
-const PlayerHlsTech = lazy(() => import("./tech/player-hls-tech"));
-const PlayerDashTech = lazy(() => import("./tech/player-dash-tech"));
 
 type PlayerTechProps = {
   url: string;
@@ -50,30 +46,11 @@ function PlayerTech({ url, isLive, isMuted = false }: PlayerTechProps) {
     }
   };
 
-  const handleTech = () => {
-    const sourceType = getPlayerSourceType(url);
-
-    switch (sourceType) {
-      case PlayerSourceType.hls:
-        return PlayerHlsTech;
-      case PlayerSourceType.dash:
-        return PlayerDashTech;
-    }
-
-    return null;
-  };
-
-  const Tech = handleTech();
-
-  if (!Tech) return null;
-
   const nonLiveHandlers = handleNonLiveHandlers();
 
   return (
     <>
-      <Suspense fallback={null}>
-        <Tech isLive={isLive} url={url} />
-      </Suspense>
+      <PlayerHlsTech isLive={isLive} url={url} />
       <Video
         ref={techRef}
         playsInline

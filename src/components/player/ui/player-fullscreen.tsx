@@ -1,11 +1,12 @@
+import { FullscreenEnterIcon } from "@/components/player/ui/icons/fullscreen-enter-icon";
+import { FullscreenExitIcon } from "@/components/player/ui/icons/fullscreen-exit-icon";
 import { PlayerButton } from "@/components/player/ui/player-button";
 import { usePlayerStore } from "@/stores/player-store";
 import { isiOS } from "@/utils/device";
 import { isActiveFullscreen, onFullscreenChange } from "@/utils/fullscreen";
-import { MaximizeIcon, MinimizeIcon } from "lucide-react";
 import { useCallback, useEffect } from "react";
 
-const PlayerFullscreen = () => {
+function PlayerFullscreen() {
   const containerRef = usePlayerStore((s) => s.containerRef);
   const exitFullscreen = usePlayerStore((s) => s.exitFullscreen);
   const isFullscreen = usePlayerStore((s) => s.isFullscreen);
@@ -41,9 +42,9 @@ const PlayerFullscreen = () => {
 
   return (
     <PlayerButton onClick={handleFullscreen}>
-      {isFullscreen ? <MinimizeIcon /> : <MaximizeIcon />}
+      {isFullscreen ? <FullscreenExitIcon /> : <FullscreenEnterIcon />}
     </PlayerButton>
   );
-};
+}
 
 export { PlayerFullscreen };

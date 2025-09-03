@@ -1,25 +1,28 @@
 import { HTMLAttributes } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-type PlayerButtonProps = HTMLAttributes<HTMLButtonElement>;
+type PlayerButtonProps = HTMLAttributes<HTMLButtonElement> & {
+  shape?: "square" | "circle";
+};
 
-function PlayerButton({ ...props }: PlayerButtonProps) {
-  return <Button {...props} />;
+function PlayerButton({ shape = "circle", ...props }: PlayerButtonProps) {
+  return <Button $shape={shape} {...props} />;
 }
 
-const Button = styled.button<PlayerButtonProps>`
+const Button = styled.button<{ $shape: PlayerButtonProps["shape"] }>`
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0;
-  padding: 0;
-  width: 2.25rem;
-  height: 2.25rem;
+  line-height: 1;
+  font-size: 0.875rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  font-weight: 500;
   cursor: pointer;
   color: white;
   background: none;
   border: none;
-  border-radius: 50%;
   transition: background 0.2s ease-in-out;
 
   svg {
@@ -29,7 +32,7 @@ const Button = styled.button<PlayerButtonProps>`
   }
 
   &:hover {
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.6);
   }
 
   &:focus {
@@ -40,6 +43,23 @@ const Button = styled.button<PlayerButtonProps>`
     opacity: 0.5;
     cursor: not-allowed;
   }
+
+  ${({ $shape }) =>
+    $shape === "circle" &&
+    css`
+      padding: 0;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 1.25rem;
+    `}
+
+  ${({ $shape }) =>
+    $shape === "square" &&
+    css`
+      padding: 0.25rem 0.5rem;
+      border-radius: 1rem;
+    `}
 `;
 
 export { PlayerButton };
+export type { PlayerButtonProps };

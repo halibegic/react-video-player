@@ -1,119 +1,75 @@
 import { PlayerProvider } from "@/components/player/player-provider";
 import { PlayerTech } from "@/components/player/player-tech";
+import {
+  ControlsBottom,
+  ControlsContainer,
+  ControlsRow,
+  ControlsSectionCenter,
+  ControlsSectionEnd,
+  ControlsSectionStart,
+  PlayerContainer,
+} from "@/components/player/ui/player-controls.styles";
 import { PlayerFullscreen } from "@/components/player/ui/player-fullscreen";
+import { PlayerIdleCheck } from "@/components/player/ui/player-idle-check";
 import { PlayerLoading } from "@/components/player/ui/player-loading";
 import { VodPlayerPlayback } from "@/components/vod-player/vod-player-playback";
+import { VodPlayerPlaybackIndicator } from "@/components/vod-player/vod-player-playback-indicator";
 import { VodPlayerProgress } from "@/components/vod-player/vod-player-progress";
+import { VodPlayerRemainingTime } from "@/components/vod-player/vod-player-remaining-time";
 import { usePlayerStore } from "@/stores/player-store";
-import styled from "styled-components";
+import { lazy } from "react";
+
+const VodPlayerWatchHistory = lazy(
+  () => import("./vod-player/vod-player-watch-history")
+);
 
 type VodPlayerProps = {
   url: string;
+  watchHistory?: {
+    enabled: boolean;
+    storageKey: string;
+  };
 };
 
-function VodPlayer(props: VodPlayerProps) {
+function VodPlayer({ url, watchHistory }: VodPlayerProps) {
   return (
     <PlayerProvider>
-      <Player {...props} />
+      <Player url={url} />
+      {watchHistory?.enabled && (
+        <VodPlayerWatchHistory storageKey={watchHistory.storageKey} />
+      )}
     </PlayerProvider>
   );
 }
 
-function Player({ url }: VodPlayerProps) {
+function Player({ url }: Pick<VodPlayerProps, "url">) {
   const containerRef = usePlayerStore((s) => s.containerRef);
 
   return (
     <PlayerContainer ref={containerRef}>
       <PlayerTech url={url} isLive={false} />
       <PlayerLoading />
-      <ControlsOverlay>
-        <ControlsContainer>
-          <VodPlayerProgress />
-          <ControlsRow>
-            <ControlsSectionStart>
-              <VodPlayerPlayback />
-            </ControlsSectionStart>
-            <ControlsSectionCenter></ControlsSectionCenter>
-            <ControlsSectionEnd>
-              <PlayerFullscreen />
-            </ControlsSectionEnd>
-          </ControlsRow>
-        </ControlsContainer>
-      </ControlsOverlay>
+      <PlayerIdleCheck>
+        <VodPlayerPlaybackIndicator />
+        <ControlsBottom>
+          <ControlsContainer>
+            <VodPlayerProgress />
+            <ControlsRow>
+              <ControlsSectionStart>
+                <VodPlayerPlayback />
+                <VodPlayerRemainingTime />
+              </ControlsSectionStart>
+              <ControlsSectionCenter></ControlsSectionCenter>
+              <ControlsSectionEnd>
+                <PlayerFullscreen />
+              </ControlsSectionEnd>
+            </ControlsRow>
+          </ControlsContainer>
+        </ControlsBottom>
+      </PlayerIdleCheck>
     </PlayerContainer>
   );
 }
-
-const PlayerContainer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: black;
-  color: white;
-  overflow: hidden;
-`;
-
-const ControlsOverlay = styled.div`
-  position: absolute;
-  left: 0;
-  width: 100%;
-  bottom: 0;
-  z-index: 10;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
-  padding-top: 1rem;
-
-  @media (min-width: 768px) {
-    padding-top: 2rem;
-  }
-`;
-
-const ControlsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  line-height: 1;
-  font-size: 0;
-  height: 3.5rem;
-
-  @media (min-width: 768px) {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    height: 4rem;
-  }
-`;
-
-const ControlsRow = styled.div`
-  margin: auto 0;
-  display: flex;
-  width: 100%;
-  align-items: center;
-`;
-
-const ControlsSection = styled.div`
-  display: flex;
-  flex: 1;
-  align-items: center;
-  gap: 0.5rem;
-
-  @media (min-width: 768px) {
-    gap: 1rem;
-  }
-`;
-
-const ControlsSectionStart = styled(ControlsSection)`
-  justify-content: flex-start;
-`;
-
-const ControlsSectionCenter = styled(ControlsSection)`
-  justify-content: center;
-`;
-
-const ControlsSectionEnd = styled(ControlsSection)`
-  justify-content: flex-end;
-`;
 
 export { VodPlayer };
 export type { VodPlayerProps };

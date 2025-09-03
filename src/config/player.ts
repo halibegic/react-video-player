@@ -1,6 +1,4 @@
-const PlayerSourceType = {
-  hls: "hls",
-  dash: "dash",
-} as const;
+const WatchHistoryMinTime = 60;
+const WatchHistoryMaxPercent = 95;
 
-export { PlayerSourceType };
+export { WatchHistoryMaxPercent, WatchHistoryMinTime };

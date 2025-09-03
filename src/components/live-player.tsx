@@ -1,115 +1,81 @@
+import LivePlayerEventCheck from "@/components/player/live-player/live-player-event-check";
+import { LivePlayerGoLive } from "@/components/player/live-player/live-player-go-live";
 import { LivePlayerPlayback } from "@/components/player/live-player/live-player-playback";
-import { PlayerProvider } from "@/components/player/player-provider";
+import { LivePlayerPlaybackIndicator } from "@/components/player/live-player/live-player-playback-indicator";
+import { LivePlayerProgress } from "@/components/player/live-player/live-player-progress";
+import { LivePlayerProvider } from "@/components/player/live-player/live-player-provider";
+import { LivePlayerRemainingTime } from "@/components/player/live-player/live-player-remaining-time";
 import { PlayerTech } from "@/components/player/player-tech";
+import {
+  ControlsBottom,
+  ControlsContainer,
+  ControlsRow,
+  ControlsSectionEnd,
+  ControlsSectionStart,
+  PlayerContainer,
+} from "@/components/player/ui/player-controls.styles";
 import { PlayerFullscreen } from "@/components/player/ui/player-fullscreen";
+import { PlayerIdleCheck } from "@/components/player/ui/player-idle-check";
 import { PlayerLoading } from "@/components/player/ui/player-loading";
 import { usePlayerStore } from "@/stores/player-store";
-import styled from "styled-components";
 
 type LivePlayerProps = {
   url: string;
+  startDate: Date | string;
+  endDate: Date | string;
+  messages?: {
+    eventFinished: string;
+    eventNotStarted: string;
+    eventStartingSoon: string;
+    live: string;
+  };
 };
 
-function LivePlayer(props: LivePlayerProps) {
+function LivePlayer({ url, startDate, endDate, messages }: LivePlayerProps) {
   return (
-    <PlayerProvider>
-      <Player {...props} />
-    </PlayerProvider>
+    <LivePlayerProvider
+      startDate={new Date(startDate)}
+      endDate={new Date(endDate)}
+    >
+      <Player url={url} messages={messages} />
+    </LivePlayerProvider>
   );
 }
 
-function Player({ url }: LivePlayerProps) {
+function Player({ url, messages }: Pick<LivePlayerProps, "url" | "messages">) {
   const containerRef = usePlayerStore((s) => s.containerRef);
 
   return (
     <PlayerContainer ref={containerRef}>
-      <PlayerTech url={url} isLive={true} />
-      <PlayerLoading />
-      <ControlsOverlay>
-        <ControlsContainer>
-          <ControlsRow>
-            <ControlsSectionStart>
-              <LivePlayerPlayback />
-            </ControlsSectionStart>
-            <ControlsSectionCenter></ControlsSectionCenter>
-            <ControlsSectionEnd>
-              <PlayerFullscreen />
-            </ControlsSectionEnd>
-          </ControlsRow>
-        </ControlsContainer>
-      </ControlsOverlay>
+      <LivePlayerEventCheck
+        eventFinishedMessage={messages?.eventFinished}
+        eventNotStartedMessage={messages?.eventNotStarted}
+        eventStartingSoonMessage={messages?.eventStartingSoon}
+      >
+        <PlayerTech url={url} isLive={true} />
+        <PlayerLoading />
+        <PlayerIdleCheck>
+          <LivePlayerPlaybackIndicator />
+          <ControlsBottom>
+            <ControlsContainer>
+              <LivePlayerProgress />
+              <ControlsRow>
+                <ControlsSectionStart>
+                  <LivePlayerPlayback />
+                  <LivePlayerRemainingTime />
+                </ControlsSectionStart>
+                <ControlsSectionEnd>
+                  <LivePlayerGoLive message={messages?.live} />
+                  <PlayerFullscreen />
+                </ControlsSectionEnd>
+              </ControlsRow>
+            </ControlsContainer>
+          </ControlsBottom>
+        </PlayerIdleCheck>
+      </LivePlayerEventCheck>
     </PlayerContainer>
   );
 }
-
-const PlayerContainer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: black;
-  color: white;
-  overflow: hidden;
-`;
-
-const ControlsOverlay = styled.div`
-  position: absolute;
-  left: 0;
-  width: 100%;
-  bottom: 0;
-  z-index: 10;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
-  padding-top: 1rem;
-
-  @media (min-width: 768px) {
-    padding-top: 2rem;
-  }
-`;
-
-const ControlsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  line-height: 1;
-  font-size: 0;
-
-  @media (min-width: 768px) {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-`;
-
-const ControlsRow = styled.div`
-  margin: auto 0;
-  display: flex;
-  width: 100%;
-  align-items: center;
-`;
-
-const ControlsSection = styled.div`
-  display: flex;
-  flex: 1;
-  align-items: center;
-  gap: 0.5rem;
-
-  @media (min-width: 768px) {
-    gap: 1rem;
-  }
-`;
-
-const ControlsSectionStart = styled(ControlsSection)`
-  justify-content: flex-start;
-`;
-
-const ControlsSectionCenter = styled(ControlsSection)`
-  justify-content: center;
-`;
-
-const ControlsSectionEnd = styled(ControlsSection)`
-  justify-content: flex-end;
-`;
 
 export { LivePlayer };
 export type { LivePlayerProps };

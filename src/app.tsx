@@ -5,13 +5,29 @@ import styled from "styled-components";
 function App() {
   return (
     <AppContainer>
-      <Title>Vod Player (HLS)</Title>
+      <Title>Vod Player</Title>
       <PlayerContainer>
-        <VodPlayer url="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" />
+        <VodPlayer
+          url="https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.mp4/.m3u8"
+          watchHistory={{
+            enabled: true,
+            storageKey: "big-buck-bunny-watch-history",
+          }}
+        />
       </PlayerContainer>
-      <Title>Live Player (DASH)</Title>
+      <Title>Live Player</Title>
       <PlayerContainer>
-        <LivePlayer url="https://livesim.dashif.org/livesim/testpic_2s/Manifest.mpd" />
+        <LivePlayer
+          url="https://storage.googleapis.com/shaka-live-assets/player-source.m3u8"
+          startDate={new Date(Date.now())}
+          endDate={new Date(Date.now() + 30 * 60 * 1000)}
+          messages={{
+            eventFinished: "Live stream je završio.",
+            eventNotStarted: "Live stream još nije počeo. Molimo pričekajte.",
+            eventStartingSoon: "Počinje za nekoliko sekundi...",
+            live: "Uživo",
+          }}
+        />
       </PlayerContainer>
     </AppContainer>
   );

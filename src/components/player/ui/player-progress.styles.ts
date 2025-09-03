@@ -1,0 +1,36 @@
+import styled from "styled-components";
+
+const ProgressSlider = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+const TipContainer = styled.div<{ $isVisible: boolean }>`
+  position: absolute;
+  bottom: 1.75rem;
+  left: 0;
+  width: 3rem;
+  z-index: 10;
+  pointer-events: none;
+  user-select: none;
+  opacity: ${({ $isVisible }) => ($isVisible ? 1 : 0)};
+  transform: ${({ $isVisible }) =>
+    $isVisible ? "translateY(0)" : "translateY(-0.5rem)"};
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+`;
+
+const TipContent = styled.p`
+  margin: 0;
+  padding: 0.25rem;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.875rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  font-weight: 500;
+  text-align: center;
+  color: white;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 1rem;
+`;
+
+export { ProgressSlider, TipContainer, TipContent };

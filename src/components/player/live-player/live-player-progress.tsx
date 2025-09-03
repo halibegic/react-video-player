@@ -4,24 +4,40 @@ import {
   TipContent,
 } from "@/components/player/ui/player-progress.styles";
 import { PlayerSlider } from "@/components/player/ui/player-slider";
+import { useInterval } from "@/hooks/use-interval";
+import { useLivePlayerStore } from "@/stores/live-player-store";
 import { usePlayerStore } from "@/stores/player-store";
 import { formatTime } from "@/utils/date-time";
 import { offset } from "@/utils/dom";
-import { PointerEvent, useCallback, useRef, useState } from "react";
+import {
+  getLiveCurrentTime,
+  getLiveDelay,
+  getLiveDurationTime,
+} from "@/utils/player";
+import { PointerEvent, useCallback, useEffect, useRef, useState } from "react";
 
-const IdleLockId = "vod-player-progress-bar";
+const idleLockId = "vod-player-progress-bar";
 
-function VodPlayerProgress() {
+function LivePlayerProgress() {
   const sliderRef = useRef<HTMLDivElement>(null);
   const tipRef = useRef<HTMLDivElement>(null);
+  const [currentTime, setCurrentTime] = useState<number>(0);
+  const [duration, setDuration] = useState<number>(0);
   const [isTipVisible, setIsTipVisible] = useState<boolean>(false);
   const [tipTime, setTipTime] = useState<number>(-1);
   const [skipTime, setSkipTime] = useState<number>(-1);
-  const currentTime = usePlayerStore((s) => s.currentTime);
-  const duration = usePlayerStore((s) => s.duration);
-  const seek = usePlayerStore((s) => s.seek);
+  const delay = useLivePlayerStore((s) => s.delay);
+  const startTime = useLivePlayerStore((s) => s.startTime);
+  const endTime = useLivePlayerStore((s) => s.endTime);
+  const setDelay = useLivePlayerStore((s) => s.setDelay);
+  const isPlaying = usePlayerStore((s) => s.isPlaying);
   const addIdleLock = usePlayerStore((s) => s.addIdleLock);
   const removeIdleLock = usePlayerStore((s) => s.removeIdleLock);
+
+  const calculateTime = useCallback(() => {
+    setCurrentTime(getLiveCurrentTime(startTime, delay));
+    setDuration(getLiveDurationTime(startTime, endTime));
+  }, [delay, endTime, startTime]);
 
   const progress = parseFloat(
     (duration
@@ -33,16 +49,18 @@ function VodPlayerProgress() {
   const handleSliderChange = (value: number[]) => {
     setSkipTime(duration * (value[0] / 100));
 
-    addIdleLock(IdleLockId);
+    addIdleLock(idleLockId);
   };
 
   const handleSliderCommit = () => {
     if (skipTime !== -1) {
-      seek(skipTime);
+      const delay = getLiveDelay(startTime, skipTime);
+
+      setDelay(delay);
 
       setSkipTime(-1);
 
-      removeIdleLock(IdleLockId);
+      removeIdleLock(idleLockId);
     }
   };
 
@@ -81,6 +99,12 @@ function VodPlayerProgress() {
     [duration]
   );
 
+  useInterval(() => calculateTime(), isPlaying ? 1000 : null);
+
+  useEffect(() => {
+    calculateTime();
+  }, [calculateTime]);
+
   return (
     <ProgressSlider>
       <PlayerSlider
@@ -100,4 +124,4 @@ function VodPlayerProgress() {
   );
 }
 
-export { VodPlayerProgress };
+export { LivePlayerProgress };
