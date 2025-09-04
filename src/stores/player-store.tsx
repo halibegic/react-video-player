@@ -243,7 +243,8 @@ const createPlaybackSlice: StateCreator<
       pauseTime: Date.now(),
     });
   },
-  pauseTimeDiff: () => millisecondsToSeconds(Date.now() - get().pauseTime),
+  pauseTimeDiff: () =>
+    parseInt(millisecondsToSeconds(Date.now() - get().pauseTime).toFixed(0)),
   play: () => {
     const video = get().techRef.current;
 
