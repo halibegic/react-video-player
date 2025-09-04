@@ -1,5 +1,5 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import React, { forwardRef, RefObject } from "react";
+import { ComponentProps, ElementRef, forwardRef, RefObject } from "react";
 import styled from "styled-components";
 
 const PlayerDropdownMenu = DropdownMenu.Root;
@@ -9,8 +9,8 @@ const PlayerDropdownMenuTrigger = DropdownMenu.Trigger;
 const PlayerDropdownMenuPortal = DropdownMenu.Portal;
 
 const PlayerDropdownMenuContent = forwardRef<
-  React.ElementRef<typeof DropdownMenu.Content>,
-  React.ComponentProps<typeof DropdownMenu.Content>
+  ElementRef<typeof DropdownMenu.Content>,
+  ComponentProps<typeof DropdownMenu.Content>
 >(({ sideOffset = 4, ...props }, ref) => {
   return (
     <DropdownMenuContent
@@ -27,8 +27,8 @@ const PlayerDropdownMenuContent = forwardRef<
 PlayerDropdownMenuContent.displayName = "PlayerDropdownMenuContent";
 
 const PlayerDropdownMenuItem = forwardRef<
-  React.ElementRef<typeof DropdownMenu.Item>,
-  React.ComponentProps<typeof DropdownMenu.Item>
+  ElementRef<typeof DropdownMenu.Item>,
+  ComponentProps<typeof DropdownMenu.Item>
 >((props, ref) => {
   return <DropdownMenuItem ref={ref as RefObject<HTMLDivElement>} {...props} />;
 });

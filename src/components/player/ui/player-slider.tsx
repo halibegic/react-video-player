@@ -1,9 +1,9 @@
 import * as Slider from "@radix-ui/react-slider";
-import { ComponentProps, forwardRef } from "react";
+import { ComponentProps, ElementRef, forwardRef } from "react";
 import styled from "styled-components";
 
 const PlayerSlider = forwardRef<
-  React.ElementRef<typeof Slider.Root>,
+  ElementRef<typeof Slider.Root>,
   ComponentProps<typeof Slider.Root>
 >(({ max = 100, min = 0, ...props }, ref) => {
   return (

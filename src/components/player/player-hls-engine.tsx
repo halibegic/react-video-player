@@ -1,7 +1,7 @@
 import { usePlayerStore } from "@/stores/player-store";
 import { mapLevels } from "@/utils/player";
 import Hls, { type HlsConfig } from "hls.js";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 type PlayerHlsEngineProps = {
   url: string;
@@ -15,6 +15,9 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
   const setLevel = usePlayerStore((s) => s.setLevel);
   const setLevels = usePlayerStore((s) => s.setLevels);
   const techRef = usePlayerStore((s) => s.techRef);
+
+  // Single failover state: tracks if we've already attempted a retry
+  const [hasRetried, setHasRetried] = useState(false);
 
   const handleQuality = useCallback(
     (value: number) => {
@@ -39,7 +42,7 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
   const handleMediaAttached = useCallback((): void => {
     if (!hlsRef.current) return;
 
-    console.log("[Player][Event]", "MEDIA_ATTACHED");
+    console.log("[Player][HLS] MEDIA_ATTACHED");
 
     hlsRef.current.loadSource(url);
   }, [url]);
@@ -47,9 +50,10 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
   const handleManifestLoaded = useCallback((): void => {
     if (!hlsRef.current) return;
 
-    console.log("[Player][Event]", "MANIFEST_LOADED");
+    console.log("[Player][HLS] MANIFEST_LOADED");
 
-    // Levels
+    setHasRetried(false);
+
     const _levels = hlsRef.current.levels;
     const _level = hlsRef.current.currentLevel;
     const _isAuto = hlsRef.current.autoLevelEnabled;
@@ -72,6 +76,33 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
     );
   }, [setLevels]);
 
+  const handleError = useCallback(
+    (event: string, data: unknown) => {
+      console.error("[Player][HLS] ERROR", event, data);
+
+      if (!hasRetried) {
+        console.log(
+          "[Player][HLS] Stream failed, attempting failover retry..."
+        );
+        setHasRetried(true);
+
+        setTimeout(() => {
+          if (hlsRef.current && techRef.current) {
+            try {
+              console.log("[Player][HLS] Retrying stream...");
+              hlsRef.current.loadSource(url);
+            } catch (error) {
+              console.error("[Player][HLS] Failover retry failed:", error);
+            }
+          }
+        }, 1000);
+      } else {
+        console.error("[Player][HLS] Stream failed and retry limit reached");
+      }
+    },
+    [hasRetried, url, techRef]
+  );
+
   const prepareHls = useCallback(() => {
     if (!techRef.current) return;
 
@@ -88,9 +119,9 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
     const config = isLive ? liveConfig : vodConfig;
 
     try {
-      console.log("[Player] URL", url);
-      console.log("[Player] Config", JSON.stringify(config));
-      console.log("[Player] Version", Hls.version);
+      console.log("[Player][HLS] URL", url);
+      console.log("[Player][HLS] Config", JSON.stringify(config));
+      console.log("[Player][HLS] Version", Hls.version);
 
       hlsRef.current = new Hls(config) as Hls;
 
@@ -98,20 +129,31 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
 
       hlsRef.current.on(Hls.Events.MEDIA_ATTACHED, handleMediaAttached);
       hlsRef.current.on(Hls.Events.MANIFEST_LOADED, handleManifestLoaded);
+      hlsRef.current.on(Hls.Events.ERROR, handleError);
     } catch (error) {
       throw new Error(`Error initializing Hls: ${error}`);
     }
-  }, [handleManifestLoaded, handleMediaAttached, isLive, techRef, url]);
+  }, [
+    handleManifestLoaded,
+    handleMediaAttached,
+    handleError,
+    isLive,
+    techRef,
+    url,
+  ]);
 
   const cleanupHls = useCallback(() => {
     if (hlsRef.current) {
       hlsRef.current.off(Hls.Events.MEDIA_ATTACHED, handleMediaAttached);
       hlsRef.current.off(Hls.Events.MANIFEST_LOADED, handleManifestLoaded);
+      hlsRef.current.off(Hls.Events.ERROR, handleError);
 
       hlsRef.current.destroy();
       hlsRef.current = null;
     }
-  }, [handleManifestLoaded, handleMediaAttached]);
+
+    setHasRetried(false);
+  }, [handleManifestLoaded, handleMediaAttached, handleError]);
 
   useEffect(() => {
     if (level !== null) handleQuality(level);

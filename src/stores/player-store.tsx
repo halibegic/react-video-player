@@ -35,6 +35,7 @@ type PlaybackState = {
 
 type PlaybackActions = {
   destroy: () => void;
+  getPauseTimeDiff: () => number;
   handleDurationChange: () => void;
   handleEnd: () => void;
   handleLoadedMetadata: () => void;
@@ -47,7 +48,6 @@ type PlaybackActions = {
   handleTimeUpdate: () => void;
   handleWaiting: () => void;
   pause: () => void;
-  pauseTimeDiff: () => number;
   play: () => void;
   seek: (time: number) => void;
   setIsLoading: (isLoading: boolean) => void;
@@ -243,8 +243,13 @@ const createPlaybackSlice: StateCreator<
       pauseTime: Date.now(),
     });
   },
-  pauseTimeDiff: () =>
-    parseInt(millisecondsToSeconds(Date.now() - get().pauseTime).toFixed(0)),
+  getPauseTimeDiff: () => {
+    if (!get().isStarted || !get().pauseTime) return 0;
+
+    return parseInt(
+      millisecondsToSeconds(Date.now() - get().pauseTime).toFixed(0)
+    );
+  },
   play: () => {
     const video = get().techRef.current;
 

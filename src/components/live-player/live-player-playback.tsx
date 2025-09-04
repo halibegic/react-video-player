@@ -7,8 +7,7 @@ import { usePlayerStore } from "@/stores/player-store";
 function LivePlayerPlayback() {
   const isPlaying = usePlayerStore((s) => s.isPlaying);
   const pause = usePlayerStore((s) => s.pause);
-  const pauseTime = usePlayerStore((s) => s.pauseTime);
-  const pauseTimeDiff = usePlayerStore((s) => s.pauseTimeDiff);
+  const getPauseTimeDiff = usePlayerStore((s) => s.getPauseTimeDiff);
   const play = usePlayerStore((s) => s.play);
   const delay = useLivePlayerStore((s) => s.delay);
   const setDelay = useLivePlayerStore((s) => s.setDelay);
@@ -17,7 +16,8 @@ function LivePlayerPlayback() {
     if (isPlaying) {
       pause();
     } else {
-      if (pauseTime) setDelay(delay + pauseTimeDiff());
+      const pauseTimeDiff = getPauseTimeDiff();
+      if (pauseTimeDiff) setDelay(delay + pauseTimeDiff);
 
       play();
     }
