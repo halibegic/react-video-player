@@ -1,6 +1,6 @@
 import { PlayerLevel } from "@/types/player";
 
-const getLiveDelay = (startTime: number, skipTime: number): number => {
+const getLiveDelay = (startTime: number, skipTime = 0): number => {
   return parseInt(
     Math.max(0, (Date.now() - (startTime + skipTime * 1000)) / 1000).toFixed(0)
   );

@@ -40,7 +40,7 @@ const DropdownMenuContent = styled(DropdownMenu.Content).withConfig({
 })`
   padding: 0.25rem;
   min-width: 8rem;
-  max-height: 12rem;
+  max-height: 8rem;
   overflow-y: auto;
   border-radius: 0.75rem;
   background: rgba(0, 0, 0, 0.8);
@@ -48,6 +48,10 @@ const DropdownMenuContent = styled(DropdownMenu.Content).withConfig({
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, opacity;
   z-index: 1000;
+
+  @media (min-width: 768px) {
+    max-height: 12rem;
+  }
 
   &[data-state="open"][data-side="top"] {
     animation-name: slideDownAndFade;

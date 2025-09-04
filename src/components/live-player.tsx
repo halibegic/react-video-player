@@ -5,6 +5,7 @@ import { LivePlayerPlaybackIndicator } from "@/components/live-player/live-playe
 import { LivePlayerProgress } from "@/components/live-player/live-player-progress";
 import { LivePlayerProvider } from "@/components/live-player/live-player-provider";
 import { LivePlayerRemainingTime } from "@/components/live-player/live-player-remaining-time";
+import { LivePlayerStartOver } from "@/components/live-player/live-player-start-over";
 import { LivePlayerTech } from "@/components/live-player/live-player-tech";
 import {
   ControlsBottom,
@@ -65,6 +66,7 @@ function Player({ url, messages }: Pick<LivePlayerProps, "url" | "messages">) {
               <ControlsRow>
                 <ControlsSectionStart>
                   <LivePlayerPlayback />
+                  <LivePlayerStartOver />
                   <PlayerVolume />
                   <LivePlayerRemainingTime />
                 </ControlsSectionStart>

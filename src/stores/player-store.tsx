@@ -102,18 +102,6 @@ type FullscreenActions = {
 
 type FullscreenSlice = FullscreenState & FullscreenActions;
 
-// Asset slice type
-
-type AssetState = {
-  url: string;
-};
-
-type AssetActions = {
-  setURL: (url: string) => void;
-};
-
-type AssetSlice = AssetState & AssetActions;
-
 // Refs slice type (general references like video and container)
 
 type RefState = {
@@ -127,7 +115,6 @@ type PlayerStore = PlaybackSlice &
   IdleLockSlice &
   QualitySlice &
   FullscreenSlice &
-  AssetSlice &
   RefSlice;
 
 // Playback slice creator
@@ -388,15 +375,6 @@ const createFullscreenSlice: StateCreator<
     set({ isFullscreenReady }),
 });
 
-// Asset slice creator
-
-const createAssetSlice: StateCreator<AssetSlice, [], [], AssetSlice> = (
-  set
-) => ({
-  url: "",
-  setURL: (url) => set({ url }),
-});
-
 // Refs slice creator
 
 type CreatePropsSlice = (
@@ -416,7 +394,6 @@ const createPlayerStore = (
     ...createIdleLockSlice(...a),
     ...createFullscreenSlice(...a),
     ...createQualitySlice(...a),
-    ...createAssetSlice(...a),
     ...createRefSlice({ techRef, containerRef })(...a),
   }));
 
