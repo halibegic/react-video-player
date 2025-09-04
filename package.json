@@ -1,7 +1,7 @@
 {
   "name": "@halibegic/react-video-player",
   "description": "A React video player library with HLS support for VOD and Live streaming",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "license": "MIT",
   "keywords": [
     "react",
@@ -47,8 +47,8 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "dependencies": {
     "@radix-ui/react-dropdown-menu": "^2.1.16",
@@ -62,8 +62,8 @@
     "@eslint/js": "^9.34.0",
     "@types/hls.js": "^0.13.3",
     "@types/node": "^24.3.0",
-    "@types/react": "^18.3.23",
-    "@types/react-dom": "^18.3.7",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
     "@vitejs/plugin-react": "^5.0.2",
     "eslint": "^9.34.0",
     "eslint-plugin-react-hooks": "^5.2.0",
