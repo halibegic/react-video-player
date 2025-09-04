@@ -79,7 +79,7 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
     (event: string, data: unknown) => {
       console.error("[Player][HLS] ERROR", event, data);
 
-      if (!hasRetried) {
+      if (isLive && !hasRetried) {
         console.log(
           "[Player][HLS] Stream failed, attempting failover retry..."
         );
@@ -99,7 +99,7 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
         console.error("[Player][HLS] Stream failed and retry limit reached");
       }
     },
-    [hasRetried, url, techRef]
+    [isLive, hasRetried, techRef, url]
   );
 
   const prepareHls = useCallback(() => {
