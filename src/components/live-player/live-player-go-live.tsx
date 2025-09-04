@@ -1,4 +1,4 @@
-import { ArrowRightIcon } from "@/components/player/ui/icons/arrow-right-icon";
+import { ArrowRightIcon } from "@/components/icons/arrow-right-icon";
 import {
   PlayerButton,
   PlayerButtonProps,

@@ -1,5 +1,5 @@
-import { FullscreenEnterIcon } from "@/components/player/ui/icons/fullscreen-enter-icon";
-import { FullscreenExitIcon } from "@/components/player/ui/icons/fullscreen-exit-icon";
+import { FullscreenEnterIcon } from "@/components/icons/fullscreen-enter-icon";
+import { FullscreenExitIcon } from "@/components/icons/fullscreen-exit-icon";
 import { PlayerButton } from "@/components/player/ui/player-button";
 import { usePlayerStore } from "@/stores/player-store";
 import { isiOS } from "@/utils/device";

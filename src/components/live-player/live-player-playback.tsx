@@ -1,5 +1,5 @@
-import { PauseIcon } from "@/components/player/ui/icons/pause-icon";
-import { PlayIcon } from "@/components/player/ui/icons/play-icon";
+import { PauseIcon } from "@/components/icons/pause-icon";
+import { PlayIcon } from "@/components/icons/play-icon";
 import { PlayerButton } from "@/components/player/ui/player-button";
 import { useLivePlayerStore } from "@/stores/live-player-store";
 import { usePlayerStore } from "@/stores/player-store";

@@ -1,11 +1,11 @@
-import { LivePlayerEventCheck } from "@/components/player/live-player/live-player-event-check";
-import { LivePlayerGoLive } from "@/components/player/live-player/live-player-go-live";
-import { LivePlayerPlayback } from "@/components/player/live-player/live-player-playback";
-import { LivePlayerPlaybackIndicator } from "@/components/player/live-player/live-player-playback-indicator";
-import { LivePlayerProgress } from "@/components/player/live-player/live-player-progress";
-import { LivePlayerProvider } from "@/components/player/live-player/live-player-provider";
-import { LivePlayerRemainingTime } from "@/components/player/live-player/live-player-remaining-time";
-import { LivePlayerTech } from "@/components/player/live-player/live-player-tech";
+import { LivePlayerEventCheck } from "@/components/live-player/live-player-event-check";
+import { LivePlayerGoLive } from "@/components/live-player/live-player-go-live";
+import { LivePlayerPlayback } from "@/components/live-player/live-player-playback";
+import { LivePlayerPlaybackIndicator } from "@/components/live-player/live-player-playback-indicator";
+import { LivePlayerProgress } from "@/components/live-player/live-player-progress";
+import { LivePlayerProvider } from "@/components/live-player/live-player-provider";
+import { LivePlayerRemainingTime } from "@/components/live-player/live-player-remaining-time";
+import { LivePlayerTech } from "@/components/live-player/live-player-tech";
 import {
   ControlsBottom,
   ControlsContainer,

@@ -1,6 +1,6 @@
-import { VolumeMaxIcon } from "@/components/player/ui/icons/volume-max-icon";
-import { VolumeMinIcon } from "@/components/player/ui/icons/volume-min-icon";
-import { VolumeMuteIcon } from "@/components/player/ui/icons/volume-mute-icon";
+import { VolumeMaxIcon } from "@/components/icons/volume-max-icon";
+import { VolumeMinIcon } from "@/components/icons/volume-min-icon";
+import { VolumeMuteIcon } from "@/components/icons/volume-mute-icon";
 import { PlayerButton } from "@/components/player/ui/player-button";
 import { PlayerSlider } from "@/components/player/ui/player-slider";
 import { usePlayerStore } from "@/stores/player-store";

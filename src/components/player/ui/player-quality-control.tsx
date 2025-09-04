@@ -1,5 +1,5 @@
-import { CheckIcon } from "@/components/player/ui/icons/check-icon";
-import { HdIcon } from "@/components/player/ui/icons/hd-icon";
+import { CheckIcon } from "@/components/icons/check-icon";
+import { HdIcon } from "@/components/icons/hd-icon";
 import { PlayerButton } from "@/components/player/ui/player-button";
 import {
   PlayerDropdownMenu,
