@@ -15,6 +15,7 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
   const setLevel = usePlayerStore((s) => s.setLevel);
   const setLevels = usePlayerStore((s) => s.setLevels);
   const techRef = usePlayerStore((s) => s.techRef);
+  const isStarted = usePlayerStore((s) => s.isStarted);
 
   // Single failover state: tracks if we've already attempted a retry
   const [hasRetried, setHasRetried] = useState(false);
@@ -51,8 +52,6 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
     if (!hlsRef.current) return;
 
     console.log("[Player][HLS] MANIFEST_LOADED");
-
-    setHasRetried(false);
 
     const _levels = hlsRef.current.levels;
     const _level = hlsRef.current.currentLevel;
@@ -158,6 +157,10 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
   useEffect(() => {
     if (level !== null) handleQuality(level);
   }, [level, handleQuality]);
+
+  useEffect(() => {
+    if (isStarted) setHasRetried(false);
+  }, [isStarted]);
 
   useEffect(() => {
     if (Hls.isSupported()) prepareHls();
