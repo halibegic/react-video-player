@@ -69,8 +69,6 @@ function App() {
 | `endDate`   | `string`                                                                                         | End date for the live event in ISO 8601 format                                             | -                                                                                                                                              |
 | `messages`  | `{ eventNotStarted: string; eventFinished: string; eventStartingSoon?: string; live?: string; }` | (Optional) Custom messages for event not started, finished, starting soon, and live states | `{ eventNotStarted: "Event has not started yet.", eventFinished: "Event has finished.", eventStartingSoon: "Starting soon...", live: "Live" }` |
 
-**Example with `messages`:**
-
 ## Keyboard Shortcuts
 
 The video player supports the following keyboard shortcuts:
