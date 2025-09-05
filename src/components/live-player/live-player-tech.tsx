@@ -13,10 +13,9 @@ function LivePlayerTech({ url }: LivePlayerTechProps) {
   const prepareData = useCallback(async () => {
     if (delay) {
       setCurrentUrl(
-        url.replace(
-          "playlist.m3u8",
-          `playlist_fmp4_dvr_timeshift-${delay}.m3u8`
-        )
+        url
+          .replace("-live", "-catchup")
+          .replace("playlist.m3u8", `playlist_fmp4_dvr_timeshift-${delay}.m3u8`)
       );
     } else {
       setCurrentUrl(url);
