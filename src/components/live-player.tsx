@@ -1,5 +1,6 @@
 import { LivePlayerEventCheck } from "@/components/live-player/live-player-event-check";
 import { LivePlayerGoLive } from "@/components/live-player/live-player-go-live";
+import { LivePlayerKeyboard } from "@/components/live-player/live-player-keyboard";
 import { LivePlayerPlayback } from "@/components/live-player/live-player-playback";
 import { LivePlayerPlaybackIndicator } from "@/components/live-player/live-player-playback-indicator";
 import { LivePlayerProgress } from "@/components/live-player/live-player-progress";
@@ -80,6 +81,7 @@ function Player({ url, messages }: Pick<LivePlayerProps, "url" | "messages">) {
           </ControlsBottom>
         </PlayerIdleCheck>
       </LivePlayerEventCheck>
+      <LivePlayerKeyboard />
     </PlayerContainer>
   );
 }

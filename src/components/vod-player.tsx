@@ -13,6 +13,7 @@ import { PlayerIdleCheck } from "@/components/player/ui/player-idle-check";
 import { PlayerLoading } from "@/components/player/ui/player-loading";
 import { PlayerQualityControl } from "@/components/player/ui/player-quality-control";
 import { PlayerVolume } from "@/components/player/ui/player-volume";
+import { VodPlayerKeyboard } from "@/components/vod-player/vod-player-keyboard";
 import { VodPlayerPlayback } from "@/components/vod-player/vod-player-playback";
 import { VodPlayerPlaybackIndicator } from "@/components/vod-player/vod-player-playback-indicator";
 import { VodPlayerProgress } from "@/components/vod-player/vod-player-progress";
@@ -66,6 +67,7 @@ function Player({ url }: Pick<VodPlayerProps, "url">) {
           </ControlsContainer>
         </ControlsBottom>
       </PlayerIdleCheck>
+      <VodPlayerKeyboard />
     </PlayerContainer>
   );
 }

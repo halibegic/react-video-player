@@ -71,6 +71,20 @@ function App() {
 
 **Example with `messages`:**
 
+## Keyboard Shortcuts
+
+The video player supports the following keyboard shortcuts:
+
+| Key               | Action        | Description                   |
+| ----------------- | ------------- | ----------------------------- |
+| `Space`           | Play/Pause    | Toggle between play and pause |
+| `←` (Left Arrow)  | Seek Backward | Jump back 10 seconds          |
+| `→` (Right Arrow) | Seek Forward  | Jump forward 10 seconds       |
+| `↑` (Up Arrow)    | Volume Up     | Increase volume by 10%        |
+| `↓` (Down Arrow)  | Volume Down   | Decrease volume by 10%        |
+| `M`               | Mute/Unmute   | Toggle mute (0% ↔ 100%)       |
+| `F`               | Fullscreen    | Toggle fullscreen mode        |
+
 ## Development
 
 ```bash

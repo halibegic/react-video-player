@@ -76,30 +76,38 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
   }, [setLevels]);
 
   const handleError = useCallback(
-    (event: string, data: unknown) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (event: string, data: any) => {
       console.error("[Player][HLS] ERROR", event, data);
 
-      if (isLive && !hasRetried) {
-        console.log(
-          "[Player][HLS] Stream failed, attempting failover retry..."
-        );
-        setHasRetried(true);
+      if (!hlsRef.current) return;
 
-        setTimeout(() => {
-          if (hlsRef.current && techRef.current) {
-            try {
-              console.log("[Player][HLS] Retrying stream...");
-              hlsRef.current.loadSource(url);
-            } catch (error) {
-              console.error("[Player][HLS] Failover retry failed:", error);
+      switch (data.type) {
+        case Hls.ErrorTypes.NETWORK_ERROR:
+          if (data.fatal) hlsRef.current.startLoad();
+          break;
+        case Hls.ErrorTypes.MEDIA_ERROR:
+          if (data.fatal) hlsRef.current.recoverMediaError();
+          else if (data.details === Hls.ErrorDetails.BUFFER_STALLED_ERROR) {
+            if (isLive && !hasRetried) {
+              setHasRetried(true);
+
+              console.log(
+                "[Player][HLS] Stream failed, attempting failover retry..."
+              );
+
+              try {
+                console.log("[Player][HLS] Retrying stream...");
+                hlsRef.current.loadSource(url);
+              } catch (error) {
+                console.error("[Player][HLS] Failover retry failed:", error);
+              }
             }
           }
-        }, 1000);
-      } else {
-        console.error("[Player][HLS] Stream failed and retry limit reached");
+          break;
       }
     },
-    [isLive, hasRetried, techRef, url]
+    [isLive, hasRetried, url]
   );
 
   const prepareHls = useCallback(() => {
@@ -108,11 +116,13 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
     const liveConfig = {
       backBufferLength: 10,
       startLevel: -1,
+      maxBufferSize: 30 * 1024 * 1024, // 30MB
     } as HlsConfig;
 
     const vodConfig = {
       backBufferLength: 60,
       startLevel: -1,
+      maxBufferSize: 30 * 1024 * 1024, // 30MB
     } as HlsConfig;
 
     const config = isLive ? liveConfig : vodConfig;
