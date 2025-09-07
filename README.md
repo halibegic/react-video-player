@@ -20,23 +20,19 @@ function App() {
 }
 ```
 
-| Prop           | Type                                        | Description                                                                                       | Default |
-| -------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------- |
-| `url`          | `string`                                    | The vod stream URL                                                                                | -       |
-| `watchHistory` | `{ enabled: boolean; storageKey: string; }` | (Optional) Enable watch history and specify a **unique** storage key for each vod player instance | -       |
+| Prop        | Type                                     | Description                                             | Default |
+| ----------- | ---------------------------------------- | ------------------------------------------------------- | ------- |
+| `url`       | `string`                                 | The vod stream URL                                      | -       |
+| `startTime` | `number`                                 | (Optional) Start time in seconds to begin playback from | -       |
+| `onEvent`   | `(event: string, data: unknown) => void` | (Optional) Event handler callback for player events     | -       |
 
-**Example with `watchHistory`:**
+**Example with `startTime`:**
 
 ```tsx
 import { VodPlayer } from "@halibegic/react-video-player";
 
 function App() {
-  return (
-    <VodPlayer
-      url="https://example.com/vod.m3u8"
-      watchHistory={{ enabled: true, storageKey: "video-1" }}
-    />
-  );
+  return <VodPlayer url="https://example.com/vod.m3u8" startTime={10} />;
 }
 ```
 
@@ -67,6 +63,7 @@ function App() {
 | `url`       | `string`                                                                                         | The live stream URL                                                                        | -                                                                                                                                              |
 | `startDate` | `string`                                                                                         | Start date for the live event in ISO 8601 format                                           | -                                                                                                                                              |
 | `endDate`   | `string`                                                                                         | End date for the live event in ISO 8601 format                                             | -                                                                                                                                              |
+| `onEvent`   | `(event: string, data: unknown) => void`                                                         | (Optional) Event handler callback for player events                                        | -                                                                                                                                              |
 | `messages`  | `{ eventNotStarted: string; eventFinished: string; eventStartingSoon?: string; live?: string; }` | (Optional) Custom messages for event not started, finished, starting soon, and live states | `{ eventNotStarted: "Event has not started yet.", eventFinished: "Event has finished.", eventStartingSoon: "Starting soon...", live: "Live" }` |
 
 ## Keyboard Shortcuts
@@ -82,6 +79,102 @@ The video player supports the following keyboard shortcuts:
 | `↓` (Down Arrow)  | Volume Down   | Decrease volume by 10%        |
 | `M`               | Mute/Unmute   | Toggle mute (0% ↔ 100%)       |
 | `F`               | Fullscreen    | Toggle fullscreen mode        |
+
+## Events
+
+Both `VodPlayer` and `LivePlayer` support event handling through the `onEvent` prop. This allows you to listen to various player events and respond accordingly.
+
+### Event Types
+
+| Event Name         | Data Type                                   | Description                                           |
+| ------------------ | ------------------------------------------- | ----------------------------------------------------- |
+| `play`             | `void`                                      | Fired when playback starts                            |
+| `pause`            | `void`                                      | Fired when playback is paused                         |
+| `ended`            | `void`                                      | Fired when playback reaches the end                   |
+| `seeking`          | `void`                                      | Fired when seeking starts                             |
+| `seeked`           | `void`                                      | Fired when seeking is complete                        |
+| `timeUpdate`       | `{ currentTime: number; duration: number }` | Fired during playback with current time and duration  |
+| `volumeChange`     | `{ volume: number }`                        | Fired when volume changes (0-1)                       |
+| `fullscreenChange` | `{ isFullscreen: boolean }`                 | Fired when fullscreen mode changes                    |
+| `qualityChange`    | `{ level: number \| null }`                 | Fired when video quality changes                      |
+| `loadedMetadata`   | `{ duration: number }`                      | Fired when video metadata is loaded                   |
+| `loadStart`        | `void`                                      | Fired when loading starts                             |
+| `playing`          | `void`                                      | Fired when playback actually starts (after buffering) |
+| `waiting`          | `void`                                      | Fired when playback is waiting for data               |
+| `error`            | `unknown`                                   | Fired when an error occurs                            |
+
+### Usage Examples
+
+#### VOD Player with Events
+
+```tsx
+import { VodPlayer } from "@halibegic/react-video-player";
+
+function App() {
+  const handlePlayerEvent = (event: string, data: unknown) => {
+    switch (event) {
+      case "play":
+        console.log("Play");
+        break;
+      case "pause":
+        console.log("Pause");
+        break;
+      case "timeUpdate":
+        const { currentTime, duration } = data as {
+          currentTime: number;
+          duration: number;
+        };
+        console.log(
+          `Progress: ${((currentTime / duration) * 100).toFixed(1)}%`
+        );
+        break;
+      case "volumeChange":
+        const { volume } = data as { volume: number };
+        console.log(`Volume changed to: ${(volume * 100).toFixed(0)}%`);
+        break;
+      case "fullscreenChange":
+        const { isFullscreen } = data as { isFullscreen: boolean };
+        console.log(`Fullscreen: ${isFullscreen ? "ON" : "OFF"}`);
+        break;
+      case "error":
+        console.error("Player error:", data);
+        break;
+    }
+  };
+
+  return (
+    <VodPlayer url="https://example.com/vod.m3u8" onEvent={handlePlayerEvent} />
+  );
+}
+```
+
+#### Live Player with Events
+
+```tsx
+import { LivePlayer } from "@halibegic/react-video-player";
+
+function App() {
+  const handlePlayerEvent = (event: string, data: unknown) => {
+    switch (event) {
+      case "play":
+        console.log("Play");
+        break;
+      case "pause":
+        console.log("Pause");
+        break;
+    }
+  };
+
+  return (
+    <LivePlayer
+      url="https://example.com/live.m3u8"
+      startDate="2025-09-03T00:00:00Z"
+      endDate="2025-10-03T23:59:59Z"
+      onEvent={handlePlayerEvent}
+    />
+  );
+}
+```
 
 ## Development
 

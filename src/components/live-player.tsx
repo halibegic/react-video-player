@@ -8,6 +8,7 @@ import { LivePlayerProvider } from "@/components/live-player/live-player-provide
 import { LivePlayerRemainingTime } from "@/components/live-player/live-player-remaining-time";
 import { LivePlayerStartOver } from "@/components/live-player/live-player-start-over";
 import { LivePlayerTech } from "@/components/live-player/live-player-tech";
+import { PlayerEventListener } from "@/components/player/player-event-listener";
 import {
   ControlsBottom,
   ControlsContainer,
@@ -34,20 +35,31 @@ type LivePlayerProps = {
     eventStartingSoon: string;
     live: string;
   };
+  onEvent?: (event: string, data: unknown) => void;
 };
 
-function LivePlayer({ url, startDate, endDate, messages }: LivePlayerProps) {
+function LivePlayer({
+  url,
+  startDate,
+  endDate,
+  messages,
+  onEvent,
+}: LivePlayerProps) {
   return (
     <LivePlayerProvider
       startDate={new Date(startDate)}
       endDate={new Date(endDate)}
     >
-      <Player url={url} messages={messages} />
+      <Player url={url} messages={messages} onEvent={onEvent} />
     </LivePlayerProvider>
   );
 }
 
-function Player({ url, messages }: Pick<LivePlayerProps, "url" | "messages">) {
+function Player({
+  url,
+  messages,
+  onEvent,
+}: Pick<LivePlayerProps, "url" | "messages" | "onEvent">) {
   const containerRef = usePlayerStore((s) => s.containerRef);
 
   return (
@@ -82,6 +94,7 @@ function Player({ url, messages }: Pick<LivePlayerProps, "url" | "messages">) {
         </PlayerIdleCheck>
       </LivePlayerEventCheck>
       <LivePlayerKeyboard />
+      {onEvent && <PlayerEventListener callback={onEvent} />}
     </PlayerContainer>
   );
 }

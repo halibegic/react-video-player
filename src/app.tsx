@@ -7,13 +7,7 @@ function App() {
     <AppContainer>
       <Title>Vod Player</Title>
       <PlayerContainer>
-        <VodPlayer
-          url="https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.mp4/.m3u8"
-          watchHistory={{
-            enabled: true,
-            storageKey: "big-buck-bunny-watch-history",
-          }}
-        />
+        <VodPlayer url="https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.mp4/.m3u8" />
       </PlayerContainer>
       <Title>Live Player</Title>
       <PlayerContainer>

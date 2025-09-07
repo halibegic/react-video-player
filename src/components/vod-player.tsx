@@ -1,3 +1,4 @@
+import { PlayerEventListener } from "@/components/player/player-event-listener";
 import { PlayerProvider } from "@/components/player/player-provider";
 import { PlayerTech } from "@/components/player/player-tech";
 import {
@@ -18,31 +19,30 @@ import { VodPlayerPlayback } from "@/components/vod-player/vod-player-playback";
 import { VodPlayerPlaybackIndicator } from "@/components/vod-player/vod-player-playback-indicator";
 import { VodPlayerProgress } from "@/components/vod-player/vod-player-progress";
 import { VodPlayerRemainingTime } from "@/components/vod-player/vod-player-remaining-time";
-import { VodPlayerWatchHistory } from "@/components/vod-player/vod-player-watch-history";
 import { usePlayerStore } from "@/stores/player-store";
-import { RefObject } from "react";
+import { RefObject, useEffect } from "react";
 
 type VodPlayerProps = {
   url: string;
-  watchHistory?: {
-    enabled: boolean;
-    storageKey: string;
-  };
+  startTime?: number;
+  onEvent?: (event: string, data: unknown) => void;
 };
 
-function VodPlayer({ url, watchHistory }: VodPlayerProps) {
+function VodPlayer(props: VodPlayerProps) {
   return (
     <PlayerProvider>
-      <Player url={url} />
-      {watchHistory?.enabled && (
-        <VodPlayerWatchHistory storageKey={watchHistory.storageKey} />
-      )}
+      <Player {...props} />
     </PlayerProvider>
   );
 }
 
-function Player({ url }: Pick<VodPlayerProps, "url">) {
+function Player({ url, onEvent, startTime }: VodPlayerProps) {
+  const setStartTime = usePlayerStore((s) => s.setStartTime);
   const containerRef = usePlayerStore((s) => s.containerRef);
+
+  useEffect(() => {
+    if (startTime) setStartTime(startTime);
+  }, [startTime, setStartTime]);
 
   return (
     <PlayerContainer ref={containerRef as RefObject<HTMLDivElement>}>
@@ -68,6 +68,7 @@ function Player({ url }: Pick<VodPlayerProps, "url">) {
         </ControlsBottom>
       </PlayerIdleCheck>
       <VodPlayerKeyboard />
+      {onEvent && <PlayerEventListener callback={onEvent} />}
     </PlayerContainer>
   );
 }

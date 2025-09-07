@@ -5,6 +5,7 @@ import { PlayerLevel } from "@/types/player";
 import { millisecondsToSeconds } from "@/utils/date-time";
 import { isiOS } from "@/utils/device";
 import { exitFullscreen, requestFullscreen } from "@/utils/fullscreen";
+import { createPlayerEventEmitter } from "@/utils/player-events";
 import {
   createContext,
   useContext,
@@ -47,6 +48,8 @@ type PlaybackActions = {
   handleSeeking: () => void;
   handleTimeUpdate: () => void;
   handleWaiting: () => void;
+  handleVolumeChange: () => void;
+  handleError: (event: unknown) => void;
   pause: () => void;
   play: () => void;
   seek: (time: number) => void;
@@ -111,16 +114,25 @@ type RefState = {
 
 type RefSlice = RefState;
 
+// Event emitter slice type
+
+type EventEmitterState = {
+  eventEmitter: ReturnType<typeof createPlayerEventEmitter>;
+};
+
+type EventEmitterSlice = EventEmitterState;
+
 type PlayerStore = PlaybackSlice &
   IdleLockSlice &
   QualitySlice &
   FullscreenSlice &
-  RefSlice;
+  RefSlice &
+  EventEmitterSlice;
 
 // Playback slice creator
 
 const createPlaybackSlice: StateCreator<
-  PlaybackSlice & IdleLockSlice & RefSlice,
+  PlaybackSlice & IdleLockSlice & RefSlice & EventEmitterSlice,
   [],
   [],
   PlaybackSlice
@@ -151,6 +163,8 @@ const createPlaybackSlice: StateCreator<
 
     if (!video) return;
 
+    get().eventEmitter.emit("ended");
+
     set({
       isEnded: true,
       isLoading: false,
@@ -162,6 +176,10 @@ const createPlaybackSlice: StateCreator<
     const video = get().techRef.current;
 
     if (!video) return;
+
+    get().eventEmitter.emit("loadedMetadata", {
+      duration: video.duration,
+    });
 
     video.loop = get().isLoop;
 
@@ -182,6 +200,8 @@ const createPlaybackSlice: StateCreator<
 
     if (!video) return;
 
+    get().eventEmitter.emit("loadStart");
+
     set({ isReady: true });
 
     video
@@ -195,7 +215,7 @@ const createPlaybackSlice: StateCreator<
           pauseTime: 0,
         });
       })
-      .catch((error: unknown) =>
+      .catch((error: unknown) => {
         set(() => {
           console.info("Player failed to autoplay", error);
 
@@ -205,31 +225,96 @@ const createPlaybackSlice: StateCreator<
             isLoading: false,
             isPlaying: false,
           };
-        })
-      );
+        });
+      });
   },
-  handlePause: () =>
+  handlePause: () => {
+    const video = get().techRef.current;
+
+    if (!video) return;
+
+    get().eventEmitter.emit("pause");
+
     set({
       isPlaying: false,
       pauseTime: Date.now(),
-    }),
-  handlePlay: () =>
+    });
+  },
+  handlePlay: () => {
+    const video = get().techRef.current;
+
+    if (!video) return;
+
+    get().eventEmitter.emit("play");
+
     set({
       isPlaying: true,
       pauseTime: 0,
-    }),
+    });
+  },
 
-  handlePlaying: () => set({ isLoading: false }),
-  handleSeeked: () => set({ isLoading: false }),
-  handleSeeking: () => set({ isLoading: true }),
+  handlePlaying: () => {
+    const video = get().techRef.current;
+
+    if (!video) return;
+
+    get().eventEmitter.emit("playing");
+
+    set({ isLoading: false });
+  },
+  handleSeeked: () => {
+    const video = get().techRef.current;
+
+    if (!video) return;
+
+    get().eventEmitter.emit("seeked");
+
+    set({ isLoading: false });
+  },
+  handleSeeking: () => {
+    const video = get().techRef.current;
+
+    if (!video) return;
+
+    get().eventEmitter.emit("seeking");
+
+    set({ isLoading: true });
+  },
   handleTimeUpdate: () => {
     const video = get().techRef.current;
 
     if (!video) return;
 
+    get().eventEmitter.emit("timeUpdate", {
+      currentTime: video.currentTime,
+      duration: video.duration,
+    });
+
     set({ currentTime: video.currentTime });
   },
-  handleWaiting: () => set({ isLoading: true }),
+  handleWaiting: () => {
+    const video = get().techRef.current;
+
+    if (!video) return;
+
+    get().eventEmitter.emit("waiting");
+
+    set({ isLoading: true });
+  },
+  handleVolumeChange: () => {
+    const video = get().techRef.current;
+
+    if (!video) return;
+
+    get().eventEmitter.emit("volumeChange", { volume: video.volume });
+  },
+  handleError: (event) => {
+    const video = get().techRef.current;
+
+    if (!video) return;
+
+    get().eventEmitter.emit("error", event);
+  },
   pause: () => {
     const video = get().techRef.current;
 
@@ -338,21 +423,25 @@ const createIdleLockSlice: StateCreator<
 // Quality slice creator
 
 const createQualitySlice: StateCreator<
-  QualitySlice & RefSlice,
+  QualitySlice & EventEmitterSlice,
   [],
   [],
   QualitySlice
-> = (set) => ({
+> = (set, get) => ({
   level: null,
   levels: null,
   setLevels: (levels) => set({ levels }),
-  setLevel: (level) => set({ level }),
+  setLevel: (level) => {
+    if (level) get().eventEmitter.emit("qualityChange", { level });
+
+    set({ level });
+  },
 });
 
 // Fullscreen slice creator
 
 const createFullscreenSlice: StateCreator<
-  FullscreenSlice & RefSlice,
+  FullscreenSlice & RefSlice & EventEmitterSlice,
   [],
   [],
   FullscreenSlice
@@ -360,6 +449,8 @@ const createFullscreenSlice: StateCreator<
   isFullscreen: false,
   isFullscreenReady: false,
   exitFullscreen: () => {
+    get().eventEmitter.emit("fullscreenChange", { isFullscreen: false });
+
     exitFullscreen(document);
 
     set({ isFullscreen: false });
@@ -370,6 +461,8 @@ const createFullscreenSlice: StateCreator<
 
     if (!video || !container) return;
 
+    get().eventEmitter.emit("fullscreenChange", { isFullscreen: true });
+
     const element = isiOS ? video : container;
 
     if (element) requestFullscreen(element);
@@ -379,6 +472,17 @@ const createFullscreenSlice: StateCreator<
   setIsFullscreen: (isFullscreen: boolean) => set({ isFullscreen }),
   setIsFullscreenReady: (isFullscreenReady: boolean) =>
     set({ isFullscreenReady }),
+});
+
+// Event emitter slice creator
+
+const createEventEmitterSlice: StateCreator<
+  EventEmitterSlice,
+  [],
+  [],
+  EventEmitterSlice
+> = () => ({
+  eventEmitter: createPlayerEventEmitter(),
 });
 
 // Refs slice creator
@@ -400,7 +504,11 @@ const createPlayerStore = (
     ...createIdleLockSlice(...a),
     ...createFullscreenSlice(...a),
     ...createQualitySlice(...a),
-    ...createRefSlice({ techRef, containerRef })(...a),
+    ...createEventEmitterSlice(...a),
+    ...createRefSlice({
+      techRef,
+      containerRef,
+    })(...a),
   }));
 
 const PlayerStoreContext = createContext<StoreApi<PlayerStore> | null>(null);

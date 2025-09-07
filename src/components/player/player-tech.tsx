@@ -1,11 +1,6 @@
 import { PlayerHlsEngine } from "@/components/player/player-hls-engine";
 import { usePlayerStore } from "@/stores/player-store";
-import {
-  RefObject,
-  SyntheticEvent,
-  useRef,
-  type VideoHTMLAttributes,
-} from "react";
+import { RefObject, useRef, type VideoHTMLAttributes } from "react";
 import styled from "styled-components";
 
 type PlayerTechProps = {
@@ -26,12 +21,10 @@ function PlayerTech({ url, isLive, isMuted = false }: PlayerTechProps) {
   const handleSeeking = usePlayerStore((s) => s.handleSeeking);
   const handleTimeUpdate = usePlayerStore((s) => s.handleTimeUpdate);
   const handleWaiting = usePlayerStore((s) => s.handleWaiting);
+  const handleVolumeChange = usePlayerStore((s) => s.handleVolumeChange);
+  const handleError = usePlayerStore((s) => s.handleError);
   const techRef = usePlayerStore((s) => s.techRef);
   const timeUpdateRef = useRef<number | null>(null);
-
-  const handleError = (event: SyntheticEvent | undefined | null) => {
-    console.error("[Player][Native] ERROR", event);
-  };
 
   const handleNonLiveHandlers = (): Partial<
     VideoHTMLAttributes<HTMLVideoElement>
@@ -76,6 +69,7 @@ function PlayerTech({ url, isLive, isMuted = false }: PlayerTechProps) {
         onPlay={handlePlay}
         onPlaying={handlePlaying}
         onWaiting={handleWaiting}
+        onVolumeChange={handleVolumeChange}
         tabIndex={-1}
         {...nonLiveHandlers}
       />

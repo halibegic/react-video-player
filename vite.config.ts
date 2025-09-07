@@ -18,13 +18,26 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ["react", "react-dom"],
+          "@radix-ui/react-dropdown-menu": ["@radix-ui/react-dropdown-menu"],
+          "@radix-ui/react-slider": ["@radix-ui/react-slider"],
           hls: ["hls.js"],
-          dash: ["dashjs"],
+          mitt: ["mitt"],
+          styled: ["styled-components"],
+          zustand: ["zustand"],
         },
       },
     },
   },
   optimizeDeps: {
-    include: ["react", "react-dom", "hls.js", "dashjs"],
+    include: [
+      "react",
+      "react-dom",
+      "@radix-ui/react-dropdown-menu",
+      "@radix-ui/react-slider",
+      "hls.js",
+      "mitt",
+      "styled-components",
+      "zustand",
+    ],
   },
 });
