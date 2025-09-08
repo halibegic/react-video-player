@@ -8,4 +8,23 @@ type PlayerLevel = {
   width?: number;
 };
 
-export type { PlayerLevel };
+
+type PlayerEvents = {
+  play: void;
+  pause: void;
+  ended: void;
+  seeking: void;
+  seeked: void;
+  timeUpdate: { currentTime: number; duration: number };
+  volumeChange: { volume: number };
+  fullscreenChange: { isFullscreen: boolean };
+  qualityChange: { level: number | null };
+  loadedMetadata: { duration: number };
+  loadStart: void;
+  playing: void;
+  waiting: void;
+  error: unknown;
+};
+
+
+export type { PlayerLevel , PlayerEvents };
