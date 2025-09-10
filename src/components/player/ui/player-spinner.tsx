@@ -1,5 +1,6 @@
+import { keyframes } from "@emotion/react";
+import styled from "@emotion/styled";
 import { HTMLAttributes } from "react";
-import styled, { keyframes } from "styled-components";
 
 function PlayerSpinner(props: HTMLAttributes<HTMLDivElement>) {
   return <Spinner {...props} />;

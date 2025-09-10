@@ -1,5 +1,5 @@
+import styled from "@emotion/styled";
 import { HTMLAttributes, forwardRef } from "react";
-import styled, { css } from "styled-components";
 
 type PlayerButtonProps = HTMLAttributes<HTMLButtonElement> & {
   shape?: "square" | "circle";
@@ -53,7 +53,7 @@ const Button = styled.button<{ $shape: PlayerButtonProps["shape"] }>`
 
   ${({ $shape }) =>
     $shape === "circle" &&
-    css`
+    `
       padding: 0;
       width: 2rem;
       height: 2rem;
@@ -61,7 +61,7 @@ const Button = styled.button<{ $shape: PlayerButtonProps["shape"] }>`
 
   ${({ $shape }) =>
     $shape === "square" &&
-    css`
+    `
       padding: 0.25rem 0.5rem;
     `}
 `;

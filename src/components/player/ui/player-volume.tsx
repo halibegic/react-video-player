@@ -4,7 +4,7 @@ import { VolumeMuteIcon } from "@/components/icons/volume-mute-icon";
 import { PlayerButton } from "@/components/player/ui/player-button";
 import { PlayerSlider } from "@/components/player/ui/player-slider";
 import { usePlayerStore } from "@/stores/player-store";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 const IdleLockId = "volume";
 

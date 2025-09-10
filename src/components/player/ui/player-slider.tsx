@@ -1,6 +1,6 @@
+import styled from "@emotion/styled";
 import * as Slider from "@radix-ui/react-slider";
 import { ComponentProps, ElementRef, forwardRef } from "react";
-import styled from "styled-components";
 
 const PlayerSlider = forwardRef<
   ElementRef<typeof Slider.Root>,

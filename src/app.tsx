@@ -1,6 +1,6 @@
 import { LivePlayer } from "@/components/live-player";
 import { VodPlayer } from "@/components/vod-player";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 function App() {
   return (

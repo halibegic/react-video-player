@@ -1,7 +1,7 @@
 import { PlayerHlsEngine } from "@/components/player/player-hls-engine";
 import { usePlayerStore } from "@/stores/player-store";
+import styled from "@emotion/styled";
 import { RefObject, useRef, type VideoHTMLAttributes } from "react";
-import styled from "styled-components";
 
 type PlayerTechProps = {
   url: string;

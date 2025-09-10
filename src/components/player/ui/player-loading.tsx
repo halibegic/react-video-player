@@ -1,8 +1,8 @@
 import { PlayerSpinner } from "@/components/player/ui/player-spinner";
 import { useDebounce } from "@/hooks/use-debounce";
 import { usePlayerStore } from "@/stores/player-store";
+import styled from "@emotion/styled";
 import type { HTMLAttributes } from "react";
-import styled from "styled-components";
 
 type PlayerLoadingProps = HTMLAttributes<HTMLDivElement>;
 

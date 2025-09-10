@@ -1,6 +1,6 @@
+import styled from "@emotion/styled";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { ComponentProps, ElementRef, forwardRef, RefObject } from "react";
-import styled from "styled-components";
 
 const PlayerDropdownMenu = DropdownMenu.Root;
 
@@ -16,7 +16,7 @@ const PlayerDropdownMenuContent = forwardRef<
     <DropdownMenuContent
       ref={ref as RefObject<HTMLDivElement>}
       sideOffset={sideOffset}
-      onCloseAutoFocus={(event) => {
+      onCloseAutoFocus={(event: Event) => {
         event.preventDefault();
       }}
       {...props}
@@ -35,9 +35,7 @@ const PlayerDropdownMenuItem = forwardRef<
 
 PlayerDropdownMenuItem.displayName = "PlayerDropdownMenuItem";
 
-const DropdownMenuContent = styled(DropdownMenu.Content).withConfig({
-  shouldForwardProp: (prop) => prop !== "ref",
-})`
+const DropdownMenuContent = styled(DropdownMenu.Content)`
   padding: 0.25rem;
   min-width: 8rem;
   max-height: 8rem;

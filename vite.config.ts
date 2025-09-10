@@ -4,7 +4,13 @@ import { defineConfig } from "vite";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react({
+      babel: {
+        plugins: ["@emotion/babel-plugin"],
+      },
+    }),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -22,7 +28,7 @@ export default defineConfig({
           "@radix-ui/react-slider": ["@radix-ui/react-slider"],
           hls: ["hls.js"],
           mitt: ["mitt"],
-          styled: ["styled-components"],
+          emotion: ["@emotion/react", "@emotion/styled"],
           zustand: ["zustand"],
         },
       },
@@ -36,7 +42,8 @@ export default defineConfig({
       "@radix-ui/react-slider",
       "hls.js",
       "mitt",
-      "styled-components",
+      "@emotion/react",
+      "@emotion/styled",
       "zustand",
     ],
   },

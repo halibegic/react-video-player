@@ -1,6 +1,6 @@
 import { usePlayerStore } from "@/stores/player-store";
+import styled from "@emotion/styled";
 import { ButtonHTMLAttributes, MouseEvent, useEffect, useRef } from "react";
-import styled from "styled-components";
 
 type PlayerPlaybackIndicatorProps = ButtonHTMLAttributes<HTMLButtonElement>;
 

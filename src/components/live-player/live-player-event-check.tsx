@@ -1,7 +1,7 @@
 import { useStateRefresh } from "@/hooks/use-state-refresh";
 import { useLivePlayerStore } from "@/stores/live-player-store";
+import styled from "@emotion/styled";
 import { PropsWithChildren } from "react";
-import styled from "styled-components";
 
 type LivePlayerEventCheckProps = PropsWithChildren & {
   eventFinishedMessage?: string;

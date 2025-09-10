@@ -1,4 +1,5 @@
 import { usePlayerStore } from "@/stores/player-store";
+import styled from "@emotion/styled";
 import {
   PropsWithChildren,
   useCallback,
@@ -6,7 +7,6 @@ import {
   useRef,
   useState,
 } from "react";
-import styled from "styled-components";
 
 const HideTimeout = 5 * 1000;
 

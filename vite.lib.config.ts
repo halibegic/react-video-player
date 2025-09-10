@@ -5,7 +5,11 @@ import dts from "vite-plugin-dts";
 
 export default defineConfig({
   plugins: [
-    react(),
+    react({
+      babel: {
+        plugins: ["@emotion/babel-plugin"],
+      },
+    }),
     dts({
       insertTypesEntry: true,
       include: ["src/**/*"],
@@ -32,7 +36,8 @@ export default defineConfig({
         "@radix-ui/react-slider",
         "hls.js",
         "mitt",
-        "styled-components",
+        "@emotion/react",
+        "@emotion/styled",
         "zustand",
       ],
       output: {
@@ -43,7 +48,8 @@ export default defineConfig({
           "@radix-ui/react-slider": "RadixUISlider",
           "hls.js": "Hls",
           mitt: "Mitt",
-          "styled-components": "styled",
+          "@emotion/react": "emotionReact",
+          "@emotion/styled": "emotionStyled",
           zustand: "zustand",
         },
       },
