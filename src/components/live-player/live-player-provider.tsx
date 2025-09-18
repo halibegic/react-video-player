@@ -4,16 +4,11 @@ import { PropsWithChildren } from "react";
 
 type LivePlayerProviderProps = PropsWithChildren & {
   startDate: Date;
-  endDate: Date;
 };
 
-function LivePlayerProvider({
-  children,
-  startDate,
-  endDate,
-}: LivePlayerProviderProps) {
+function LivePlayerProvider({ children, startDate }: LivePlayerProviderProps) {
   return (
-    <LivePlayerStoreProvider startDate={startDate} endDate={endDate}>
+    <LivePlayerStoreProvider startDate={startDate}>
       <PlayerProvider>{children}</PlayerProvider>
     </LivePlayerStoreProvider>
   );

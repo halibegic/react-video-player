@@ -26,7 +26,6 @@ const Button = styled.button<{ $shape: PlayerButtonProps["shape"] }>`
   font-weight: 500;
   cursor: pointer;
   color: white;
-  background: none;
   border: none;
   border-radius: 1rem;
   transition: color 0.2s ease-in-out, background 0.2s ease-in-out;
@@ -36,10 +35,6 @@ const Button = styled.button<{ $shape: PlayerButtonProps["shape"] }>`
     height: 1.25rem;
     flex-shrink: 0;
     pointer-events: none;
-  }
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.1);
   }
 
   &:focus {
@@ -57,12 +52,23 @@ const Button = styled.button<{ $shape: PlayerButtonProps["shape"] }>`
       padding: 0;
       width: 2rem;
       height: 2rem;
+      background: none;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
     `}
 
   ${({ $shape }) =>
     $shape === "square" &&
     `
-      padding: 0.25rem 0.5rem;
+      padding: 0.5rem 1rem;
+      color: black;
+      background: white;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.9);
+      }
     `}
 `;
 

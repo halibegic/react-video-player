@@ -11,6 +11,21 @@ export const PlayerContainer = styled.div`
   overflow: hidden;
 `;
 
+export const TopControls = styled.div`
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: 0;
+  z-index: 10;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), transparent);
+  padding-top: 0.5rem;
+  padding-bottom: 1rem;
+
+  @media (min-width: 768px) {
+    padding-bottom: 2rem;
+  }
+`;
+
 export const ControlsBottom = styled.div`
   position: absolute;
   left: 0;

@@ -8,7 +8,7 @@ const ProgressSlider = styled.div`
 
 const TipContainer = styled.div<{ $isVisible: boolean }>`
   position: absolute;
-  bottom: 1.75rem;
+  bottom: 1.5rem;
   left: 0;
   width: 3rem;
   z-index: 10;
@@ -29,8 +29,8 @@ const TipContent = styled.p`
     "Helvetica Neue", Arial, sans-serif;
   font-weight: 500;
   text-align: center;
-  color: white;
-  background: rgba(0, 0, 0, 0.8);
+  color: black;
+  background: rgba(255, 255, 255, 1);
   border-radius: 1rem;
 `;
 

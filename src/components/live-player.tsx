@@ -5,7 +5,6 @@ import { LivePlayerPlayback } from "@/components/live-player/live-player-playbac
 import { LivePlayerPlaybackIndicator } from "@/components/live-player/live-player-playback-indicator";
 import { LivePlayerProgress } from "@/components/live-player/live-player-progress";
 import { LivePlayerProvider } from "@/components/live-player/live-player-provider";
-import { LivePlayerRemainingTime } from "@/components/live-player/live-player-remaining-time";
 import { LivePlayerStartOver } from "@/components/live-player/live-player-start-over";
 import { LivePlayerTech } from "@/components/live-player/live-player-tech";
 import { PlayerEventListener } from "@/components/player/player-event-listener";
@@ -16,6 +15,7 @@ import {
   ControlsSectionEnd,
   ControlsSectionStart,
   PlayerContainer,
+  TopControls,
 } from "@/components/player/ui/player-controls.styles";
 import { PlayerFullscreen } from "@/components/player/ui/player-fullscreen";
 import { PlayerIdleCheck } from "@/components/player/ui/player-idle-check";
@@ -23,12 +23,11 @@ import { PlayerLoading } from "@/components/player/ui/player-loading";
 import { PlayerQualityControl } from "@/components/player/ui/player-quality-control";
 import { PlayerVolume } from "@/components/player/ui/player-volume";
 import { usePlayerStore } from "@/stores/player-store";
-import { RefObject } from "react";
+import { getStartDateFromHlsUrl } from "@/utils/hls-parser";
+import { RefObject, useEffect, useState } from "react";
 
 type LivePlayerProps = {
   url: string;
-  startDate: Date | string;
-  endDate: Date | string;
   messages?: {
     eventFinished: string;
     eventNotStarted: string;
@@ -38,18 +37,27 @@ type LivePlayerProps = {
   onEvent?: (event: string, data: unknown) => void;
 };
 
-function LivePlayer({
-  url,
-  startDate,
-  endDate,
-  messages,
-  onEvent,
-}: LivePlayerProps) {
+function LivePlayer({ url, messages, onEvent }: LivePlayerProps) {
+  const [startDate, setStartDate] = useState<Date | null>(null);
+
+  useEffect(() => {
+    const fetchStartDate = async () => {
+      try {
+        const detectedStartDate = await getStartDateFromHlsUrl(url);
+
+        if (detectedStartDate) setStartDate(detectedStartDate);
+      } catch (error) {
+        console.error("Failed to detect start time from URL:", error);
+      }
+    };
+
+    fetchStartDate();
+  }, [url]);
+
+  if (!startDate) return null;
+
   return (
-    <LivePlayerProvider
-      startDate={new Date(startDate)}
-      endDate={new Date(endDate)}
-    >
+    <LivePlayerProvider startDate={startDate}>
       <Player url={url} messages={messages} onEvent={onEvent} />
     </LivePlayerProvider>
   );
@@ -73,6 +81,15 @@ function Player({
         <PlayerLoading />
         <PlayerIdleCheck>
           <LivePlayerPlaybackIndicator />
+          <TopControls>
+            <ControlsContainer>
+              <ControlsRow>
+                <ControlsSectionStart>
+                  <LivePlayerGoLive message={messages?.live} />
+                </ControlsSectionStart>
+              </ControlsRow>
+            </ControlsContainer>
+          </TopControls>
           <ControlsBottom>
             <ControlsContainer>
               <LivePlayerProgress />
@@ -81,10 +98,8 @@ function Player({
                   <LivePlayerPlayback />
                   <LivePlayerStartOver />
                   <PlayerVolume />
-                  <LivePlayerRemainingTime />
                 </ControlsSectionStart>
                 <ControlsSectionEnd>
-                  <LivePlayerGoLive message={messages?.live} />
                   <PlayerQualityControl />
                   <PlayerFullscreen />
                 </ControlsSectionEnd>

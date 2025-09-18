@@ -45,8 +45,6 @@ function App() {
   return (
     <LivePlayer
       url="https://example.com/live.m3u8"
-      startDate="2025-09-03T00:00:00Z"
-      endDate="2025-10-03T23:59:59Z"
       messages={{
         eventNotStarted: "Live stream još nije počeo. Molimo pričekajte.",
         eventFinished: "Live stream je završen.",
@@ -58,13 +56,11 @@ function App() {
 }
 ```
 
-| Prop        | Type                                                                                             | Description                                                                                | Default                                                                                                                                        |
-| ----------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `url`       | `string`                                                                                         | The live stream URL                                                                        | -                                                                                                                                              |
-| `startDate` | `string`                                                                                         | Start date for the live event in ISO 8601 format                                           | -                                                                                                                                              |
-| `endDate`   | `string`                                                                                         | End date for the live event in ISO 8601 format                                             | -                                                                                                                                              |
-| `onEvent`   | `(event: string, data: unknown) => void`                                                         | (Optional) Event handler callback for player events                                        | -                                                                                                                                              |
-| `messages`  | `{ eventNotStarted: string; eventFinished: string; eventStartingSoon?: string; live?: string; }` | (Optional) Custom messages for event not started, finished, starting soon, and live states | `{ eventNotStarted: "Event has not started yet.", eventFinished: "Event has finished.", eventStartingSoon: "Starting soon...", live: "Live" }` |
+| Prop       | Type                                                                                             | Description                                                                                | Default                                                                                                                                        |
+| ---------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`      | `string`                                                                                         | The live stream URL                                                                        | -                                                                                                                                              |
+| `onEvent`  | `(event: string, data: unknown) => void`                                                         | (Optional) Event handler callback for player events                                        | -                                                                                                                                              |
+| `messages` | `{ eventNotStarted: string; eventFinished: string; eventStartingSoon?: string; live?: string; }` | (Optional) Custom messages for event not started, finished, starting soon, and live states | `{ eventNotStarted: "Event has not started yet.", eventFinished: "Event has finished.", eventStartingSoon: "Starting soon...", live: "Live" }` |
 
 ## Keyboard Shortcuts
 
@@ -168,8 +164,6 @@ function App() {
   return (
     <LivePlayer
       url="https://example.com/live.m3u8"
-      startDate="2025-09-03T00:00:00Z"
-      endDate="2025-10-03T23:59:59Z"
       onEvent={handlePlayerEvent}
     />
   );

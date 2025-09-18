@@ -1,4 +1,3 @@
-import { ArrowRightIcon } from "@/components/icons/arrow-right-icon";
 import {
   PlayerButton,
   PlayerButtonProps,
@@ -17,8 +16,7 @@ function LivePlayerGoLive({ message, ...props }: LivePlayerGoLiveProps) {
 
   return delay ? (
     <PlayerButton onClick={handleLive} shape="square" {...props}>
-      <span>{message || "Live"}</span>
-      <ArrowRightIcon />
+      {message || "Skip to live"}
     </PlayerButton>
   ) : null;
 }

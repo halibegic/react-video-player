@@ -4,29 +4,23 @@ import { create, StoreApi, useStore } from "zustand";
 type State = {
   delay: number;
   startDate: Date;
-  endDate: Date;
   startTime: number;
-  endTime: number;
 };
 
 type Actions = {
   setDelay: (delay: number) => void;
   setStartDate: (startDate: Date) => void;
-  setEndDate: (endDate: Date) => void;
 };
 
 type LivePlayerStore = State & Actions;
 
-const createLivePlayerStore = (startDate: Date, endDate: Date) =>
+const createLivePlayerStore = (startDate: Date) =>
   create<LivePlayerStore>((set) => ({
     delay: 0,
     startDate,
-    endDate,
     startTime: startDate.getTime(),
-    endTime: endDate.getTime(),
     setDelay: (delay) => set({ delay }),
     setStartDate: (startDate) => set({ startDate }),
-    setEndDate: (endDate) => set({ endDate }),
   }));
 
 const LivePlayerStoreContext = createContext<StoreApi<LivePlayerStore> | null>(
@@ -35,20 +29,17 @@ const LivePlayerStoreContext = createContext<StoreApi<LivePlayerStore> | null>(
 
 type LivePlayerStoreProviderProps = PropsWithChildren & {
   startDate: Date;
-  endDate: Date;
 };
 
 const LivePlayerStoreProvider = ({
   children,
   startDate,
-  endDate,
 }: LivePlayerStoreProviderProps) => {
   const storeRef = useRef<ReturnType<typeof createLivePlayerStore> | null>(
     null
   );
 
-  if (!storeRef.current)
-    storeRef.current = createLivePlayerStore(startDate, endDate);
+  if (!storeRef.current) storeRef.current = createLivePlayerStore(startDate);
 
   return (
     <LivePlayerStoreContext.Provider value={storeRef.current}>

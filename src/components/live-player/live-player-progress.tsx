@@ -28,7 +28,7 @@ function LivePlayerProgress() {
   const [skipTime, setSkipTime] = useState<number>(-1);
   const delay = useLivePlayerStore((s) => s.delay);
   const startTime = useLivePlayerStore((s) => s.startTime);
-  const endTime = useLivePlayerStore((s) => s.endTime);
+  const endTime = new Date().getTime();
   const setDelay = useLivePlayerStore((s) => s.setDelay);
   const isPlaying = usePlayerStore((s) => s.isPlaying);
   const addIdleLock = usePlayerStore((s) => s.addIdleLock);
@@ -91,7 +91,8 @@ function LivePlayerProgress() {
         tip.style.left = left > -1 ? `${left}px` : "auto";
         tip.style.right = left > -1 ? "auto" : "0px";
 
-        setTipTime(percentage * duration);
+        const time = duration - percentage * duration;
+        setTipTime(time > 0 ? time : 0);
       }
 
       handleShowTip();
@@ -118,7 +119,7 @@ function LivePlayerProgress() {
         step={0.1}
       />
       <TipContainer ref={tipRef} $isVisible={isTipVisible}>
-        <TipContent>{formatTime(tipTime)}</TipContent>
+        <TipContent>{`-${formatTime(tipTime)}`}</TipContent>
       </TipContainer>
     </ProgressSlider>
   );

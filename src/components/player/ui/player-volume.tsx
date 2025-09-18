@@ -9,7 +9,6 @@ import styled from "@emotion/styled";
 const IdleLockId = "volume";
 
 function PlayerVolume() {
-  const containerRef = usePlayerStore((s) => s.containerRef);
   const setVolume = usePlayerStore((s) => s.setVolume);
   const volume = usePlayerStore((s) => s.volume);
   const addIdleLock = usePlayerStore((s) => s.addIdleLock);
