@@ -13,8 +13,6 @@ function App() {
       <PlayerContainer>
         <LivePlayer
           url="https://storage.googleapis.com/shaka-live-assets/player-source.m3u8"
-          startDate={new Date(Date.now())}
-          endDate={new Date(Date.now() + 30 * 60 * 1000)}
           messages={{
             eventFinished: "Live stream je završio.",
             eventNotStarted: "Live stream još nije počeo. Molimo pričekajte.",
