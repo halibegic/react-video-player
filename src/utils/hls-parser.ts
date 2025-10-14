@@ -49,7 +49,7 @@ function extractFirstChunklistUrl(
             baseUrlObj.pathname.substring(
               0,
               baseUrlObj.pathname.lastIndexOf("/")
-            )
+            ) + "/"
         ).toString();
       }
     }
