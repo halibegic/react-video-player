@@ -1,3 +1,5 @@
+import { dateToTimeZone } from "@/utils/date-time";
+
 function extractStartTimeFromPlaylist(playlistContent: string): Date | null {
   const lines = playlistContent.split("\n");
 
@@ -11,7 +13,7 @@ function extractStartTimeFromPlaylist(playlistContent: string): Date | null {
 
       // Check if the date is valid
       if (!isNaN(date.getTime())) {
-        return date;
+        return dateToTimeZone(date, "Europe/Sarajevo");
       }
     }
   }

@@ -1,3 +1,5 @@
+import { toZonedTime } from "date-fns-tz";
+
 function convertTime(value: number, fromUnit: string, toUnit: string): number {
   const unitMap: { [key: string]: number } = {
     days: 3600 * 24,
@@ -22,4 +24,8 @@ const formatTime = (seconds: number): string => {
     .padStart(2, "0")}`;
 };
 
-export { formatTime, millisecondsToSeconds };
+function dateToTimeZone(date: Date, timeZone: string): Date {
+  return toZonedTime(date, timeZone);
+}
+
+export { formatTime, millisecondsToSeconds,dateToTimeZone };

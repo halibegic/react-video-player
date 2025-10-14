@@ -1,7 +1,7 @@
 {
   "name": "@halibegic/react-video-player",
   "description": "A React video player library with HLS support for VOD and Live streaming",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "license": "MIT",
   "keywords": [
     "react",
@@ -55,6 +55,7 @@
     "@emotion/styled": "^11.14.1",
     "@radix-ui/react-dropdown-menu": "^2.1.16",
     "@radix-ui/react-slider": "^1.3.6",
+    "date-fns-tz": "^3.2.0",
     "hls.js": "^1.6.11",
     "mitt": "^3.0.1",
     "zustand": "^5.0.8"

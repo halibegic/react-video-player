@@ -39,6 +39,7 @@ export default defineConfig({
         "@emotion/react",
         "@emotion/styled",
         "zustand",
+        "date-fns-tz",
       ],
       output: {
         globals: {
@@ -51,6 +52,7 @@ export default defineConfig({
           "@emotion/react": "emotionReact",
           "@emotion/styled": "emotionStyled",
           zustand: "zustand",
+          "date-fns-tz": "dateFnsTz",
         },
       },
     },
