@@ -18,6 +18,7 @@ const Button = styled.button<{ $shape: PlayerButtonProps["shape"] }>`
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
   flex-shrink: 0;
   line-height: 1;
   font-size: 0.8125rem;
@@ -26,8 +27,10 @@ const Button = styled.button<{ $shape: PlayerButtonProps["shape"] }>`
   font-weight: 500;
   cursor: pointer;
   color: white;
+  background: none;
   border: none;
-  transition: color 0.2s ease-in-out, background 0.2s ease-in-out;
+  border-radius: 1rem;
+  transition: color 0.2s ease-in-out;
   -webkit-tap-highlight-color: transparent;
 
   svg {
@@ -57,15 +60,6 @@ const Button = styled.button<{ $shape: PlayerButtonProps["shape"] }>`
       padding: 0;
       width: 2rem;
       height: 2rem;
-      background: none;
-    `}
-
-  ${({ $shape }) =>
-    $shape === "square" &&
-    `
-      padding: 0.5rem 1rem;
-      color: black;
-      background: white;
     `}
 `;
 

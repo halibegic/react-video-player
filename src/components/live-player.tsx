@@ -15,7 +15,6 @@ import {
   ControlsSectionEnd,
   ControlsSectionStart,
   PlayerContainer,
-  TopControls,
 } from "@/components/player/ui/player-controls.styles";
 import { PlayerFullscreen } from "@/components/player/ui/player-fullscreen";
 import { PlayerIdleCheck } from "@/components/player/ui/player-idle-check";
@@ -81,15 +80,6 @@ function Player({
         <PlayerLoading />
         <PlayerIdleCheck>
           <LivePlayerPlaybackIndicator />
-          <TopControls>
-            <ControlsContainer>
-              <ControlsRow>
-                <ControlsSectionStart>
-                  <LivePlayerGoLive message={messages?.live} />
-                </ControlsSectionStart>
-              </ControlsRow>
-            </ControlsContainer>
-          </TopControls>
           <ControlsBottom>
             <ControlsContainer>
               <LivePlayerProgress />
@@ -100,6 +90,7 @@ function Player({
                   <PlayerVolume />
                 </ControlsSectionStart>
                 <ControlsSectionEnd>
+                  <LivePlayerGoLive message={messages?.live} />
                   <PlayerQualityControl />
                   <PlayerFullscreen />
                 </ControlsSectionEnd>

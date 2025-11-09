@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 
 const RemainingTime = styled.div`
   display: flex;
+  gap: 0.5rem;
   align-items: center;
 `;
 
@@ -14,14 +15,6 @@ const Time = styled.p`
     "Helvetica Neue", Arial, sans-serif;
   font-weight: 500;
   user-select: none;
-`;
-
-const CurrentTime = styled(Time)`
-  margin-right: 0.375rem;
-`;
-
-const Duration = styled(Time)`
-  margin-left: 0.375rem;
 `;
 
 const Separator = styled.p`
@@ -37,4 +30,4 @@ const Separator = styled.p`
   }
 `;
 
-export { CurrentTime, Duration, RemainingTime, Separator, Time };
+export { RemainingTime, Separator, Time };
