@@ -3,8 +3,7 @@ import { create, StoreApi, useStore } from "zustand";
 
 type State = {
   delay: number;
-  startDate: Date;
-  startTime: number;
+  startDate: Date | null;
 };
 
 type Actions = {
@@ -14,11 +13,10 @@ type Actions = {
 
 type LivePlayerStore = State & Actions;
 
-const createLivePlayerStore = (startDate: Date) =>
+const createLivePlayerStore = (startDate: Date | null) =>
   create<LivePlayerStore>((set) => ({
     delay: 0,
     startDate,
-    startTime: startDate.getTime(),
     setDelay: (delay) => set({ delay }),
     setStartDate: (startDate) => set({ startDate }),
   }));
@@ -28,7 +26,7 @@ const LivePlayerStoreContext = createContext<StoreApi<LivePlayerStore> | null>(
 );
 
 type LivePlayerStoreProviderProps = PropsWithChildren & {
-  startDate: Date;
+  startDate: Date | null;
 };
 
 const LivePlayerStoreProvider = ({

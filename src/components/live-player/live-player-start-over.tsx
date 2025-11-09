@@ -4,8 +4,9 @@ import { useLivePlayerStore } from "@/stores/live-player-store";
 import { getLiveDelay } from "@/utils/player";
 
 function LivePlayerStartOver() {
-  const startTime = useLivePlayerStore((s) => s.startTime);
+  const startDate = useLivePlayerStore((s) => s.startDate);
   const setDelay = useLivePlayerStore((s) => s.setDelay);
+  const startTime = startDate ? startDate.getTime() : 0;
 
   const handleStartOver = () => setDelay(getLiveDelay(startTime));
 

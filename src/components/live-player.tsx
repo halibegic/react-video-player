@@ -21,9 +21,10 @@ import { PlayerIdleCheck } from "@/components/player/ui/player-idle-check";
 import { PlayerLoading } from "@/components/player/ui/player-loading";
 import { PlayerQualityControl } from "@/components/player/ui/player-quality-control";
 import { PlayerVolume } from "@/components/player/ui/player-volume";
+import { useInterval } from "@/hooks/use-interval";
 import { usePlayerStore } from "@/stores/player-store";
 import { getStartDateFromHlsUrl } from "@/utils/hls-parser";
-import { RefObject, useEffect, useState } from "react";
+import { RefObject, useCallback, useEffect, useState } from "react";
 
 type LivePlayerProps = {
   url: string;
@@ -37,23 +38,23 @@ type LivePlayerProps = {
 };
 
 function LivePlayer({ url, messages, onEvent }: LivePlayerProps) {
+  const [initialLoading, setInitialLoading] = useState(true);
   const [startDate, setStartDate] = useState<Date | null>(null);
 
-  useEffect(() => {
-    const fetchStartDate = async () => {
-      try {
-        const detectedStartDate = await getStartDateFromHlsUrl(url);
-
-        if (detectedStartDate) setStartDate(detectedStartDate);
-      } catch (error) {
-        console.error("Failed to detect start time from URL:", error);
-      }
-    };
-
-    fetchStartDate();
+  const fetchStartDate = useCallback(async () => {
+    const detectedStartDate = await getStartDateFromHlsUrl(url);
+    if (detectedStartDate) setStartDate(detectedStartDate);
   }, [url]);
 
-  if (!startDate) return null;
+  useEffect(() => {
+    setInitialLoading(true);
+    fetchStartDate();
+    setInitialLoading(false);
+  }, [url]);
+
+  useInterval(fetchStartDate, startDate ? null : 5000);
+
+  if (initialLoading) return null;
 
   return (
     <LivePlayerProvider startDate={startDate}>

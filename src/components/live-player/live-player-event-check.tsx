@@ -11,22 +11,32 @@ type LivePlayerEventCheckProps = PropsWithChildren & {
 
 function LivePlayerEventCheck({
   children,
-  eventNotStartedMessage,
-  eventStartingSoonMessage,
+  eventNotStartedMessage = "Event has not started yet.",
+  eventStartingSoonMessage = "Starting in few seconds...",
 }: LivePlayerEventCheckProps) {
   const startDate = useLivePlayerStore((s) => s.startDate);
 
+  useStateRefresh(5000);
+
+  if (!startDate) {
+    return (
+      <EventStatusMessage>
+        <EventStatusMessageTitle>
+          {eventNotStartedMessage}
+        </EventStatusMessageTitle>
+      </EventStatusMessage>
+    );
+  }
+
   const now = Date.now();
   const isEventNotStarted = now < startDate.getTime();
-
-  useStateRefresh(5000);
 
   if (isEventNotStarted) {
     return (
       <EventNotStarted
         startDate={startDate}
-        title={eventNotStartedMessage || "Event has not started yet."}
-        message={eventStartingSoonMessage || "Starting in few seconds..."}
+        title={eventNotStartedMessage}
+        message={eventStartingSoonMessage}
       />
     );
   }

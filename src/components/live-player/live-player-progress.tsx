@@ -27,7 +27,8 @@ function LivePlayerProgress() {
   const [tipTime, setTipTime] = useState<number>(-1);
   const [skipTime, setSkipTime] = useState<number>(-1);
   const delay = useLivePlayerStore((s) => s.delay);
-  const startTime = useLivePlayerStore((s) => s.startTime);
+  const startDate = useLivePlayerStore((s) => s.startDate);
+  const startTime = startDate ? startDate.getTime() : 0;
   const endTime = new Date().getTime();
   const setDelay = useLivePlayerStore((s) => s.setDelay);
   const isPlaying = usePlayerStore((s) => s.isPlaying);

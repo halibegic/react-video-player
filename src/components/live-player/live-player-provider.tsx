@@ -3,7 +3,7 @@ import { LivePlayerStoreProvider } from "@/stores/live-player-store";
 import { PropsWithChildren } from "react";
 
 type LivePlayerProviderProps = PropsWithChildren & {
-  startDate: Date;
+  startDate: Date | null;
 };
 
 function LivePlayerProvider({ children, startDate }: LivePlayerProviderProps) {
