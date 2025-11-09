@@ -13,14 +13,15 @@ const Time = styled.p`
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
   font-weight: 500;
+  user-select: none;
 `;
 
 const CurrentTime = styled(Time)`
-  margin-right: 0.5rem;
+  margin-right: 0.375rem;
 `;
 
 const Duration = styled(Time)`
-  margin-left: 0.5rem;
+  margin-left: 0.375rem;
 `;
 
 const Separator = styled.p`

@@ -128,7 +128,8 @@ const DropdownMenuItem = styled(DropdownMenu.Item)`
   outline: none;
   color: white;
   border-radius: 0.5rem;
-  transition: background-color 0.2s ease;
+  transition: color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
 
   svg {
     width: 1rem;
@@ -137,12 +138,13 @@ const DropdownMenuItem = styled(DropdownMenu.Item)`
     pointer-events: none;
   }
 
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+  &:hover,
+  &:focus {
+    color: rgba(255, 255, 255, 0.8);
   }
 
   &:focus {
-    background-color: rgba(255, 255, 255, 0.1);
+    outline: none;
   }
 
   &[data-disabled] {

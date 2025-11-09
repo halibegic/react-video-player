@@ -40,6 +40,7 @@ export default defineConfig({
         "@emotion/styled",
         "zustand",
         "date-fns-tz",
+        "promise-polyfill/src/polyfill",
       ],
       output: {
         globals: {

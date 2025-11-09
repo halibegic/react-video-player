@@ -38,6 +38,7 @@ const SliderRoot = styled(Slider.Root)`
   touch-action: none;
   user-select: none;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 
   &[data-disabled] {
     cursor: not-allowed;
@@ -52,6 +53,7 @@ const SliderTrack = styled(Slider.Track)`
   background: rgba(255, 255, 255, 0.2);
   border-radius: 1rem;
   overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
 `;
 
 const SliderRange = styled(Slider.Range)`
@@ -60,6 +62,7 @@ const SliderRange = styled(Slider.Range)`
   background: #f7e406;
   transition: width 0.2s ease-in-out;
   border-radius: 1rem;
+  -webkit-tap-highlight-color: transparent;
 `;
 
 const SliderThumb = styled(Slider.Thumb)`
@@ -71,6 +74,7 @@ const SliderThumb = styled(Slider.Thumb)`
   transition: all 0.2s ease-in-out;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.2);
   border-radius: 50%;
+  -webkit-tap-highlight-color: transparent;
 
   &:hover {
     box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.4);

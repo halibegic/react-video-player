@@ -27,14 +27,19 @@ const Button = styled.button<{ $shape: PlayerButtonProps["shape"] }>`
   cursor: pointer;
   color: white;
   border: none;
-  border-radius: 1rem;
   transition: color 0.2s ease-in-out, background 0.2s ease-in-out;
+  -webkit-tap-highlight-color: transparent;
 
   svg {
     width: 1.25rem;
     height: 1.25rem;
     flex-shrink: 0;
     pointer-events: none;
+  }
+
+  &:hover,
+  &:focus {
+    color: rgba(255, 255, 255, 0.8);
   }
 
   &:focus {
@@ -53,10 +58,6 @@ const Button = styled.button<{ $shape: PlayerButtonProps["shape"] }>`
       width: 2rem;
       height: 2rem;
       background: none;
-
-      &:hover {
-        background: rgba(255, 255, 255, 0.1);
-      }
     `}
 
   ${({ $shape }) =>
@@ -65,10 +66,6 @@ const Button = styled.button<{ $shape: PlayerButtonProps["shape"] }>`
       padding: 0.5rem 1rem;
       color: black;
       background: white;
-
-      &:hover {
-        background: rgba(255, 255, 255, 0.9);
-      }
     `}
 `;
 
