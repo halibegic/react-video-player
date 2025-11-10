@@ -1,6 +1,10 @@
+import {
+  PlayerNotice,
+  PlayerNoticeText,
+  PlayerNoticeTitle,
+} from "@/components/player/ui/player-notice.styles";
 import { useStateRefresh } from "@/hooks/use-state-refresh";
 import { useLivePlayerStore } from "@/stores/live-player-store";
-import styled from "@emotion/styled";
 import { PropsWithChildren } from "react";
 
 type LivePlayerEventCheckProps = PropsWithChildren & {
@@ -20,11 +24,9 @@ function LivePlayerEventCheck({
 
   if (!startDate) {
     return (
-      <EventStatusMessage>
-        <EventStatusMessageTitle>
-          {eventNotStartedMessage}
-        </EventStatusMessageTitle>
-      </EventStatusMessage>
+      <PlayerNotice>
+        <PlayerNoticeTitle>{eventNotStartedMessage}</PlayerNoticeTitle>
+      </PlayerNotice>
     );
   }
 
@@ -59,23 +61,23 @@ function EventNotStarted({ startDate, title, message }: EventNotStartedProps) {
 
   if (hoursUntilStart || minutesUntilStart) {
     return (
-      <EventStatusMessage>
-        <EventStatusMessageTitle>{title}</EventStatusMessageTitle>
-        <EventStatusMessageText>
+      <PlayerNotice>
+        <PlayerNoticeTitle>{title}</PlayerNoticeTitle>
+        <PlayerNoticeText>
           (
           {hoursUntilStart > 0
             ? `${hoursUntilStart}h ${minutesUntilStart}m`
             : `${minutesUntilStart}m`}
           )
-        </EventStatusMessageText>
-      </EventStatusMessage>
+        </PlayerNoticeText>
+      </PlayerNotice>
     );
   }
 
   return (
-    <EventStatusMessage>
-      <EventStatusMessageTitle>{message}</EventStatusMessageTitle>
-    </EventStatusMessage>
+    <PlayerNotice>
+      <PlayerNoticeTitle>{message}</PlayerNoticeTitle>
+    </PlayerNotice>
   );
 }
 
@@ -85,43 +87,10 @@ type EventFinishedProps = {
 
 function EventFinished({ title }: EventFinishedProps) {
   return (
-    <EventStatusMessage>
-      <EventStatusMessageTitle>{title}</EventStatusMessageTitle>
-    </EventStatusMessage>
+    <PlayerNotice>
+      <PlayerNoticeTitle>{title}</PlayerNoticeTitle>
+    </PlayerNotice>
   );
 }
-
-const EventStatusMessage = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: black;
-  background: #f7e406;
-`;
-
-const EventStatusMessageTitle = styled.h3`
-  margin: 0;
-  padding: 0.5rem 0;
-  font-size: 1.5rem;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
-  font-weight: 500;
-`;
-
-const EventStatusMessageText = styled.p`
-  margin: 0;
-  height: 1.25rem;
-  font-size: 1rem;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
-  font-weight: 500;
-`;
 
 export { LivePlayerEventCheck };

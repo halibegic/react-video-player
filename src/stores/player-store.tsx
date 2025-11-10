@@ -1,7 +1,7 @@
 import type { StateCreator, StoreApi } from "zustand";
 import { create, useStore } from "zustand";
 
-import { PlayerLevel } from "@/types/player";
+import { PlayerError, PlayerLevel } from "@/types/player";
 import { millisecondsToSeconds } from "@/utils/date-time";
 import { isiOS } from "@/utils/device";
 import { exitFullscreen, requestFullscreen } from "@/utils/fullscreen";
@@ -105,6 +105,18 @@ type FullscreenActions = {
 
 type FullscreenSlice = FullscreenState & FullscreenActions;
 
+// Error slice
+
+type ErrorState = {
+  error: PlayerError | null;
+};
+
+type ErrorActions = {
+  setError: (error: PlayerError | null) => void;
+};
+
+type ErrorSlice = ErrorState & ErrorActions;
+
 // Refs slice type (general references like video and container)
 
 type RefState = {
@@ -126,6 +138,7 @@ type PlayerStore = PlaybackSlice &
   IdleLockSlice &
   QualitySlice &
   FullscreenSlice &
+  ErrorSlice &
   RefSlice &
   EventEmitterSlice;
 
@@ -474,6 +487,15 @@ const createFullscreenSlice: StateCreator<
     set({ isFullscreenReady }),
 });
 
+// Error slice creator
+
+const createErrorSlice: StateCreator<ErrorSlice, [], [], ErrorSlice> = (
+  set
+) => ({
+  error: null,
+  setError: (error) => set({ error }),
+});
+
 // Event emitter slice creator
 
 const createEventEmitterSlice: StateCreator<
@@ -504,6 +526,7 @@ const createPlayerStore = (
     ...createIdleLockSlice(...a),
     ...createFullscreenSlice(...a),
     ...createQualitySlice(...a),
+    ...createErrorSlice(...a),
     ...createEventEmitterSlice(...a),
     ...createRefSlice({
       techRef,

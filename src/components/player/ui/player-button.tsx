@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
-import { HTMLAttributes, forwardRef } from "react";
+import { ButtonHTMLAttributes, forwardRef } from "react";
 
-type PlayerButtonProps = HTMLAttributes<HTMLButtonElement> & {
+type PlayerButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   shape?: "square" | "circle";
 };
 

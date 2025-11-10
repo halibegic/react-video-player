@@ -1,12 +1,13 @@
 import { LivePlayerEventCheck } from "@/components/live-player/live-player-event-check";
-import { LivePlayerGoLive } from "@/components/live-player/live-player-go-live";
 import { LivePlayerKeyboard } from "@/components/live-player/live-player-keyboard";
-import { LivePlayerPlayback } from "@/components/live-player/live-player-playback";
-import { LivePlayerPlaybackIndicator } from "@/components/live-player/live-player-playback-indicator";
-import { LivePlayerProgress } from "@/components/live-player/live-player-progress";
 import { LivePlayerProvider } from "@/components/live-player/live-player-provider";
-import { LivePlayerStartOver } from "@/components/live-player/live-player-start-over";
 import { LivePlayerTech } from "@/components/live-player/live-player-tech";
+import { LivePlayerGoLive } from "@/components/live-player/ui/live-player-go-live";
+import { LivePlayerPlayback } from "@/components/live-player/ui/live-player-playback";
+import { LivePlayerPlaybackIndicator } from "@/components/live-player/ui/live-player-playback-indicator";
+import { LivePlayerProgress } from "@/components/live-player/ui/live-player-progress";
+import { LivePlayerStartOver } from "@/components/live-player/ui/live-player-start-over";
+import { PlayerErrorNotice } from "@/components/player/player-error-check";
 import { PlayerEventListener } from "@/components/player/player-event-listener";
 import {
   ControlsBottom,
@@ -78,6 +79,7 @@ function Player({
         eventStartingSoonMessage={messages?.eventStartingSoon}
       >
         <LivePlayerTech url={url} />
+        <PlayerErrorNotice />
         <PlayerLoading />
         <PlayerIdleCheck>
           <LivePlayerPlaybackIndicator />

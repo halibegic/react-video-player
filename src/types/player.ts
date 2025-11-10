@@ -1,3 +1,8 @@
+type PlayerError = {
+  message: string;
+  code: string;
+};
+
 type PlayerLevel = {
   bitrate?: number;
   height?: number;
@@ -7,7 +12,6 @@ type PlayerLevel = {
   value: number;
   width?: number;
 };
-
 
 type PlayerEvents = {
   play: void;
@@ -26,5 +30,4 @@ type PlayerEvents = {
   error: unknown;
 };
 
-
-export type { PlayerLevel , PlayerEvents };
+export type { PlayerError, PlayerEvents, PlayerLevel };
