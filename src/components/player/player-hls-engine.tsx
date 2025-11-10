@@ -1,7 +1,7 @@
 import { usePlayerStore } from "@/stores/player-store";
 import { mapLevels } from "@/utils/player";
 import Hls, { type HlsConfig } from "hls.js";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 type PlayerHlsEngineProps = {
   url: string;
@@ -16,9 +16,13 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
   const setLevels = usePlayerStore((s) => s.setLevels);
   const techRef = usePlayerStore((s) => s.techRef);
   const isStarted = usePlayerStore((s) => s.isStarted);
+  const setError = usePlayerStore((s) => s.setError);
 
-  // Single failover state: tracks if we've already attempted a retry
-  const [hasRetried, setHasRetried] = useState(false);
+  // Retry state for BUFFER_STALLED_ERROR in live mode
+  const retryCountRef = useRef(0);
+  const retryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const maxRetries = 50;
+  const retryDelayMs = 10000; // 10 seconds
 
   const handleQuality = useCallback(
     (value: number) => {
@@ -82,6 +86,11 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
 
       if (!hlsRef.current) return;
 
+      // Extract error code and message from data
+      let code = "";
+      const message = data.message || "Unknown error occurred";
+      if (data.details) code = data.details;
+
       switch (data.type) {
         case Hls.ErrorTypes.NETWORK_ERROR:
           if (data.fatal) hlsRef.current.startLoad();
@@ -89,25 +98,38 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
         case Hls.ErrorTypes.MEDIA_ERROR:
           if (data.fatal) hlsRef.current.recoverMediaError();
           else if (data.details === Hls.ErrorDetails.BUFFER_STALLED_ERROR) {
-            if (isLive && !hasRetried) {
-              setHasRetried(true);
-
-              console.log(
-                "[Player][HLS] Stream failed, attempting failover retry..."
-              );
-
-              try {
-                console.log("[Player][HLS] Retrying stream...");
-                hlsRef.current.loadSource(url);
-              } catch (error) {
-                console.error("[Player][HLS] Failover retry failed:", error);
+            if (isLive && retryCountRef.current < maxRetries) {
+              // Clear any existing retry timeout
+              if (retryTimeoutRef.current) {
+                clearTimeout(retryTimeoutRef.current);
               }
+
+              retryCountRef.current += 1;
+
+              retryTimeoutRef.current = setTimeout(() => {
+                if (hlsRef.current) {
+                  try {
+                    console.log("[Player][HLS] Retrying stream...");
+                    hlsRef.current.loadSource(url);
+                  } catch (error) {
+                    console.error("[Player][HLS] Retry failed:", error);
+                  }
+                }
+              }, retryDelayMs);
+            } else if (isLive && retryCountRef.current >= maxRetries) {
+              console.error(
+                `[Player][HLS] Max retries (${maxRetries}) reached for BUFFER_STALLED_ERROR`
+              );
+              setError({ message, code, tech: "hls" });
             }
           }
           break;
+        default:
+          setError({ message, code, tech: "hls" });
+          break;
       }
     },
-    [isLive, hasRetried, url]
+    [isLive, url, maxRetries, retryDelayMs]
   );
 
   const prepareHls = useCallback(() => {
@@ -161,7 +183,12 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
       hlsRef.current = null;
     }
 
-    setHasRetried(false);
+    // Clear retry timeout and reset counter
+    if (retryTimeoutRef.current) {
+      clearTimeout(retryTimeoutRef.current);
+      retryTimeoutRef.current = null;
+    }
+    retryCountRef.current = 0;
   }, [handleManifestLoaded, handleMediaAttached, handleError]);
 
   useEffect(() => {
@@ -169,7 +196,14 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
   }, [level, handleQuality]);
 
   useEffect(() => {
-    if (isStarted) setHasRetried(false);
+    if (isStarted) {
+      // Reset retry counter when playback starts
+      if (retryTimeoutRef.current) {
+        clearTimeout(retryTimeoutRef.current);
+        retryTimeoutRef.current = null;
+      }
+      retryCountRef.current = 0;
+    }
   }, [isStarted]);
 
   useEffect(() => {

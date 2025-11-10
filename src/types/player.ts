@@ -1,6 +1,7 @@
 type PlayerError = {
   message: string;
   code: string;
+  tech: "hls" | "native";
 };
 
 type PlayerLevel = {

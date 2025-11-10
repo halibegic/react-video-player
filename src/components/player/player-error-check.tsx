@@ -13,7 +13,12 @@ function PlayerErrorNotice() {
   return (
     <PlayerNotice>
       <PlayerNoticeTitle>{error.message}</PlayerNoticeTitle>
-      <PlayerNoticeText>Code: {error.code}</PlayerNoticeText>
+      {error.code ? (
+        <PlayerNoticeText>Code: {error.code}</PlayerNoticeText>
+      ) : null}
+      {error.tech ? (
+        <PlayerNoticeText>Engine: {error.tech}</PlayerNoticeText>
+      ) : null}
     </PlayerNotice>
   );
 }

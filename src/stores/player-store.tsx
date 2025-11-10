@@ -8,6 +8,7 @@ import { exitFullscreen, requestFullscreen } from "@/utils/fullscreen";
 import { createPlayerEventEmitter } from "@/utils/player-events";
 import {
   createContext,
+  SyntheticEvent,
   useContext,
   useRef,
   type PropsWithChildren,
@@ -49,7 +50,7 @@ type PlaybackActions = {
   handleTimeUpdate: () => void;
   handleWaiting: () => void;
   handleVolumeChange: () => void;
-  handleError: (event: unknown) => void;
+  handleError: (event: SyntheticEvent | undefined | null) => void;
   pause: () => void;
   play: () => void;
   seek: (time: number) => void;
@@ -145,7 +146,7 @@ type PlayerStore = PlaybackSlice &
 // Playback slice creator
 
 const createPlaybackSlice: StateCreator<
-  PlaybackSlice & IdleLockSlice & RefSlice & EventEmitterSlice,
+  PlaybackSlice & IdleLockSlice & ErrorSlice & RefSlice & EventEmitterSlice,
   [],
   [],
   PlaybackSlice
@@ -327,6 +328,15 @@ const createPlaybackSlice: StateCreator<
     if (!video) return;
 
     get().eventEmitter.emit("error", event);
+
+    const mediaError = video.error;
+
+    if (!mediaError) return;
+
+    const code = `${mediaError.code}`;
+    const message = mediaError.message || "Unknown error occurred";
+
+    set({ error: { message, code, tech: "native" } });
   },
   pause: () => {
     const video = get().techRef.current;
