@@ -15,7 +15,6 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
   const setLevel = usePlayerStore((s) => s.setLevel);
   const setLevels = usePlayerStore((s) => s.setLevels);
   const techRef = usePlayerStore((s) => s.techRef);
-  const isStarted = usePlayerStore((s) => s.isStarted);
   const setError = usePlayerStore((s) => s.setError);
 
   // Retry state for BUFFER_STALLED_ERROR in live mode
@@ -57,6 +56,16 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
 
     console.log("[Player][HLS] MANIFEST_LOADED");
 
+    // Reset retry counter
+    setError(null);
+
+    if (retryTimeoutRef.current) {
+      clearTimeout(retryTimeoutRef.current);
+      retryTimeoutRef.current = null;
+    }
+    retryCountRef.current = 0;
+
+    // Set levels
     const _levels = hlsRef.current.levels;
     const _level = hlsRef.current.currentLevel;
     const _isAuto = hlsRef.current.autoLevelEnabled;
@@ -77,7 +86,7 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
         isAuto: _isAuto,
       })
     );
-  }, [setLevels]);
+  }, [setError, setLevels]);
 
   const handleError = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -86,50 +95,48 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
 
       if (!hlsRef.current) return;
 
-      // Extract error code and message from data
-      let code = "";
-      const message = data.message || "Unknown error occurred";
-      if (data.details) code = data.details;
-
       switch (data.type) {
         case Hls.ErrorTypes.NETWORK_ERROR:
-          if (data.fatal) hlsRef.current.startLoad();
-          break;
-        case Hls.ErrorTypes.MEDIA_ERROR:
-          if (data.fatal) hlsRef.current.recoverMediaError();
-          else if (data.details === Hls.ErrorDetails.BUFFER_STALLED_ERROR) {
-            if (isLive && retryCountRef.current < maxRetries) {
-              // Clear any existing retry timeout
-              if (retryTimeoutRef.current) {
-                clearTimeout(retryTimeoutRef.current);
-              }
-
-              retryCountRef.current += 1;
-
-              retryTimeoutRef.current = setTimeout(() => {
-                if (hlsRef.current) {
-                  try {
-                    console.log("[Player][HLS] Retrying stream...");
-                    hlsRef.current.loadSource(url);
-                  } catch (error) {
-                    console.error("[Player][HLS] Retry failed:", error);
-                  }
+          console.log("[Player][HLS] NETWORK_ERROR", data);
+          if (isLive) {
+            if (data.details === "manifestLoadError") {
+              if (retryCountRef.current < maxRetries) {
+                // Clear any existing retry timeout
+                if (retryTimeoutRef.current) {
+                  clearTimeout(retryTimeoutRef.current);
                 }
-              }, retryDelayMs);
-            } else if (isLive && retryCountRef.current >= maxRetries) {
-              console.error(
-                `[Player][HLS] Max retries (${maxRetries}) reached for BUFFER_STALLED_ERROR`
-              );
-              setError({ message, code, tech: "hls" });
+
+                retryCountRef.current += 1;
+
+                retryTimeoutRef.current = setTimeout(() => {
+                  if (hlsRef.current) {
+                    try {
+                      console.log("[Player][HLS] Retrying stream...");
+                      hlsRef.current.loadSource(url);
+                    } catch (error) {
+                      console.error("[Player][HLS] Retry failed:", error);
+                    }
+                  }
+                }, retryDelayMs);
+              }
+              setError({
+                message: "Live event will be back shortly.",
+                code: "MANIFEST_LOAD_ERROR",
+                tech: "hls",
+              });
             }
+          } else {
+            hlsRef.current.startLoad();
           }
           break;
+        case Hls.ErrorTypes.MEDIA_ERROR:
+          hlsRef.current.recoverMediaError();
+          break;
         default:
-          setError({ message, code, tech: "hls" });
           break;
       }
     },
-    [isLive, url, maxRetries, retryDelayMs]
+    [isLive, url, setError]
   );
 
   const prepareHls = useCallback(() => {
@@ -194,17 +201,6 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
   useEffect(() => {
     if (level !== null) handleQuality(level);
   }, [level, handleQuality]);
-
-  useEffect(() => {
-    if (isStarted) {
-      // Reset retry counter when playback starts
-      if (retryTimeoutRef.current) {
-        clearTimeout(retryTimeoutRef.current);
-        retryTimeoutRef.current = null;
-      }
-      retryCountRef.current = 0;
-    }
-  }, [isStarted]);
 
   useEffect(() => {
     if (Hls.isSupported()) prepareHls();

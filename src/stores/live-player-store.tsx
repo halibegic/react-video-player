@@ -13,10 +13,10 @@ type Actions = {
 
 type LivePlayerStore = State & Actions;
 
-const createLivePlayerStore = (startDate: Date | null) =>
+const createLivePlayerStore = () =>
   create<LivePlayerStore>((set) => ({
     delay: 0,
-    startDate,
+    startDate: null,
     setDelay: (delay) => set({ delay }),
     setStartDate: (startDate) => set({ startDate }),
   }));
@@ -25,19 +25,12 @@ const LivePlayerStoreContext = createContext<StoreApi<LivePlayerStore> | null>(
   null
 );
 
-type LivePlayerStoreProviderProps = PropsWithChildren & {
-  startDate: Date | null;
-};
-
-const LivePlayerStoreProvider = ({
-  children,
-  startDate,
-}: LivePlayerStoreProviderProps) => {
+const LivePlayerStoreProvider = ({ children }: PropsWithChildren) => {
   const storeRef = useRef<ReturnType<typeof createLivePlayerStore> | null>(
     null
   );
 
-  if (!storeRef.current) storeRef.current = createLivePlayerStore(startDate);
+  if (!storeRef.current) storeRef.current = createLivePlayerStore();
 
   return (
     <LivePlayerStoreContext.Provider value={storeRef.current}>

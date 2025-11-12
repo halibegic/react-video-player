@@ -22,10 +22,8 @@ import { PlayerIdleCheck } from "@/components/player/ui/player-idle-check";
 import { PlayerLoading } from "@/components/player/ui/player-loading";
 import { PlayerQualityControl } from "@/components/player/ui/player-quality-control";
 import { PlayerVolume } from "@/components/player/ui/player-volume";
-import { useInterval } from "@/hooks/use-interval";
 import { usePlayerStore } from "@/stores/player-store";
-import { getStartDateFromHlsUrl } from "@/utils/hls-parser";
-import { RefObject, useCallback, useEffect, useState } from "react";
+import { RefObject } from "react";
 
 type LivePlayerProps = {
   url: string;
@@ -38,42 +36,21 @@ type LivePlayerProps = {
   onEvent?: (event: string, data: unknown) => void;
 };
 
-function LivePlayer({ url, messages, onEvent }: LivePlayerProps) {
-  const [initialLoading, setInitialLoading] = useState(true);
-  const [startDate, setStartDate] = useState<Date | null>(null);
-
-  const fetchStartDate = useCallback(async () => {
-    const detectedStartDate = await getStartDateFromHlsUrl(url);
-    if (detectedStartDate) setStartDate(detectedStartDate);
-  }, [url]);
-
-  useEffect(() => {
-    setInitialLoading(true);
-    fetchStartDate();
-    setInitialLoading(false);
-  }, [url]);
-
-  useInterval(fetchStartDate, startDate ? null : 5000);
-
-  if (initialLoading) return null;
-
+function LivePlayer(props: LivePlayerProps) {
   return (
-    <LivePlayerProvider startDate={startDate}>
-      <Player url={url} messages={messages} onEvent={onEvent} />
+    <LivePlayerProvider>
+      <Player {...props} />
     </LivePlayerProvider>
   );
 }
 
-function Player({
-  url,
-  messages,
-  onEvent,
-}: Pick<LivePlayerProps, "url" | "messages" | "onEvent">) {
+function Player({ url, messages, onEvent }: LivePlayerProps) {
   const containerRef = usePlayerStore((s) => s.containerRef);
 
   return (
     <PlayerContainer ref={containerRef as RefObject<HTMLDivElement>}>
       <LivePlayerEventCheck
+        url={url}
         eventFinishedMessage={messages?.eventFinished}
         eventNotStartedMessage={messages?.eventNotStarted}
         eventStartingSoonMessage={messages?.eventStartingSoon}

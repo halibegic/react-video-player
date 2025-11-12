@@ -2,13 +2,9 @@ import { PlayerProvider } from "@/components/player/player-provider";
 import { LivePlayerStoreProvider } from "@/stores/live-player-store";
 import { PropsWithChildren } from "react";
 
-type LivePlayerProviderProps = PropsWithChildren & {
-  startDate: Date | null;
-};
-
-function LivePlayerProvider({ children, startDate }: LivePlayerProviderProps) {
+function LivePlayerProvider({ children }: PropsWithChildren) {
   return (
-    <LivePlayerStoreProvider startDate={startDate}>
+    <LivePlayerStoreProvider>
       <PlayerProvider>{children}</PlayerProvider>
     </LivePlayerStoreProvider>
   );
