@@ -229,16 +229,12 @@ const createPlaybackSlice: StateCreator<
           pauseTime: 0,
         });
       })
-      .catch((error: unknown) => {
-        set(() => {
-          console.info("Player failed to autoplay", error);
-
-          return {
-            isStarted: false,
-            isEnded: false,
-            isLoading: false,
-            isPlaying: false,
-          };
+      .catch(() => {
+        set({
+          isStarted: false,
+          isEnded: false,
+          isLoading: false,
+          isPlaying: false,
         });
       });
   },
@@ -363,14 +359,25 @@ const createPlaybackSlice: StateCreator<
 
     if (!video) return;
 
-    video.play();
-
-    set({
-      isEnded: false,
-      isPlaying: true,
-      isStarted: true,
-      pauseTime: 0,
-    });
+    video
+      .play()
+      .then(() => {
+        set({
+          isEnded: false,
+          isLoading: false,
+          isPlaying: true,
+          isStarted: true,
+          pauseTime: 0,
+        });
+      })
+      .catch(() => {
+        set({
+          isStarted: false,
+          isEnded: false,
+          isLoading: false,
+          isPlaying: false,
+        });
+      });
   },
   seek: (time: number) => {
     const video = get().techRef.current;
