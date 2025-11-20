@@ -41,7 +41,6 @@ export default defineConfig({
         "zustand",
         "date-fns",
         "date-fns-tz",
-        "promise-polyfill/src/polyfill",
       ],
       output: {
         globals: {
