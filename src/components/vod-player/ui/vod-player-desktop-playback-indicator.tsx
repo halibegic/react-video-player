@@ -1,7 +1,7 @@
-import { PlayerPlaybackIndicator } from "@/components/player/ui/player-playback-indicator";
+import { PlayerDesktopPlaybackIndicator } from "@/components/player/ui/player-desktop-playback-indicator";
 import { usePlayerStore } from "@/stores/player-store";
 
-function VodPlayerPlaybackIndicator() {
+function VodPlayerDesktopPlaybackIndicator() {
   const isPlaying = usePlayerStore((s) => s.isPlaying);
   const pause = usePlayerStore((s) => s.pause);
   const play = usePlayerStore((s) => s.play);
@@ -11,7 +11,7 @@ function VodPlayerPlaybackIndicator() {
     else play();
   };
 
-  return <PlayerPlaybackIndicator onClick={handleToggle} />;
+  return <PlayerDesktopPlaybackIndicator onClick={handleToggle} />;
 }
 
-export { VodPlayerPlaybackIndicator };
+export { VodPlayerDesktopPlaybackIndicator };

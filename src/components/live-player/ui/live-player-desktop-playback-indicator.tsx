@@ -1,8 +1,8 @@
-import { PlayerPlaybackIndicator } from "@/components/player/ui/player-playback-indicator";
+import { PlayerDesktopPlaybackIndicator } from "@/components/player/ui/player-desktop-playback-indicator";
 import { useLivePlayerStore } from "@/stores/live-player-store";
 import { usePlayerStore } from "@/stores/player-store";
 
-function LivePlayerPlaybackIndicator() {
+function LivePlayerDesktopPlaybackIndicator() {
   const isPlaying = usePlayerStore((s) => s.isPlaying);
   const pause = usePlayerStore((s) => s.pause);
   const getPauseTimeDiff = usePlayerStore((s) => s.getPauseTimeDiff);
@@ -21,7 +21,7 @@ function LivePlayerPlaybackIndicator() {
     }
   };
 
-  return <PlayerPlaybackIndicator onClick={handleToggle} />;
+  return <PlayerDesktopPlaybackIndicator onClick={handleToggle} />;
 }
 
-export { LivePlayerPlaybackIndicator };
+export { LivePlayerDesktopPlaybackIndicator };

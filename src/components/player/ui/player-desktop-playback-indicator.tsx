@@ -2,13 +2,14 @@ import { usePlayerStore } from "@/stores/player-store";
 import styled from "@emotion/styled";
 import { ButtonHTMLAttributes, MouseEvent, useEffect, useRef } from "react";
 
-type PlayerPlaybackIndicatorProps = ButtonHTMLAttributes<HTMLButtonElement>;
+type PlayerDesktopPlaybackIndicatorProps =
+  ButtonHTMLAttributes<HTMLButtonElement>;
 
-function PlayerPlaybackIndicator({
+function PlayerDesktopPlaybackIndicator({
   className,
   onClick,
   ...props
-}: PlayerPlaybackIndicatorProps) {
+}: PlayerDesktopPlaybackIndicatorProps) {
   const toggleTimerRef = useRef<number | null>(null);
   const exitFullscreen = usePlayerStore((s) => s.exitFullscreen);
   const isFullscreen = usePlayerStore((s) => s.isFullscreen);
@@ -76,4 +77,4 @@ const ToggleButton = styled.button`
   }
 `;
 
-export { PlayerPlaybackIndicator };
+export { PlayerDesktopPlaybackIndicator };

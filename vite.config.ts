@@ -17,6 +17,7 @@ export default defineConfig({
     },
   },
   build: {
+    target: ["chrome62", "es2017"],
     outDir: "dist",
     sourcemap: true,
     rollupOptions: {

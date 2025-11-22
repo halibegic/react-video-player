@@ -22,6 +22,7 @@ export default defineConfig({
     },
   },
   build: {
+    target: ["chrome62", "es2017"],
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
       name: "ReactVideoPlayer",
