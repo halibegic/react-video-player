@@ -17,15 +17,21 @@ function millisecondsToSeconds(value: number): number {
 }
 
 const formatTime = (seconds: number): string => {
-  const mins = Math.floor(seconds / 60);
+  if (isNaN(seconds) || seconds === Infinity) return "0:00";
+
+  const pad = (s: number): string => (s < 10 ? "0" : "") + s;
+
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
   const secs = Math.floor(seconds % 60);
-  return `${mins.toString().padStart(2, "0")}:${secs
-    .toString()
-    .padStart(2, "0")}`;
+
+  if (hours === 0) return `${minutes}:${pad(secs)}`;
+
+  return `${hours}:${pad(minutes)}:${pad(secs)}`;
 };
 
 function dateToTimeZone(date: Date, timeZone: string): Date {
   return toZonedTime(date, timeZone);
 }
 
-export { formatTime, millisecondsToSeconds,dateToTimeZone };
+export { dateToTimeZone, formatTime, millisecondsToSeconds };

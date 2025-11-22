@@ -7,7 +7,7 @@ function App() {
     <AppContainer>
       <Title>Vod Player</Title>
       <PlayerContainer>
-        <VodPlayer url="https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.mp4/.m3u8" />
+        <VodPlayer url="https://stream.mux.com/XY5biw91UUVPs5qKWQHAI4rF301ayox01Q901jZPewe2S00.m3u8" />
       </PlayerContainer>
       <Title>Live Player</Title>
       <PlayerContainer>
