@@ -14,11 +14,7 @@ type LivePlayerEventCheckProps = PropsWithChildren & {
   };
 };
 
-function LivePlayerEventCheck({
-  url,
-  messages = {},
-  ...props
-}: LivePlayerEventCheckProps) {
+function LivePlayerEventCheck({ url, ...props }: LivePlayerEventCheckProps) {
   const [initialLoading, setInitialLoading] = useState(true);
   const startDate = useLivePlayerStore((s) => s.startDate);
   const setStartDate = useLivePlayerStore((s) => s.setStartDate);
