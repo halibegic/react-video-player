@@ -49,11 +49,17 @@ function Player({ url, messages, onEvent }: LivePlayerProps) {
     >
       <LivePlayerEventCheck
         url={url}
-        eventFinishedMessage={messages?.eventFinished}
-        eventNotStartedMessage={messages?.eventNotStarted}
-        eventStartingSoonMessage={messages?.eventStartingSoon}
+        messages={{
+          eventNotStarted: messages?.eventNotStarted,
+          eventStartingSoon: messages?.eventStartingSoon,
+        }}
       >
-        <LivePlayerTech url={url} />
+        <LivePlayerTech
+          url={url}
+          messages={{
+            eventFinished: messages?.eventFinished,
+          }}
+        />
         <PlayerErrorNotice />
         <PlayerLoading />
         <PlayerIdleCheck>
@@ -62,12 +68,16 @@ function Player({ url, messages, onEvent }: LivePlayerProps) {
             <div className={styles.controlsContainer}>
               <LivePlayerProgress />
               <div className={styles.controlsRow}>
-                <div className={`${styles.controlsSection} ${styles.controlsSectionStart}`}>
+                <div
+                  className={`${styles.controlsSection} ${styles.controlsSectionStart}`}
+                >
                   <LivePlayerPlayback />
                   <LivePlayerStartOver />
                   <PlayerVolume />
                 </div>
-                <div className={`${styles.controlsSection} ${styles.controlsSectionEnd}`}>
+                <div
+                  className={`${styles.controlsSection} ${styles.controlsSectionEnd}`}
+                >
                   <LivePlayerGoLive message={messages?.live} />
                   <PlayerQualityControl />
                   <PlayerFullscreen />

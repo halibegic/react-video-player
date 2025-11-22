@@ -9,12 +9,6 @@ function PlayerErrorNotice() {
   return (
     <div className={styles.playerNotice}>
       <h3 className={styles.playerNoticeTitle}>{error.message}</h3>
-      {error.code ? (
-        <p className={styles.playerNoticeText}>Code: {error.code}</p>
-      ) : null}
-      {error.tech ? (
-        <p className={styles.playerNoticeText}>Engine: {error.tech}</p>
-      ) : null}
     </div>
   );
 }

@@ -4,9 +4,12 @@ import { useCallback, useEffect, useState } from "react";
 
 type LivePlayerTechProps = {
   url: string;
+  messages?: {
+    eventFinished?: string;
+  };
 };
 
-function LivePlayerTech({ url }: LivePlayerTechProps) {
+function LivePlayerTech({ url, messages = {} }: LivePlayerTechProps) {
   const [currentUrl, setCurrentUrl] = useState<string | null>(null);
   const delay = useLivePlayerStore((s) => s.delay);
 
@@ -26,7 +29,9 @@ function LivePlayerTech({ url }: LivePlayerTechProps) {
     prepareData();
   }, [prepareData]);
 
-  return currentUrl ? <PlayerTech url={currentUrl} isLive={true} /> : null;
+  return currentUrl ? (
+    <PlayerTech url={currentUrl} isLive={true} messages={messages} />
+  ) : null;
 }
 
 export { LivePlayerTech };

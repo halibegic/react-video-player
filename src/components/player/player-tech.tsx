@@ -7,9 +7,17 @@ type PlayerTechProps = {
   url: string;
   isLive: boolean;
   isMuted?: boolean;
+  messages?: {
+    eventFinished?: string;
+  };
 };
 
-function PlayerTech({ url, isLive, isMuted = false }: PlayerTechProps) {
+function PlayerTech({
+  url,
+  isLive,
+  isMuted = false,
+  messages = {},
+}: PlayerTechProps) {
   const handleDurationChange = usePlayerStore((s) => s.handleDurationChange);
   const handleEnd = usePlayerStore((s) => s.handleEnd);
   const handleLoadedMetadata = usePlayerStore((s) => s.handleLoadedMetadata);
@@ -52,7 +60,7 @@ function PlayerTech({ url, isLive, isMuted = false }: PlayerTechProps) {
 
   return (
     <>
-      <PlayerHlsEngine isLive={isLive} url={url} />
+      <PlayerHlsEngine isLive={isLive} url={url} messages={messages} />
       <video
         ref={techRef as RefObject<HTMLVideoElement>}
         className={styles.playerVideo}

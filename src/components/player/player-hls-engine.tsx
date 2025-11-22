@@ -7,9 +7,12 @@ import { useCallback, useEffect, useRef } from "react";
 type PlayerHlsEngineProps = {
   url: string;
   isLive: boolean;
+  messages?: {
+    eventFinished?: string;
+  };
 };
 
-function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
+function PlayerHlsEngine({ url, isLive, messages }: PlayerHlsEngineProps) {
   const hlsRef = useRef<Hls | null>(null);
   const level = usePlayerStore((s) => s.level);
   const levels = usePlayerStore((s) => s.levels);
@@ -122,7 +125,9 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
                   }, retryDelayMs);
                 }
                 setError({
-                  message: "Live event will be back shortly.",
+                  message:
+                    messages?.eventFinished ??
+                    "Live event will be back shortly.",
                   code: "MANIFEST_LOAD_ERROR",
                   tech: "hls",
                 });
