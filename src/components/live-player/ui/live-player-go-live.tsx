@@ -3,7 +3,7 @@ import {
   PlayerButtonProps,
 } from "@/components/player/ui/player-button";
 import { useLivePlayerStore } from "@/stores/live-player-store";
-import styled from "@emotion/styled";
+import styles from "./live-player-go-live.module.css";
 
 type LivePlayerGoLiveProps = PlayerButtonProps & {
   message?: string;
@@ -18,20 +18,16 @@ function LivePlayerGoLive({ message, ...props }: LivePlayerGoLiveProps) {
     setDelay(0);
   };
 
+  const indicatorClassName = delay
+    ? `${styles.liveIndicator} ${styles.liveIndicatorHasDelay}`
+    : `${styles.liveIndicator} ${styles.liveIndicatorNoDelay}`;
+
   return (
     <PlayerButton onClick={handleLive} shape="square" {...props}>
-      <LiveIndicator $hasDelay={!!delay} />
+      <div className={indicatorClassName} />
       {message || "Live"}
     </PlayerButton>
   );
 }
-
-const LiveIndicator = styled.div<{ $hasDelay: boolean }>`
-  width: 0.4rem;
-  height: 0.4rem;
-  background: ${({ $hasDelay }) => ($hasDelay ? "gray" : "red")};
-  border-radius: 0.2rem;
-  transition: background 0.2s ease;
-`;
 
 export { LivePlayerGoLive };

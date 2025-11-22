@@ -1,6 +1,6 @@
 import { usePlayerStore } from "@/stores/player-store";
-import styled from "@emotion/styled";
 import { ButtonHTMLAttributes, MouseEvent, useEffect, useRef } from "react";
+import styles from "./player-desktop-playback-indicator.module.css";
 
 type PlayerDesktopPlaybackIndicatorProps =
   ButtonHTMLAttributes<HTMLButtonElement>;
@@ -48,33 +48,13 @@ function PlayerDesktopPlaybackIndicator({
   }, []);
 
   return (
-    <ToggleButton
+    <button
       onClick={handleToggle}
-      className={className}
+      className={[styles.toggleButton, className].filter(Boolean).join(" ")}
       aria-label="Player playback indicator"
       {...props}
     />
   );
 }
-
-const ToggleButton = styled.button`
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  width: 100%;
-  height: 100%;
-  cursor: default;
-  align-items: center;
-  justify-content: center;
-  outline: none;
-  background: none;
-  border: none;
-  padding: 0;
-
-  &:focus {
-    outline: none;
-  }
-`;
 
 export { PlayerDesktopPlaybackIndicator };

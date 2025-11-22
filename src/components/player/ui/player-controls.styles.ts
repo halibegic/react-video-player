@@ -1,77 +1,25 @@
-import styled from "@emotion/styled";
+import styles from "./player-controls.module.css";
 
-export const PlayerContainer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  color: white;
-  background: black;
-  overflow: hidden;
-`;
+export const PlayerContainer = "div";
+export const PlayerContainerClassName = styles.playerContainer;
 
-export const TopControls = styled.div`
-  position: absolute;
-  left: 0;
-  width: 100%;
-  top: 0;
-  z-index: 10;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), transparent);
-  padding-top: 0.5rem;
-  padding-bottom: 1rem;
+export const TopControls = "div";
+export const TopControlsClassName = styles.topControls;
 
-  @media (min-width: 768px) {
-    padding-bottom: 2rem;
-  }
-`;
+export const ControlsBottom = "div";
+export const ControlsBottomClassName = styles.controlsBottom;
 
-export const ControlsBottom = styled.div`
-  position: absolute;
-  left: 0;
-  width: 100%;
-  bottom: 0;
-  z-index: 10;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
-  padding-top: 1rem;
+export const ControlsContainer = "div";
+export const ControlsContainerClassName = styles.controlsContainer;
 
-  @media (min-width: 768px) {
-    padding-top: 2rem;
-  }
-`;
+export const ControlsRow = "div";
+export const ControlsRowClassName = styles.controlsRow;
 
-export const ControlsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  line-height: 1;
-  font-size: 0;
+export const ControlsSection = "div";
+export const ControlsSectionClassName = styles.controlsSection;
 
-  @media (min-width: 768px) {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-`;
+export const ControlsSectionStart = "div";
+export const ControlsSectionStartClassName = `${styles.controlsSection} ${styles.controlsSectionStart}`;
 
-export const ControlsRow = styled.div`
-  display: flex;
-  padding: 0.5rem 0;
-  width: 100%;
-  align-items: center;
-`;
-
-export const ControlsSection = styled.div`
-  display: flex;
-  flex: 1;
-  align-items: center;
-  gap: 0.5rem;
-`;
-
-export const ControlsSectionStart = styled(ControlsSection)`
-  justify-content: flex-start;
-`;
-
-export const ControlsSectionEnd = styled(ControlsSection)`
-  justify-content: flex-end;
-`;
+export const ControlsSectionEnd = "div";
+export const ControlsSectionEndClassName = `${styles.controlsSection} ${styles.controlsSectionEnd}`;

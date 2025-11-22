@@ -1,5 +1,4 @@
 import { usePlayerStore } from "@/stores/player-store";
-import styled from "@emotion/styled";
 import {
   PropsWithChildren,
   useCallback,
@@ -7,6 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
+import styles from "./player-idle-check.module.css";
 
 const HideTimeout = 5 * 1000;
 
@@ -70,22 +70,16 @@ function PlayerIdleCheck({ children }: PropsWithChildren) {
     };
   }, [containerRef, isIdle, setIsIdle, startTimer]);
 
+  const isIdleState = isIdle && !isLocked;
+  const containerClassName = `${styles.idleCheckContainer} ${
+    isIdleState ? styles.idleCheckContainerIdle : styles.idleCheckContainerActive
+  }`;
+
   return (
-    <IdleCheckContainer ref={containerRef} $isIdle={isIdle && !isLocked}>
+    <div ref={containerRef} className={containerClassName}>
       {children}
-    </IdleCheckContainer>
+    </div>
   );
 }
-
-const IdleCheckContainer = styled.div<{ $isIdle: boolean }>`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transition: opacity 0.2s ease-in-out;
-  cursor: ${({ $isIdle }) => ($isIdle ? "none" : "auto")};
-  opacity: ${({ $isIdle }) => ($isIdle ? 0 : 1)};
-`;
 
 export { PlayerIdleCheck };

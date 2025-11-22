@@ -1,33 +1,10 @@
-import styled from "@emotion/styled";
+import styles from "./player-remaining-time.module.css";
 
-const RemainingTime = styled.div`
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-`;
+export const RemainingTime = "div";
+export const RemainingTimeClassName = styles.remainingTime;
 
-const Time = styled.p`
-  margin: 0;
-  padding: 0;
-  font-variant-numeric: tabular-nums;
-  font-size: 0.8125rem;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
-  font-weight: 500;
-  user-select: none;
-`;
+export const Time = "p";
+export const TimeClassName = styles.time;
 
-const Separator = styled.p`
-  margin: 0;
-  padding: 0;
-  font-size: 0.8125rem;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
-  font-weight: 500;
-
-  &::before {
-    content: "/";
-  }
-`;
-
-export { RemainingTime, Separator, Time };
+export const Separator = "p";
+export const SeparatorClassName = styles.separator;

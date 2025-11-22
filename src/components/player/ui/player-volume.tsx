@@ -4,7 +4,7 @@ import { VolumeMuteIcon } from "@/components/icons/volume-mute-icon";
 import { PlayerButton } from "@/components/player/ui/player-button";
 import { PlayerSlider } from "@/components/player/ui/player-slider";
 import { usePlayerStore } from "@/stores/player-store";
-import styled from "@emotion/styled";
+import styles from "./player-volume.module.css";
 
 const IdleLockId = "volume";
 
@@ -27,7 +27,7 @@ function PlayerVolume() {
   const handleMute = () => setVolume(!volume ? 100 : 0);
 
   return (
-    <VolumeContainer>
+    <div className={styles.volumeContainer}>
       <PlayerButton onClick={handleMute} className="shrink-0">
         {volume ? (
           volume > 50 ? (
@@ -39,40 +39,15 @@ function PlayerVolume() {
           <VolumeMuteIcon />
         )}
       </PlayerButton>
-      <VolumeSlider>
+      <div className={styles.volumeSlider}>
         <PlayerSlider
           value={[volume]}
           onValueChange={handleSliderChange}
           onValueCommit={handleSliderCommit}
         />
-      </VolumeSlider>
-    </VolumeContainer>
+      </div>
+    </div>
   );
 }
-
-const VolumeSlider = styled.div`
-  width: 0;
-  opacity: 0;
-  transition: all 0.2s ease-in-out;
-`;
-
-const VolumeContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  width: 3rem;
-  transition: all 0.2s ease-in-out;
-
-  @media (min-width: 768px) {
-    &:hover {
-      width: 6rem;
-
-      ${VolumeSlider} {
-        width: 100%;
-        opacity: 1;
-      }
-    }
-  }
-`;
 
 export { PlayerVolume };

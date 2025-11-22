@@ -10,9 +10,26 @@ npm install @halibegic/react-video-player
 
 ## Usage
 
+**Important:** You need to import the CSS file for the player styles to work correctly.
+
+### Next.js
+
+In your `_app.js` or `_app.tsx`:
+
+```tsx
+import "@halibegic/react-video-player/style.css";
+```
+
+### Other React Applications
+
+```tsx
+import "@halibegic/react-video-player/style.css";
+```
+
 ### VOD Player
 
 ```tsx
+import "@halibegic/react-video-player/style.css";
 import { VodPlayer } from "@halibegic/react-video-player";
 
 function App() {
@@ -29,6 +46,7 @@ function App() {
 **Example with `startTime`:**
 
 ```tsx
+import "@halibegic/react-video-player/style.css";
 import { VodPlayer } from "@halibegic/react-video-player";
 
 function App() {
@@ -39,6 +57,7 @@ function App() {
 ### Live Player
 
 ```tsx
+import "@halibegic/react-video-player/style.css";
 import { LivePlayer } from "@halibegic/react-video-player";
 
 function App() {
@@ -104,6 +123,7 @@ Both `VodPlayer` and `LivePlayer` support event handling through the `onEvent` p
 #### VOD Player with Events
 
 ```tsx
+import "@halibegic/react-video-player/style.css";
 import { VodPlayer } from "@halibegic/react-video-player";
 
 function App() {
@@ -147,6 +167,7 @@ function App() {
 #### Live Player with Events
 
 ```tsx
+import "@halibegic/react-video-player/style.css";
 import { LivePlayer } from "@halibegic/react-video-player";
 
 function App() {

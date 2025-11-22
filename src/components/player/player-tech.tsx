@@ -1,7 +1,7 @@
 import { PlayerHlsEngine } from "@/components/player/player-hls-engine";
 import { usePlayerStore } from "@/stores/player-store";
-import styled from "@emotion/styled";
 import { RefObject, useRef, type VideoHTMLAttributes } from "react";
+import styles from "./player-tech.module.css";
 
 type PlayerTechProps = {
   url: string;
@@ -53,8 +53,9 @@ function PlayerTech({ url, isLive, isMuted = false }: PlayerTechProps) {
   return (
     <>
       <PlayerHlsEngine isLive={isLive} url={url} />
-      <Video
+      <video
         ref={techRef as RefObject<HTMLVideoElement>}
+        className={styles.video}
         playsInline
         autoPlay
         controls={false}
@@ -76,15 +77,5 @@ function PlayerTech({ url, isLive, isMuted = false }: PlayerTechProps) {
     </>
   );
 }
-
-const Video = styled.video`
-  position: relative;
-  width: 100%;
-  height: 100%;
-
-  @media (min-width: 768px) {
-    pointer-events: none;
-  }
-`;
 
 export { PlayerTech };

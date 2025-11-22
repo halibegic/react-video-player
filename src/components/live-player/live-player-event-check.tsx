@@ -1,7 +1,10 @@
 import {
   PlayerNotice,
+  PlayerNoticeClassName,
   PlayerNoticeText,
+  PlayerNoticeTextClassName,
   PlayerNoticeTitle,
+  PlayerNoticeTitleClassName,
 } from "@/components/player/ui/player-notice.styles";
 import { useInterval } from "@/hooks/use-interval";
 import { useStateRefresh } from "@/hooks/use-state-refresh";
@@ -55,9 +58,9 @@ function EventNotice({
 
   if (!startDate) {
     return (
-      <PlayerNotice>
-        <PlayerNoticeTitle>{eventNotStartedMessage}</PlayerNoticeTitle>
-      </PlayerNotice>
+      <div className={PlayerNoticeClassName}>
+        <h3 className={PlayerNoticeTitleClassName}>{eventNotStartedMessage}</h3>
+      </div>
     );
   }
 
@@ -92,23 +95,23 @@ function EventNotStarted({ startDate, title, message }: EventNotStartedProps) {
 
   if (hoursUntilStart || minutesUntilStart) {
     return (
-      <PlayerNotice>
-        <PlayerNoticeTitle>{title}</PlayerNoticeTitle>
-        <PlayerNoticeText>
+      <div className={PlayerNoticeClassName}>
+        <h3 className={PlayerNoticeTitleClassName}>{title}</h3>
+        <p className={PlayerNoticeTextClassName}>
           (
           {hoursUntilStart > 0
             ? `${hoursUntilStart}h ${minutesUntilStart}m`
             : `${minutesUntilStart}m`}
           )
-        </PlayerNoticeText>
-      </PlayerNotice>
+        </p>
+      </div>
     );
   }
 
   return (
-    <PlayerNotice>
-      <PlayerNoticeTitle>{message}</PlayerNoticeTitle>
-    </PlayerNotice>
+    <div className={PlayerNoticeClassName}>
+      <h3 className={PlayerNoticeTitleClassName}>{message}</h3>
+    </div>
   );
 }
 

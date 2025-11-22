@@ -1,7 +1,10 @@
 import {
   PlayerNotice,
+  PlayerNoticeClassName,
   PlayerNoticeText,
+  PlayerNoticeTextClassName,
   PlayerNoticeTitle,
+  PlayerNoticeTitleClassName,
 } from "@/components/player/ui/player-notice.styles";
 import { usePlayerStore } from "@/stores/player-store";
 
@@ -11,15 +14,15 @@ function PlayerErrorNotice() {
   if (!error) return null;
 
   return (
-    <PlayerNotice>
-      <PlayerNoticeTitle>{error.message}</PlayerNoticeTitle>
+    <div className={PlayerNoticeClassName}>
+      <h3 className={PlayerNoticeTitleClassName}>{error.message}</h3>
       {error.code ? (
-        <PlayerNoticeText>Code: {error.code}</PlayerNoticeText>
+        <p className={PlayerNoticeTextClassName}>Code: {error.code}</p>
       ) : null}
       {error.tech ? (
-        <PlayerNoticeText>Engine: {error.tech}</PlayerNoticeText>
+        <p className={PlayerNoticeTextClassName}>Engine: {error.tech}</p>
       ) : null}
-    </PlayerNotice>
+    </div>
   );
 }
 

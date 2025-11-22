@@ -1,0 +1,16 @@
+.appContainer {
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+.appTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 1rem 0;
+}
+
+.playerContainer {
+  position: relative;
+  width: 100%;
+  padding-top: min(56.25%, 100vh);
+}

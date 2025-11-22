@@ -5,11 +5,7 @@ import dts from "vite-plugin-dts";
 
 export default defineConfig({
   plugins: [
-    react({
-      babel: {
-        plugins: ["@emotion/babel-plugin"],
-      },
-    }),
+    react(),
     dts({
       insertTypesEntry: true,
       include: ["src/**/*"],
@@ -23,6 +19,7 @@ export default defineConfig({
   },
   build: {
     target: ["chrome62", "es2017"],
+    cssCodeSplit: false,
     lib: {
       entry: resolve(__dirname, "src/index.ts"),
       name: "ReactVideoPlayer",
@@ -37,8 +34,6 @@ export default defineConfig({
         "@radix-ui/react-slider",
         "hls.js",
         "mitt",
-        "@emotion/react",
-        "@emotion/styled",
         "zustand",
         "date-fns",
         "date-fns-tz",
@@ -51,12 +46,11 @@ export default defineConfig({
           "@radix-ui/react-slider": "RadixUISlider",
           "hls.js": "Hls",
           mitt: "Mitt",
-          "@emotion/react": "emotionReact",
-          "@emotion/styled": "emotionStyled",
           zustand: "zustand",
           "date-fns": "dateFns",
           "date-fns-tz": "dateFnsTz",
         },
+        assetFileNames: "style.css",
       },
     },
     sourcemap: true,

@@ -1,0 +1,24 @@
+.volumeSlider {
+  width: 0;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+}
+
+.volumeContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  width: 3rem;
+  transition: all 0.2s ease-in-out;
+}
+
+@media (min-width: 768px) {
+  .volumeContainer:hover {
+    width: 6rem;
+  }
+
+  .volumeContainer:hover .volumeSlider {
+    width: 100%;
+    opacity: 1;
+  }
+}

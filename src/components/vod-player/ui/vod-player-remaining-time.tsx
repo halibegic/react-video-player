@@ -1,7 +1,10 @@
 import {
   RemainingTime,
+  RemainingTimeClassName,
   Separator,
+  SeparatorClassName,
   Time,
+  TimeClassName,
 } from "@/components/player/ui/player-remaining-time.styles";
 import { usePlayerStore } from "@/stores/player-store";
 import { formatTime } from "@/utils/date-time";
@@ -11,11 +14,11 @@ function VodPlayerRemainingTime() {
   const duration = usePlayerStore((s) => s.duration);
 
   return (
-    <RemainingTime>
-      <Time>{formatTime(currentTime)}</Time>
-      <Separator />
-      <Time>{formatTime(duration)}</Time>
-    </RemainingTime>
+    <div className={RemainingTimeClassName}>
+      <p className={TimeClassName}>{formatTime(currentTime)}</p>
+      <p className={SeparatorClassName} />
+      <p className={TimeClassName}>{formatTime(duration)}</p>
+    </div>
   );
 }
 

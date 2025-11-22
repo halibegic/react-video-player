@@ -4,11 +4,17 @@ import { PlayerProvider } from "@/components/player/player-provider";
 import { PlayerTech } from "@/components/player/player-tech";
 import {
   ControlsBottom,
+  ControlsBottomClassName,
   ControlsContainer,
+  ControlsContainerClassName,
   ControlsRow,
+  ControlsRowClassName,
   ControlsSectionEnd,
+  ControlsSectionEndClassName,
   ControlsSectionStart,
+  ControlsSectionStartClassName,
   PlayerContainer,
+  PlayerContainerClassName,
 } from "@/components/player/ui/player-controls.styles";
 import { PlayerFullscreen } from "@/components/player/ui/player-fullscreen";
 import { PlayerIdleCheck } from "@/components/player/ui/player-idle-check";
@@ -48,32 +54,35 @@ function Player({ url, onEvent, startTime }: VodPlayerProps) {
   }, [startTime, setStartTime]);
 
   return (
-    <PlayerContainer ref={containerRef as RefObject<HTMLDivElement>}>
+    <div
+      ref={containerRef as RefObject<HTMLDivElement>}
+      className={PlayerContainerClassName}
+    >
       <PlayerTech url={url} isLive={false} />
       <PlayerErrorNotice />
       <PlayerLoading />
       <PlayerIdleCheck>
         {isDesktop ? <VodPlayerDesktopPlaybackIndicator /> : null}
-        <ControlsBottom>
-          <ControlsContainer>
+        <div className={ControlsBottomClassName}>
+          <div className={ControlsContainerClassName}>
             <VodPlayerProgress />
-            <ControlsRow>
-              <ControlsSectionStart>
+            <div className={ControlsRowClassName}>
+              <div className={ControlsSectionStartClassName}>
                 <VodPlayerPlayback />
                 <PlayerVolume />
                 <VodPlayerRemainingTime />
-              </ControlsSectionStart>
-              <ControlsSectionEnd>
+              </div>
+              <div className={ControlsSectionEndClassName}>
                 <PlayerQualityControl />
                 <PlayerFullscreen />
-              </ControlsSectionEnd>
-            </ControlsRow>
-          </ControlsContainer>
-        </ControlsBottom>
+              </div>
+            </div>
+          </div>
+        </div>
       </PlayerIdleCheck>
       <VodPlayerKeyboard />
       {onEvent && <PlayerEventListener callback={onEvent} />}
-    </PlayerContainer>
+    </div>
   );
 }
 

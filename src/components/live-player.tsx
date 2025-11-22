@@ -11,11 +11,17 @@ import { PlayerErrorNotice } from "@/components/player/player-error-check";
 import { PlayerEventListener } from "@/components/player/player-event-listener";
 import {
   ControlsBottom,
+  ControlsBottomClassName,
   ControlsContainer,
+  ControlsContainerClassName,
   ControlsRow,
+  ControlsRowClassName,
   ControlsSectionEnd,
+  ControlsSectionEndClassName,
   ControlsSectionStart,
+  ControlsSectionStartClassName,
   PlayerContainer,
+  PlayerContainerClassName,
 } from "@/components/player/ui/player-controls.styles";
 import { PlayerFullscreen } from "@/components/player/ui/player-fullscreen";
 import { PlayerIdleCheck } from "@/components/player/ui/player-idle-check";
@@ -50,7 +56,10 @@ function Player({ url, messages, onEvent }: LivePlayerProps) {
   const containerRef = usePlayerStore((s) => s.containerRef);
 
   return (
-    <PlayerContainer ref={containerRef as RefObject<HTMLDivElement>}>
+    <div
+      ref={containerRef as RefObject<HTMLDivElement>}
+      className={PlayerContainerClassName}
+    >
       <LivePlayerEventCheck
         url={url}
         eventFinishedMessage={messages?.eventFinished}
@@ -62,28 +71,28 @@ function Player({ url, messages, onEvent }: LivePlayerProps) {
         <PlayerLoading />
         <PlayerIdleCheck>
           {isDesktop ? <LivePlayerDesktopPlaybackIndicator /> : null}
-          <ControlsBottom>
-            <ControlsContainer>
+          <div className={ControlsBottomClassName}>
+            <div className={ControlsContainerClassName}>
               <LivePlayerProgress />
-              <ControlsRow>
-                <ControlsSectionStart>
+              <div className={ControlsRowClassName}>
+                <div className={ControlsSectionStartClassName}>
                   <LivePlayerPlayback />
                   <LivePlayerStartOver />
                   <PlayerVolume />
-                </ControlsSectionStart>
-                <ControlsSectionEnd>
+                </div>
+                <div className={ControlsSectionEndClassName}>
                   <LivePlayerGoLive message={messages?.live} />
                   <PlayerQualityControl />
                   <PlayerFullscreen />
-                </ControlsSectionEnd>
-              </ControlsRow>
-            </ControlsContainer>
-          </ControlsBottom>
+                </div>
+              </div>
+            </div>
+          </div>
         </PlayerIdleCheck>
       </LivePlayerEventCheck>
       <LivePlayerKeyboard />
       {onEvent && <PlayerEventListener callback={onEvent} />}
-    </PlayerContainer>
+    </div>
   );
 }
 
