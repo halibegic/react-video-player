@@ -6,4 +6,6 @@ function is(regex: RegExp): boolean {
 
 const isiOS = is(/iPhone|iPad|iPod/i);
 
-export { isiOS };
+const isTizenBrowser = is(/Tizen/i);
+
+export { isiOS, isTizenBrowser };

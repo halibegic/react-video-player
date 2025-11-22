@@ -1,4 +1,5 @@
 import { usePlayerStore } from "@/stores/player-store";
+import { isTizenBrowser } from "@/utils/device";
 import { mapLevels } from "@/utils/player";
 import Hls, { type HlsConfig } from "hls.js";
 import { useCallback, useEffect, useRef } from "react";
@@ -95,45 +96,47 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
 
       if (!hlsRef.current) return;
 
-      switch (data.type) {
-        case Hls.ErrorTypes.NETWORK_ERROR:
-          console.log("[Player][HLS] NETWORK_ERROR", data);
-          if (isLive) {
-            if (data.details === "manifestLoadError") {
-              if (retryCountRef.current < maxRetries) {
-                // Clear any existing retry timeout
-                if (retryTimeoutRef.current) {
-                  clearTimeout(retryTimeoutRef.current);
-                }
-
-                retryCountRef.current += 1;
-
-                retryTimeoutRef.current = setTimeout(() => {
-                  if (hlsRef.current) {
-                    try {
-                      console.log("[Player][HLS] Retrying stream...");
-                      hlsRef.current.loadSource(url);
-                    } catch (error) {
-                      console.error("[Player][HLS] Retry failed:", error);
-                    }
+      if (data.fatal) {
+        switch (data.type) {
+          case Hls.ErrorTypes.NETWORK_ERROR:
+            console.log("[Player][HLS] NETWORK_ERROR", data);
+            if (isLive) {
+              if (data.details === "manifestLoadError") {
+                if (retryCountRef.current < maxRetries) {
+                  // Clear any existing retry timeout
+                  if (retryTimeoutRef.current) {
+                    clearTimeout(retryTimeoutRef.current);
                   }
-                }, retryDelayMs);
+
+                  retryCountRef.current += 1;
+
+                  retryTimeoutRef.current = setTimeout(() => {
+                    if (hlsRef.current) {
+                      try {
+                        console.log("[Player][HLS] Retrying stream...");
+                        hlsRef.current.loadSource(url);
+                      } catch (error) {
+                        console.error("[Player][HLS] Retry failed:", error);
+                      }
+                    }
+                  }, retryDelayMs);
+                }
+                setError({
+                  message: "Live event will be back shortly.",
+                  code: "MANIFEST_LOAD_ERROR",
+                  tech: "hls",
+                });
               }
-              setError({
-                message: "Live event will be back shortly.",
-                code: "MANIFEST_LOAD_ERROR",
-                tech: "hls",
-              });
+            } else {
+              hlsRef.current.startLoad();
             }
-          } else {
-            hlsRef.current.startLoad();
-          }
-          break;
-        case Hls.ErrorTypes.MEDIA_ERROR:
-          hlsRef.current.recoverMediaError();
-          break;
-        default:
-          break;
+            break;
+          case Hls.ErrorTypes.MEDIA_ERROR:
+            hlsRef.current.recoverMediaError();
+            break;
+          default:
+            break;
+        }
       }
     },
     [isLive, url, setError]
@@ -142,19 +145,20 @@ function PlayerHlsEngine({ url, isLive }: PlayerHlsEngineProps) {
   const prepareHls = useCallback(() => {
     if (!techRef.current) return;
 
-    const liveConfig = {
-      backBufferLength: 10,
+    let config = {
       startLevel: -1,
       maxBufferSize: 30 * 1024 * 1024, // 30MB
     } as HlsConfig;
 
-    const vodConfig = {
-      backBufferLength: 60,
-      startLevel: -1,
-      maxBufferSize: 30 * 1024 * 1024, // 30MB
-    } as HlsConfig;
-
-    const config = isLive ? liveConfig : vodConfig;
+    //  https://github.com/video-dev/hls.js/issues/6562#issuecomment-2246671007
+    if (isTizenBrowser) {
+      config.backBufferLength = -1;
+      config.enableWorker = false;
+    } else if (isLive) {
+      config.backBufferLength = 10;
+    } else {
+      config.backBufferLength = 60;
+    }
 
     try {
       console.log("[Player][HLS] URL", url);
