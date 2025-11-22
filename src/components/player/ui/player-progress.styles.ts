@@ -10,7 +10,6 @@ const TipContainer = styled.div<{ $isVisible: boolean }>`
   position: absolute;
   bottom: 1.5rem;
   left: 0;
-  width: 3.25rem;
   z-index: 10;
   pointer-events: none;
   user-select: none;
@@ -22,7 +21,7 @@ const TipContainer = styled.div<{ $isVisible: boolean }>`
 
 const TipContent = styled.p`
   margin: 0;
-  padding: 0.25rem;
+  padding: 0.25rem 0.5rem;
   font-variant-numeric: tabular-nums;
   font-size: 0.8125rem;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
