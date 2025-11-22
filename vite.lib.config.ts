@@ -35,8 +35,6 @@ export default defineConfig({
         "hls.js",
         "mitt",
         "zustand",
-        "date-fns",
-        "date-fns-tz",
       ],
       output: {
         globals: {
@@ -47,8 +45,6 @@ export default defineConfig({
           "hls.js": "Hls",
           mitt: "Mitt",
           zustand: "zustand",
-          "date-fns": "dateFns",
-          "date-fns-tz": "dateFnsTz",
         },
         assetFileNames: "style.css",
       },
