@@ -14,6 +14,9 @@ function useMediaQuery(
   }: UseMediaQueryOptions = {}
 ): boolean {
   const getMatches = (query: string): boolean => {
+    if (typeof window === "undefined") {
+      return defaultValue;
+    }
     return window.matchMedia(query).matches;
   };
 
@@ -30,6 +33,10 @@ function useMediaQuery(
   }
 
   useIsomorphicLayoutEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
     const matchMedia = window.matchMedia(query);
 
     // Triggered at the first client-side load and if query changes
