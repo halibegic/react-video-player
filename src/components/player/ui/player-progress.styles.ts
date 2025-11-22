@@ -10,7 +10,7 @@ const TipContainer = styled.div<{ $isVisible: boolean }>`
   position: absolute;
   bottom: 1.5rem;
   left: 0;
-  width: 3rem;
+  width: 3.25rem;
   z-index: 10;
   pointer-events: none;
   user-select: none;
