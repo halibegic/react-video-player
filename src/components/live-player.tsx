@@ -9,20 +9,7 @@ import { LivePlayerProgress } from "@/components/live-player/ui/live-player-prog
 import { LivePlayerStartOver } from "@/components/live-player/ui/live-player-start-over";
 import { PlayerErrorNotice } from "@/components/player/player-error-check";
 import { PlayerEventListener } from "@/components/player/player-event-listener";
-import {
-  ControlsBottom,
-  ControlsBottomClassName,
-  ControlsContainer,
-  ControlsContainerClassName,
-  ControlsRow,
-  ControlsRowClassName,
-  ControlsSectionEnd,
-  ControlsSectionEndClassName,
-  ControlsSectionStart,
-  ControlsSectionStartClassName,
-  PlayerContainer,
-  PlayerContainerClassName,
-} from "@/components/player/ui/player-controls.styles";
+import styles from "@/components/player/ui/player-controls.module.css";
 import { PlayerFullscreen } from "@/components/player/ui/player-fullscreen";
 import { PlayerIdleCheck } from "@/components/player/ui/player-idle-check";
 import { PlayerLoading } from "@/components/player/ui/player-loading";
@@ -58,7 +45,7 @@ function Player({ url, messages, onEvent }: LivePlayerProps) {
   return (
     <div
       ref={containerRef as RefObject<HTMLDivElement>}
-      className={PlayerContainerClassName}
+      className={styles.playerContainer}
     >
       <LivePlayerEventCheck
         url={url}
@@ -71,16 +58,16 @@ function Player({ url, messages, onEvent }: LivePlayerProps) {
         <PlayerLoading />
         <PlayerIdleCheck>
           {isDesktop ? <LivePlayerDesktopPlaybackIndicator /> : null}
-          <div className={ControlsBottomClassName}>
-            <div className={ControlsContainerClassName}>
+          <div className={styles.controlsBottom}>
+            <div className={styles.controlsContainer}>
               <LivePlayerProgress />
-              <div className={ControlsRowClassName}>
-                <div className={ControlsSectionStartClassName}>
+              <div className={styles.controlsRow}>
+                <div className={`${styles.controlsSection} ${styles.controlsSectionStart}`}>
                   <LivePlayerPlayback />
                   <LivePlayerStartOver />
                   <PlayerVolume />
                 </div>
-                <div className={ControlsSectionEndClassName}>
+                <div className={`${styles.controlsSection} ${styles.controlsSectionEnd}`}>
                   <LivePlayerGoLive message={messages?.live} />
                   <PlayerQualityControl />
                   <PlayerFullscreen />

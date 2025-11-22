@@ -1,13 +1,4 @@
-import {
-  ProgressSlider,
-  ProgressSliderClassName,
-  TipContainer,
-  TipContainerClassName,
-  TipContainerVisibleClassName,
-  TipContainerHiddenClassName,
-  TipContent,
-  TipContentClassName,
-} from "@/components/player/ui/player-progress.styles";
+import styles from "@/components/player/ui/player-progress.module.css";
 import { PlayerSlider } from "@/components/player/ui/player-slider";
 import { usePlayerStore } from "@/stores/player-store";
 import { formatTime } from "@/utils/date-time";
@@ -87,7 +78,7 @@ function VodPlayerProgress() {
   );
 
   return (
-    <div className={ProgressSliderClassName}>
+    <div className={styles.progressSlider}>
       <PlayerSlider
         ref={sliderRef}
         value={[progress]}
@@ -100,11 +91,13 @@ function VodPlayerProgress() {
       />
       <div
         ref={tipRef}
-        className={`${TipContainerClassName} ${
-          isTipVisible ? TipContainerVisibleClassName : TipContainerHiddenClassName
+        className={`${styles.tipContainer} ${
+          isTipVisible
+            ? styles.tipContainerVisible
+            : styles.tipContainerHidden
         }`}
       >
-        <p className={TipContentClassName}>{formatTime(tipTime)}</p>
+        <p className={styles.tipContent}>{formatTime(tipTime)}</p>
       </div>
     </div>
   );

@@ -1,14 +1,15 @@
 .liveIndicator {
+  margin-right: 0.5rem;
   width: 0.4rem;
   height: 0.4rem;
   border-radius: 0.2rem;
-  transition: background 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .liveIndicatorHasDelay {
-  background: gray;
+  background-color: gray;
 }
 
 .liveIndicatorNoDelay {
-  background: red;
+  background-color: red;
 }

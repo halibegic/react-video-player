@@ -1,13 +1,4 @@
-import {
-  ProgressSlider,
-  ProgressSliderClassName,
-  TipContainer,
-  TipContainerClassName,
-  TipContainerVisibleClassName,
-  TipContainerHiddenClassName,
-  TipContent,
-  TipContentClassName,
-} from "@/components/player/ui/player-progress.styles";
+import styles from "@/components/player/ui/player-progress.module.css";
 import { PlayerSlider } from "@/components/player/ui/player-slider";
 import { useInterval } from "@/hooks/use-interval";
 import { useLivePlayerStore } from "@/stores/live-player-store";
@@ -113,7 +104,7 @@ function LivePlayerProgress() {
   }, [calculateTime]);
 
   return (
-    <div className={ProgressSliderClassName}>
+    <div className={styles.progressSlider}>
       <PlayerSlider
         ref={sliderRef}
         value={[progress]}
@@ -126,11 +117,13 @@ function LivePlayerProgress() {
       />
       <div
         ref={tipRef}
-        className={`${TipContainerClassName} ${
-          isTipVisible ? TipContainerVisibleClassName : TipContainerHiddenClassName
+        className={`${styles.tipContainer} ${
+          isTipVisible
+            ? styles.tipContainerVisible
+            : styles.tipContainerHidden
         }`}
       >
-        <p className={TipContentClassName}>{`-${formatTime(tipTime)}`}</p>
+        <p className={styles.tipContent}>{`-${formatTime(tipTime)}`}</p>
       </div>
     </div>
   );

@@ -7,8 +7,8 @@ type PlayerButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const PlayerButton = forwardRef<HTMLButtonElement, PlayerButtonProps>(
   ({ shape = "circle", className, ...props }, ref) => {
-    const shapeClass = shape === "circle" ? styles.buttonCircle : "";
-    const combinedClassName = [styles.button, shapeClass, className]
+    const shapeClass = shape === "circle" ? styles.playerButtonCircle : "";
+    const combinedClassName = [styles.playerButton, shapeClass, className]
       .filter(Boolean)
       .join(" ");
 

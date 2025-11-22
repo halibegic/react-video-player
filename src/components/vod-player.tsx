@@ -2,20 +2,7 @@ import { PlayerErrorNotice } from "@/components/player/player-error-check";
 import { PlayerEventListener } from "@/components/player/player-event-listener";
 import { PlayerProvider } from "@/components/player/player-provider";
 import { PlayerTech } from "@/components/player/player-tech";
-import {
-  ControlsBottom,
-  ControlsBottomClassName,
-  ControlsContainer,
-  ControlsContainerClassName,
-  ControlsRow,
-  ControlsRowClassName,
-  ControlsSectionEnd,
-  ControlsSectionEndClassName,
-  ControlsSectionStart,
-  ControlsSectionStartClassName,
-  PlayerContainer,
-  PlayerContainerClassName,
-} from "@/components/player/ui/player-controls.styles";
+import styles from "@/components/player/ui/player-controls.module.css";
 import { PlayerFullscreen } from "@/components/player/ui/player-fullscreen";
 import { PlayerIdleCheck } from "@/components/player/ui/player-idle-check";
 import { PlayerLoading } from "@/components/player/ui/player-loading";
@@ -56,23 +43,23 @@ function Player({ url, onEvent, startTime }: VodPlayerProps) {
   return (
     <div
       ref={containerRef as RefObject<HTMLDivElement>}
-      className={PlayerContainerClassName}
+      className={styles.playerContainer}
     >
       <PlayerTech url={url} isLive={false} />
       <PlayerErrorNotice />
       <PlayerLoading />
       <PlayerIdleCheck>
         {isDesktop ? <VodPlayerDesktopPlaybackIndicator /> : null}
-        <div className={ControlsBottomClassName}>
-          <div className={ControlsContainerClassName}>
+        <div className={styles.controlsBottom}>
+          <div className={styles.controlsContainer}>
             <VodPlayerProgress />
-            <div className={ControlsRowClassName}>
-              <div className={ControlsSectionStartClassName}>
+            <div className={styles.controlsRow}>
+              <div className={`${styles.controlsSection} ${styles.controlsSectionStart}`}>
                 <VodPlayerPlayback />
                 <PlayerVolume />
                 <VodPlayerRemainingTime />
               </div>
-              <div className={ControlsSectionEndClassName}>
+              <div className={`${styles.controlsSection} ${styles.controlsSectionEnd}`}>
                 <PlayerQualityControl />
                 <PlayerFullscreen />
               </div>

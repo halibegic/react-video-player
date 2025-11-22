@@ -55,7 +55,7 @@ function PlayerTech({ url, isLive, isMuted = false }: PlayerTechProps) {
       <PlayerHlsEngine isLive={isLive} url={url} />
       <video
         ref={techRef as RefObject<HTMLVideoElement>}
-        className={styles.video}
+        className={styles.playerVideo}
         playsInline
         autoPlay
         controls={false}

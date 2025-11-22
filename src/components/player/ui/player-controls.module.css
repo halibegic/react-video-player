@@ -69,7 +69,10 @@
   display: flex;
   flex: 1;
   align-items: center;
-  gap: 0.5rem;
+}
+
+.controlsSection > :not(:last-child) {
+  margin-right: 0.5rem;
 }
 
 .controlsSectionStart {
