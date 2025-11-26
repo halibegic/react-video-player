@@ -1,18 +1,13 @@
 import { usePlayerStore } from "@/stores/player-store";
-import {
-  PropsWithChildren,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { PropsWithChildren, useCallback, useEffect, useRef } from "react";
 import styles from "./player-idle-check.module.css";
 
 const HideTimeout = 5 * 1000;
 
 function PlayerIdleCheck({ children }: PropsWithChildren) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isIdle, setIsIdle] = useState<boolean>(false);
+  const isIdle = usePlayerStore((s) => s.isIdle);
+  const setIsIdle = usePlayerStore((s) => s.setIsIdle);
   const timerRef = useRef<number | null>(null);
   const idleLocks = usePlayerStore((s) => s.idleLocks);
   const isLocked = idleLocks.size;
@@ -72,7 +67,9 @@ function PlayerIdleCheck({ children }: PropsWithChildren) {
 
   const isIdleState = isIdle && !isLocked;
   const containerClassName = `${styles.idleCheckContainer} ${
-    isIdleState ? styles.idleCheckContainerIdle : styles.idleCheckContainerActive
+    isIdleState
+      ? styles.idleCheckContainerIdle
+      : styles.idleCheckContainerActive
   }`;
 
   return (
