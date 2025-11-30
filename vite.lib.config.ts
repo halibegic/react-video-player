@@ -40,7 +40,7 @@ export default defineConfig({
         globals: {
           react: "React",
           "react-dom": "ReactDOM",
-          "@radix-ui/react-dropdown-menu": "RadixUIDropdownMenu",
+          "@radix-ui/react-dropdown-menu": "RadixUIMenu",
           "@radix-ui/react-slider": "RadixUISlider",
           "hls.js": "Hls",
           mitt: "Mitt",

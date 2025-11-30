@@ -2,12 +2,12 @@ import { CheckIcon } from "@/components/icons/check-icon";
 import { HdIcon } from "@/components/icons/hd-icon";
 import { PlayerButton } from "@/components/player/ui/player-button";
 import {
-  PlayerDropdownMenu,
-  PlayerDropdownMenuContent,
-  PlayerDropdownMenuItem,
-  PlayerDropdownMenuPortal,
-  PlayerDropdownMenuTrigger,
-} from "@/components/player/ui/player-dropdown";
+  PlayerMenu,
+  PlayerMenuContent,
+  PlayerMenuItem,
+  PlayerMenuPortal,
+  PlayerMenuTrigger,
+} from "@/components/player/ui/player-menu";
 import { usePlayerStore } from "@/stores/player-store";
 import { useCallback, useState } from "react";
 
@@ -35,26 +35,26 @@ function PlayerQualityControl() {
   );
 
   return (
-    <PlayerDropdownMenu open={isOpen} onOpenChange={handleIsOpen}>
-      <PlayerDropdownMenuTrigger asChild>
+    <PlayerMenu open={isOpen} onOpenChange={handleIsOpen}>
+      <PlayerMenuTrigger asChild>
         <PlayerButton>
           <HdIcon />
         </PlayerButton>
-      </PlayerDropdownMenuTrigger>
-      <PlayerDropdownMenuPortal container={containerRef.current}>
-        <PlayerDropdownMenuContent side="top" align="end">
+      </PlayerMenuTrigger>
+      <PlayerMenuPortal container={containerRef.current}>
+        <PlayerMenuContent side="top" align="end">
           {levels?.map((level) => (
-            <PlayerDropdownMenuItem
+            <PlayerMenuItem
               key={level.sid}
               onClick={() => setLevel(level.value)}
             >
               {level.label}
               {level.selected && <CheckIcon />}
-            </PlayerDropdownMenuItem>
+            </PlayerMenuItem>
           ))}
-        </PlayerDropdownMenuContent>
-      </PlayerDropdownMenuPortal>
-    </PlayerDropdownMenu>
+        </PlayerMenuContent>
+      </PlayerMenuPortal>
+    </PlayerMenu>
   );
 }
 

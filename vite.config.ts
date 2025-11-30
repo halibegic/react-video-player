@@ -19,7 +19,8 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ["react", "react-dom"],
-          "@radix-ui/react-dropdown-menu": ["@radix-ui/react-dropdown-menu"],
+          "@radix-ui/react-popover": ["@radix-ui/react-popover"],
+          "@radix-ui/react-scroll-area": ["@radix-ui/react-scroll-area"],
           "@radix-ui/react-slider": ["@radix-ui/react-slider"],
           hls: ["hls.js"],
           mitt: ["mitt"],
@@ -32,7 +33,8 @@ export default defineConfig({
     include: [
       "react",
       "react-dom",
-      "@radix-ui/react-dropdown-menu",
+      "@radix-ui/react-popover",
+      "@radix-ui/react-scroll-area",
       "@radix-ui/react-slider",
       "hls.js",
       "mitt",
