@@ -15,8 +15,6 @@ function PlayerEventListener({ callback }: PlayerEventListenerProps) {
     const handleEnded = () => callback("ended", undefined);
     const handleSeeking = () => callback("seeking", undefined);
     const handleSeeked = () => callback("seeked", undefined);
-    const handleTimeUpdate = (data: PlayerEvents["timeUpdate"]) =>
-      callback("timeUpdate", data);
     const handleVolumeChange = (data: PlayerEvents["volumeChange"]) =>
       callback("volumeChange", data);
     const handleFullscreenChange = (data: PlayerEvents["fullscreenChange"]) =>
@@ -35,7 +33,6 @@ function PlayerEventListener({ callback }: PlayerEventListenerProps) {
     eventEmitter.on("ended", handleEnded);
     eventEmitter.on("seeking", handleSeeking);
     eventEmitter.on("seeked", handleSeeked);
-    eventEmitter.on("timeUpdate", handleTimeUpdate);
     eventEmitter.on("volumeChange", handleVolumeChange);
     eventEmitter.on("fullscreenChange", handleFullscreenChange);
     eventEmitter.on("qualityChange", handleQualityChange);
@@ -51,7 +48,6 @@ function PlayerEventListener({ callback }: PlayerEventListenerProps) {
       eventEmitter.off("ended", handleEnded);
       eventEmitter.off("seeking", handleSeeking);
       eventEmitter.off("seeked", handleSeeked);
-      eventEmitter.off("timeUpdate", handleTimeUpdate);
       eventEmitter.off("volumeChange", handleVolumeChange);
       eventEmitter.off("fullscreenChange", handleFullscreenChange);
       eventEmitter.off("qualityChange", handleQualityChange);
@@ -67,3 +63,4 @@ function PlayerEventListener({ callback }: PlayerEventListenerProps) {
 }
 
 export { PlayerEventListener };
+export type { PlayerEventListenerProps };

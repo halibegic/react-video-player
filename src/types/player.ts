@@ -15,20 +15,21 @@ type PlayerLevel = {
 };
 
 type PlayerEvents = {
-  play: void;
-  pause: void;
   ended: void;
-  seeking: void;
-  seeked: void;
-  timeUpdate: { currentTime: number; duration: number };
-  volumeChange: { volume: number };
+  error: unknown;
   fullscreenChange: { isFullscreen: boolean };
-  qualityChange: { level: number | null };
   loadedMetadata: { duration: number };
   loadStart: void;
+  pause: void;
+  play: void;
   playing: void;
+  qualityChange: { level: number | null };
+  resetIdle: void;
+  seeked: void;
+  seeking: void;
+  timeUpdate: { currentTime: number; duration: number };
+  volumeChange: { volume: number };
   waiting: void;
-  error: unknown;
 };
 
 export type { PlayerError, PlayerEvents, PlayerLevel };

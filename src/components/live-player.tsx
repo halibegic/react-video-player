@@ -1,21 +1,20 @@
 import { LivePlayerEventCheck } from "@/components/live-player/live-player-event-check";
+import { LivePlayerEventListener } from "@/components/live-player/live-player-event-listener";
 import { LivePlayerKeyboard } from "@/components/live-player/live-player-keyboard";
 import { LivePlayerProvider } from "@/components/live-player/live-player-provider";
 import { LivePlayerTech } from "@/components/live-player/live-player-tech";
-import { LivePlayerDesktopPlaybackIndicator } from "@/components/live-player/ui/live-player-desktop-playback-indicator";
+import { LivePlayerGestures } from "@/components/live-player/ui/live-player-gestures";
 import { LivePlayerGoLive } from "@/components/live-player/ui/live-player-go-live";
 import { LivePlayerPlayback } from "@/components/live-player/ui/live-player-playback";
 import { LivePlayerProgress } from "@/components/live-player/ui/live-player-progress";
 import { LivePlayerStartOver } from "@/components/live-player/ui/live-player-start-over";
 import { PlayerErrorNotice } from "@/components/player/player-error-check";
-import { PlayerEventListener } from "@/components/player/player-event-listener";
 import styles from "@/components/player/ui/player-controls.module.css";
 import { PlayerFullscreen } from "@/components/player/ui/player-fullscreen";
 import { PlayerIdleCheck } from "@/components/player/ui/player-idle-check";
 import { PlayerLoading } from "@/components/player/ui/player-loading";
 import { PlayerQualityControl } from "@/components/player/ui/player-quality-control";
 import { PlayerVolume } from "@/components/player/ui/player-volume";
-import { useMediaQuery } from "@/hooks/use-media-query";
 import { usePlayerStore } from "@/stores/player-store";
 import { RefObject } from "react";
 
@@ -39,7 +38,6 @@ function LivePlayer(props: LivePlayerProps) {
 }
 
 function Player({ url, messages, onEvent }: LivePlayerProps) {
-  const isDesktop = useMediaQuery("(min-width: 1024px)");
   const containerRef = usePlayerStore((s) => s.containerRef);
 
   return (
@@ -63,7 +61,7 @@ function Player({ url, messages, onEvent }: LivePlayerProps) {
         <PlayerErrorNotice />
         <PlayerLoading />
         <PlayerIdleCheck>
-          {isDesktop ? <LivePlayerDesktopPlaybackIndicator /> : null}
+          <LivePlayerGestures />
           <div className={styles.controlsBottom}>
             <div className={styles.controlsContainer}>
               <LivePlayerProgress />
@@ -88,7 +86,7 @@ function Player({ url, messages, onEvent }: LivePlayerProps) {
         </PlayerIdleCheck>
       </LivePlayerEventCheck>
       <LivePlayerKeyboard />
-      {onEvent && <PlayerEventListener callback={onEvent} />}
+      {onEvent && <LivePlayerEventListener callback={onEvent} />}
     </div>
   );
 }

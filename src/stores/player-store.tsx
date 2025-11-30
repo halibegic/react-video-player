@@ -63,6 +63,20 @@ type PlaybackActions = {
 
 type PlaybackSlice = PlaybackState & PlaybackActions;
 
+// Idle slice
+
+type IdleState = {
+  isIdle: boolean;
+  resetIdle: () => void;
+};
+
+type IdleActions = {
+  setIsIdle: (isIdle: boolean) => void;
+  resetIdle: () => void;
+};
+
+type IdleSlice = IdleState & IdleActions;
+
 // Idle lock slice
 
 type IdleLockState = {
@@ -136,6 +150,7 @@ type EventEmitterState = {
 type EventEmitterSlice = EventEmitterState;
 
 type PlayerStore = PlaybackSlice &
+  IdleSlice &
   IdleLockSlice &
   QualitySlice &
   FullscreenSlice &
@@ -429,6 +444,19 @@ const createPlaybackSlice: StateCreator<
   },
 });
 
+// Idle slice creator
+
+const createIdleSlice: StateCreator<
+  IdleSlice & EventEmitterSlice,
+  [],
+  [],
+  IdleSlice
+> = (set, get) => ({
+  isIdle: false,
+  setIsIdle: (isIdle) => set({ isIdle }),
+  resetIdle: () => get().eventEmitter.emit("resetIdle"),
+});
+
 // Idle lock slice creator
 
 const createIdleLockSlice: StateCreator<
@@ -540,6 +568,7 @@ const createPlayerStore = (
 ) =>
   create<PlayerStore>()((...a) => ({
     ...createPlaybackSlice(...a),
+    ...createIdleSlice(...a),
     ...createIdleLockSlice(...a),
     ...createFullscreenSlice(...a),
     ...createQualitySlice(...a),

@@ -7,9 +7,9 @@
 }
 
 .liveIndicatorHasDelay {
-  background-color: gray;
+  background: gray;
 }
 
 .liveIndicatorNoDelay {
-  background-color: red;
+  background: red;
 }
