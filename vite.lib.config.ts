@@ -30,7 +30,8 @@ export default defineConfig({
       external: [
         "react",
         "react-dom",
-        "@radix-ui/react-dropdown-menu",
+        "@radix-ui/react-popover",
+        "@radix-ui/react-scroll-area",
         "@radix-ui/react-slider",
         "hls.js",
         "mitt",
@@ -40,7 +41,8 @@ export default defineConfig({
         globals: {
           react: "React",
           "react-dom": "ReactDOM",
-          "@radix-ui/react-dropdown-menu": "RadixUIMenu",
+          "@radix-ui/react-popover": "RadixUIPopover",
+          "@radix-ui/react-scroll-area": "RadixUIScrollArea",
           "@radix-ui/react-slider": "RadixUISlider",
           "hls.js": "Hls",
           mitt: "Mitt",
