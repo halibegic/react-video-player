@@ -6,6 +6,7 @@ type LivePlayerTechProps = {
   url: string;
   messages?: {
     eventFinished?: string;
+    unableToPlay?: string;
   };
 };
 

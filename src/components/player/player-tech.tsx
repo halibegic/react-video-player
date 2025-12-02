@@ -9,6 +9,7 @@ type PlayerTechProps = {
   isMuted?: boolean;
   messages?: {
     eventFinished?: string;
+    unableToPlay?: string;
   };
 };
 

@@ -41,6 +41,7 @@ function App() {
 | ----------- | ---------------------------------------- | ------------------------------------------------------- | ------- |
 | `url`       | `string`                                 | The vod stream URL                                      | -       |
 | `startTime` | `number`                                 | (Optional) Start time in seconds to begin playback from | -       |
+| `messages`  | `{ unableToPlay?: string }`              | (Optional) Custom message for unable to play errors     | -       |
 | `onEvent`   | `(event: string, data: unknown) => void` | (Optional) Event handler callback for player events     | -       |
 
 **Example with `startTime`:**
@@ -51,6 +52,24 @@ import { VodPlayer } from "@halibegic/react-video-player";
 
 function App() {
   return <VodPlayer url="https://example.com/vod.m3u8" startTime={10} />;
+}
+```
+
+**Example with custom `unableToPlay` message:**
+
+```tsx
+import "@halibegic/react-video-player/style.css";
+import { VodPlayer } from "@halibegic/react-video-player";
+
+function App() {
+  return (
+    <VodPlayer
+      url="https://example.com/vod.m3u8"
+      messages={{
+        unableToPlay: "Video cannot be played. Please try again later.",
+      }}
+    />
+  );
 }
 ```
 
@@ -69,6 +88,7 @@ function App() {
         eventFinished: "Live stream je završen.",
         eventStartingSoon: "Počinje za nekoliko sekundi...",
         live: "Uživo",
+        unableToPlay: "Stream ne može biti reprodukovan. Molimo pokušajte kasnije.",
       }}
     />
   );
@@ -79,7 +99,7 @@ function App() {
 | ---------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | `url`      | `string`                                                                                         | The live stream URL                                                                        | -                                                                                                                                              |
 | `onEvent`  | `(event: string, data: unknown) => void`                                                         | (Optional) Event handler callback for player events                                        | -                                                                                                                                              |
-| `messages` | `{ eventNotStarted: string; eventFinished: string; eventStartingSoon?: string; live?: string; }` | (Optional) Custom messages for event not started, finished, starting soon, and live states | `{ eventNotStarted: "Event has not started yet.", eventFinished: "Event has finished.", eventStartingSoon: "Starting soon...", live: "Live" }` |
+| `messages` | `{ eventNotStarted: string; eventFinished: string; eventStartingSoon?: string; live?: string; unableToPlay?: string; }` | (Optional) Custom messages for event not started, finished, starting soon, live states, and unable to play errors | `{ eventNotStarted: "Event has not started yet.", eventFinished: "Event has finished.", eventStartingSoon: "Starting soon...", live: "Live" }` |
 
 ## Keyboard Shortcuts
 

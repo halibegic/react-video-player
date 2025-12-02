@@ -6,8 +6,14 @@ function PlayerErrorNotice() {
 
   if (!error) return null;
 
+  const isLiveManifestError = error.code === "LIVE_MANIFEST_LOAD_ERROR";
+
   return (
-    <div className={styles.playerNotice}>
+    <div
+      className={`${styles.playerNotice} ${
+        isLiveManifestError ? styles.playerNoticeLowZIndex : ""
+      }`}
+    >
       <h3 className={styles.playerNoticeTitle}>{error.message}</h3>
     </div>
   );

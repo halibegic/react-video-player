@@ -31,3 +31,7 @@
     "Helvetica Neue", Arial, sans-serif;
   font-weight: 500;
 }
+
+.playerNoticeLowZIndex {
+  z-index: 5;
+}

@@ -9,6 +9,7 @@ type PlayerHlsEngineProps = {
   isLive: boolean;
   messages?: {
     eventFinished?: string;
+    unableToPlay?: string;
   };
 };
 
@@ -126,13 +127,19 @@ function PlayerHlsEngine({ url, isLive, messages }: PlayerHlsEngineProps) {
                 }
                 setError({
                   message:
-                    messages?.eventFinished ??
-                    "Live event will be back shortly.",
-                  code: "MANIFEST_LOAD_ERROR",
+                    messages?.eventFinished ?? "Live event will be back shortly.",
+                  code: "LIVE_MANIFEST_LOAD_ERROR",
                   tech: "hls",
                 });
               }
             } else {
+              setError({
+                message:
+                  messages?.unableToPlay ??
+                  "Unable to play the video. Please try again later.",
+                code: "NETWORK_ERROR",
+                tech: "hls",
+              });
               hlsRef.current.startLoad();
             }
             break;

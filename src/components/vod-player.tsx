@@ -19,6 +19,9 @@ import { RefObject, useEffect } from "react";
 type VodPlayerProps = {
   url: string;
   startTime?: number;
+  messages?: {
+    unableToPlay: string;
+  };
   onEvent?: (event: string, data: unknown) => void;
 };
 
@@ -30,7 +33,7 @@ function VodPlayer(props: VodPlayerProps) {
   );
 }
 
-function Player({ url, onEvent, startTime }: VodPlayerProps) {
+function Player({ url, messages, onEvent, startTime }: VodPlayerProps) {
   const setStartTime = usePlayerStore((s) => s.setStartTime);
   const containerRef = usePlayerStore((s) => s.containerRef);
 
@@ -43,7 +46,7 @@ function Player({ url, onEvent, startTime }: VodPlayerProps) {
       ref={containerRef as RefObject<HTMLDivElement>}
       className={styles.playerContainer}
     >
-      <PlayerTech url={url} isLive={false} />
+      <PlayerTech url={url} isLive={false} messages={messages} />
       <PlayerErrorNotice />
       <PlayerLoading />
       <PlayerIdleCheck>

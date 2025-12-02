@@ -25,6 +25,7 @@ type LivePlayerProps = {
     eventNotStarted: string;
     eventStartingSoon: string;
     live: string;
+    unableToPlay: string;
   };
   onEvent?: (event: string, data: unknown) => void;
 };
