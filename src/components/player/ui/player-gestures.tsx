@@ -234,15 +234,16 @@ function MobileGesture({
           } else {
             onForwardSeek?.(accumulatedTime);
           }
-          // Reset accumulation
-          accumulatedSeekRef.current = 0;
-          seekDirectionRef.current = null;
-          lastTapRef.current = null;
-          // Hide indicator
-          hideSeekIndicator();
           // Reset idle timer after seek completes
           resetIdle();
         }
+        // Always reset accumulation state (even if accumulatedTime is 0)
+        // to prevent the state machine from getting stuck
+        accumulatedSeekRef.current = 0;
+        seekDirectionRef.current = null;
+        lastTapRef.current = null;
+        // Hide indicator
+        hideSeekIndicator();
         timersRef.current.accumulate = null;
       }, 500);
 
@@ -287,6 +288,9 @@ function MobileGesture({
     direction: "forward" | "backward",
     time: number
   ) => {
+    // Don't show indicator if time is 0
+    if (time === 0) return;
+
     setSeekIndicator({ visible: true, direction, time });
 
     // Clear any existing timeout
