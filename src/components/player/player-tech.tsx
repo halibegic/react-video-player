@@ -38,7 +38,10 @@ function PlayerTech({
   const handleNonLiveHandlers = (): Partial<
     VideoHTMLAttributes<HTMLVideoElement>
   > => {
-    if (isLive) return {};
+    if (isLive)
+      return {
+        onTimeUpdate: handleThrottledTimeUpdate,
+      };
 
     return {
       onDurationChange: handleDurationChange,
