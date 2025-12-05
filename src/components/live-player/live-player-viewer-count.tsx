@@ -1,5 +1,6 @@
 import { useInterval } from "@/hooks/use-interval";
 import { useLivePlayerStore } from "@/stores/live-player-store";
+import { usePlayerStore } from "@/stores/player-store";
 import { useEffect, useRef } from "react";
 
 type LivePlayerViewerCountProps = {
@@ -7,6 +8,14 @@ type LivePlayerViewerCountProps = {
 };
 
 function LivePlayerViewerCount({ url }: LivePlayerViewerCountProps) {
+  const isStarted = usePlayerStore((s) => s.isStarted);
+
+  if (!isStarted) return null;
+
+  return <ViewerCount url={url} />;
+}
+
+function ViewerCount({ url }: LivePlayerViewerCountProps) {
   const setViewerCount = useLivePlayerStore((s) => s.setViewerCount);
   const abortRef = useRef<AbortController | null>(null);
 
