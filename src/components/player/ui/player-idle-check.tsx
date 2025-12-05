@@ -37,52 +37,6 @@ function PlayerIdleCheck({ children }: PropsWithChildren) {
   }, [clearTimer, startTimer]);
 
   useEffect(() => {
-    const element = containerRef.current;
-
-    if (!element) return;
-
-    const handleClick = (event: MouseEvent) => {
-      if (isIdle) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        setIsIdle(false);
-
-        startTimer();
-      }
-    };
-
-    const handleTouchStart = (event: TouchEvent) => {
-      if (isIdle) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        setIsIdle(false);
-
-        startTimer();
-      }
-    };
-
-    const handleMove = () => {
-      if (isIdle) setIsIdle(false);
-
-      startTimer();
-    };
-
-    element.addEventListener("click", handleClick);
-    element.addEventListener("touchstart", handleTouchStart, {
-      passive: false,
-    });
-    element.addEventListener("mousemove", handleMove);
-
-    return () => {
-      element.removeEventListener("click", handleClick);
-      element.removeEventListener("touchstart", handleTouchStart);
-      element.removeEventListener("mousemove", handleMove);
-    };
-  }, [containerRef, isIdle, setIsIdle, startTimer]);
-
-  useEffect(() => {
     const handleResetIdle = () => {
       setIsIdle(false);
 

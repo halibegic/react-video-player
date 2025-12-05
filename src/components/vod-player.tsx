@@ -49,8 +49,8 @@ function Player({ url, messages, onEvent, startTime }: VodPlayerProps) {
       <PlayerTech url={url} isLive={false} messages={messages} />
       <PlayerErrorNotice />
       <PlayerLoading />
+      <VodPlayerGestures />
       <PlayerIdleCheck>
-        <VodPlayerGestures />
         <div className={styles.controlsBottom}>
           <div className={styles.controlsContainer}>
             <VodPlayerProgress />

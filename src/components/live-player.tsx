@@ -63,8 +63,8 @@ function Player({ url, messages, onEvent }: LivePlayerProps) {
         />
         <PlayerErrorNotice />
         <PlayerLoading />
+        <LivePlayerGestures />
         <PlayerIdleCheck>
-          <LivePlayerGestures />
           <div className={styles.controlsTop}>
             <div className={styles.controlsContainer}>
               <div className={styles.controlsRow}>

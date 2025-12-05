@@ -57,6 +57,7 @@ function DesktopGesture({ className, onClick, ...props }: DesktopGestureProps) {
   const exitFullscreen = usePlayerStore((s) => s.exitFullscreen);
   const isFullscreen = usePlayerStore((s) => s.isFullscreen);
   const requestFullscreen = usePlayerStore((s) => s.requestFullscreen);
+  const resetIdle = usePlayerStore((s) => s.resetIdle);
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     if (isDoubleClickTimerActive()) {
@@ -84,6 +85,10 @@ function DesktopGesture({ className, onClick, ...props }: DesktopGestureProps) {
 
   const isDoubleClickTimerActive = () => doubleClickTimerRef.current !== null;
 
+  const handleMouseMove = () => {
+    resetIdle();
+  };
+
   useEffect(() => {
     return () => {
       clearDoubleClickTimer();
@@ -93,6 +98,7 @@ function DesktopGesture({ className, onClick, ...props }: DesktopGestureProps) {
   return (
     <button
       onClick={handleClick}
+      onMouseMove={handleMouseMove}
       className={[styles.playbackButton, className].filter(Boolean).join(" ")}
       aria-label="Player gestures"
       {...props}
