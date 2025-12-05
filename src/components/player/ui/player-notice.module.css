@@ -12,12 +12,14 @@
   text-align: center;
   color: white;
   background: black;
+  pointer-events: none;
+  user-select: none;
 }
 
 .playerNoticeTitle {
   margin: 0;
   padding: 0.5rem 0;
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
   font-weight: 500;
@@ -26,7 +28,7 @@
 .playerNoticeText {
   margin: 0;
   height: 1.25rem;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
   font-weight: 500;
@@ -34,4 +36,13 @@
 
 .playerNoticeLowZIndex {
   z-index: 5;
+}
+
+@media (min-width: 768px) {
+  .playerNoticeTitle {
+    font-size: 1.25rem;
+  }
+  .playerNoticeText {
+    font-size: 1rem;
+  }
 }
