@@ -43,6 +43,18 @@ function PlayerIdleCheck({ children }: PropsWithChildren) {
 
     const handleClick = (event: MouseEvent) => {
       if (isIdle) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        setIsIdle(false);
+
+        startTimer();
+      }
+    };
+
+    const handleTouchStart = (event: TouchEvent) => {
+      if (isIdle) {
+        event.preventDefault();
         event.stopPropagation();
 
         setIsIdle(false);
@@ -58,10 +70,14 @@ function PlayerIdleCheck({ children }: PropsWithChildren) {
     };
 
     element.addEventListener("click", handleClick);
+    element.addEventListener("touchstart", handleTouchStart, {
+      passive: false,
+    });
     element.addEventListener("mousemove", handleMove);
 
     return () => {
       element.removeEventListener("click", handleClick);
+      element.removeEventListener("touchstart", handleTouchStart);
       element.removeEventListener("mousemove", handleMove);
     };
   }, [containerRef, isIdle, setIsIdle, startTimer]);

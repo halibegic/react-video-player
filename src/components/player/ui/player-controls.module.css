@@ -9,7 +9,7 @@
   overflow: hidden;
 }
 
-.topControls {
+.controlsTop {
   position: absolute;
   left: 0;
   width: 100%;
@@ -21,7 +21,7 @@
 }
 
 @media (min-width: 768px) {
-  .topControls {
+  .controlsTop {
     padding-bottom: 2rem;
   }
 }

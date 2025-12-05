@@ -3,11 +3,13 @@ import { LivePlayerEventListener } from "@/components/live-player/live-player-ev
 import { LivePlayerKeyboard } from "@/components/live-player/live-player-keyboard";
 import { LivePlayerProvider } from "@/components/live-player/live-player-provider";
 import { LivePlayerTech } from "@/components/live-player/live-player-tech";
+import { LivePlayerViewerCount } from "@/components/live-player/live-player-viewer-count";
 import { LivePlayerGestures } from "@/components/live-player/ui/live-player-gestures";
 import { LivePlayerGoLive } from "@/components/live-player/ui/live-player-go-live";
 import { LivePlayerPlayback } from "@/components/live-player/ui/live-player-playback";
 import { LivePlayerProgress } from "@/components/live-player/ui/live-player-progress";
 import { LivePlayerStartOver } from "@/components/live-player/ui/live-player-start-over";
+import { LivePlayerViewers } from "@/components/live-player/ui/live-player-viewers";
 import { PlayerErrorNotice } from "@/components/player/player-error-check";
 import styles from "@/components/player/ui/player-controls.module.css";
 import { PlayerFullscreen } from "@/components/player/ui/player-fullscreen";
@@ -63,6 +65,13 @@ function Player({ url, messages, onEvent }: LivePlayerProps) {
         <PlayerLoading />
         <PlayerIdleCheck>
           <LivePlayerGestures />
+          <div className={styles.controlsTop}>
+            <div className={styles.controlsContainer}>
+              <div className={styles.controlsRow}>
+                <LivePlayerViewers />
+              </div>
+            </div>
+          </div>
           <div className={styles.controlsBottom}>
             <div className={styles.controlsContainer}>
               <LivePlayerProgress />
@@ -87,6 +96,7 @@ function Player({ url, messages, onEvent }: LivePlayerProps) {
         </PlayerIdleCheck>
       </LivePlayerEventCheck>
       <LivePlayerKeyboard />
+      <LivePlayerViewerCount url={url} />
       {onEvent && <LivePlayerEventListener callback={onEvent} />}
     </div>
   );

@@ -4,11 +4,13 @@ import { create, StoreApi, useStore } from "zustand";
 type State = {
   delay: number;
   startDate: Date | null;
+  viewerCount: number | null;
 };
 
 type Actions = {
   setDelay: (delay: number) => void;
   setStartDate: (startDate: Date) => void;
+  setViewerCount: (count: number | null) => void;
 };
 
 type LivePlayerStore = State & Actions;
@@ -17,8 +19,10 @@ const createLivePlayerStore = () =>
   create<LivePlayerStore>((set) => ({
     delay: 0,
     startDate: null,
+    viewerCount: null,
     setDelay: (delay) => set({ delay }),
     setStartDate: (startDate) => set({ startDate }),
+    setViewerCount: (viewerCount) => set({ viewerCount }),
   }));
 
 const LivePlayerStoreContext = createContext<StoreApi<LivePlayerStore> | null>(
