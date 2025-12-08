@@ -59,6 +59,7 @@ function Player({ url, messages, onEvent }: LivePlayerProps) {
           url={url}
           messages={{
             eventFinished: messages?.eventFinished,
+            unableToPlay: messages?.unableToPlay,
           }}
         />
         <PlayerErrorNotice />
