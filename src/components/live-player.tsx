@@ -58,6 +58,7 @@ function Player({ url, messages, onEvent }: LivePlayerProps) {
         messages={{
           eventNotStarted: messages?.eventNotStarted,
           eventStartingSoon: messages?.eventStartingSoon,
+          unableToPlay: messages?.unableToPlay,
         }}
       >
         <LivePlayerTech

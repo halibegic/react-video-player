@@ -11,6 +11,7 @@ type LivePlayerEventCheckProps = PropsWithChildren & {
   messages?: {
     eventNotStarted?: string;
     eventStartingSoon?: string;
+    unableToPlay?: string;
   };
 };
 
@@ -53,7 +54,7 @@ function EventNotice({
     return (
       <div className={styles.playerNotice}>
         <h3 className={styles.playerNoticeTitle}>
-          {messages?.eventNotStarted ?? "Event has not started yet."}
+          {messages?.unableToPlay ?? "Event has not started yet."}
         </h3>
       </div>
     );
