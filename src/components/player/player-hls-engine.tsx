@@ -111,37 +111,37 @@ function PlayerHlsEngine({ url, isLive, messages }: PlayerHlsEngineProps) {
             console.log("[Player][HLS] NETWORK_ERROR", data);
 
             if (isLive) {
-              if (
-                // Initial load failure
-                data.details === "manifestLoadError" ||
-                data.details === "manifestParsingError" ||
-                // Level load failure during playback (e.g. OBS disconnect)
-                data.details === "levelLoadError"
-              ) {
-                if (retryCountRef.current < maxRetries) {
-                  // Clear any existing retry timeout
-                  if (retryTimeoutRef.current) {
-                    clearTimeout(retryTimeoutRef.current);
-                  }
-
-                  retryCountRef.current += 1;
-
-                  retryTimeoutRef.current = setTimeout(() => {
-                    if (hlsRef.current) {
-                      try {
-                        console.log("[Player][HLS] Retrying stream...");
-                        hlsRef.current.loadSource(url);
-                      } catch (error) {
-                        console.error("[Player][HLS] Retry failed:", error);
-                      }
-                    }
-                  }, retryDelayMs);
+              // if (
+              //   // Initial load failure
+              //   data.details === "manifestLoadError" ||
+              //   data.details === "manifestParsingError" ||
+              //   // Level load failure during playback (e.g. OBS disconnect)
+              //   data.details === "levelLoadError"
+              // ) {
+              if (retryCountRef.current < maxRetries) {
+                // Clear any existing retry timeout
+                if (retryTimeoutRef.current) {
+                  clearTimeout(retryTimeoutRef.current);
                 }
 
-                message =
-                  messages?.eventFinished ?? "Live event will be back shortly.";
-                code = "LIVE_MANIFEST_LOAD_ERROR";
+                retryCountRef.current += 1;
+
+                retryTimeoutRef.current = setTimeout(() => {
+                  if (hlsRef.current) {
+                    try {
+                      console.log("[Player][HLS] Retrying stream...");
+                      hlsRef.current.loadSource(url);
+                    } catch (error) {
+                      console.error("[Player][HLS] Retry failed:", error);
+                    }
+                  }
+                }, retryDelayMs);
               }
+
+              // message =
+              //   messages?.eventFinished ?? "Live event will be back shortly.";
+              code = "LIVE_MANIFEST_LOAD_ERROR";
+              // }
             } else {
               hlsRef.current.startLoad();
             }
