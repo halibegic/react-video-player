@@ -18,7 +18,8 @@ import { PlayerLoading } from "@/components/player/ui/player-loading";
 import { PlayerQualityControl } from "@/components/player/ui/player-quality-control";
 import { PlayerVolume } from "@/components/player/ui/player-volume";
 import { usePlayerStore } from "@/stores/player-store";
-import { RefObject } from "react";
+import { RefObject, useEffect } from "react";
+import packageJson from "../../package.json";
 
 type LivePlayerProps = {
   url: string;
@@ -42,6 +43,10 @@ function LivePlayer(props: LivePlayerProps) {
 
 function Player({ url, messages, onEvent }: LivePlayerProps) {
   const containerRef = usePlayerStore((s) => s.containerRef);
+
+  useEffect(() => {
+    console.log(`[Player][Live] Version: ${packageJson.version}`);
+  }, []);
 
   return (
     <div

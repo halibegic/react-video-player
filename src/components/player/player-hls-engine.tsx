@@ -114,6 +114,7 @@ function PlayerHlsEngine({ url, isLive, messages }: PlayerHlsEngineProps) {
               if (
                 // Initial load failure
                 data.details === "manifestLoadError" ||
+                data.details === "manifestParsingError" ||
                 // Level load failure during playback (e.g. OBS disconnect)
                 data.details === "levelLoadError"
               ) {

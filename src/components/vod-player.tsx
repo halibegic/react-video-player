@@ -15,6 +15,7 @@ import { VodPlayerEventListener } from "@/components/vod-player/vod-player-event
 import { VodPlayerKeyboard } from "@/components/vod-player/vod-player-keyboard";
 import { usePlayerStore } from "@/stores/player-store";
 import { RefObject, useEffect } from "react";
+import packageJson from "../../package.json";
 
 type VodPlayerProps = {
   url: string;
@@ -40,6 +41,10 @@ function Player({ url, messages, onEvent, startTime }: VodPlayerProps) {
   useEffect(() => {
     if (startTime) setStartTime(startTime);
   }, [startTime, setStartTime]);
+
+  useEffect(() => {
+    console.log(`[Player][VOD] Version: ${packageJson.version}`);
+  }, []);
 
   return (
     <div
