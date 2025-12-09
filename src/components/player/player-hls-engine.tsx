@@ -96,50 +96,56 @@ function PlayerHlsEngine({ url, isLive, messages }: PlayerHlsEngineProps) {
   const handleError = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (event: string, data: any) => {
-      console.error("[Player][HLS] ERROR", event, data);
+      // console.error("[Player][HLS] ERROR", event, data);
 
       if (!hlsRef.current) return;
 
       if (data.fatal) {
         switch (data.type) {
           case Hls.ErrorTypes.NETWORK_ERROR:
+            let message =
+              messages?.unableToPlay ??
+              "Unable to play the video. Please try again later.";
+            let code = "NETWORK_ERROR";
+
             console.log("[Player][HLS] NETWORK_ERROR", data);
-            if (isLive && data.details === "manifestLoadError") {
-              if (retryCountRef.current < maxRetries) {
-                // Clear any existing retry timeout
-                if (retryTimeoutRef.current) {
-                  clearTimeout(retryTimeoutRef.current);
+
+            if (isLive) {
+              if (
+                // Initial load failure
+                data.details === "manifestLoadError" ||
+                // Level load failure during playback (e.g. OBS disconnect)
+                data.details === "levelLoadError"
+              ) {
+                if (retryCountRef.current < maxRetries) {
+                  // Clear any existing retry timeout
+                  if (retryTimeoutRef.current) {
+                    clearTimeout(retryTimeoutRef.current);
+                  }
+
+                  retryCountRef.current += 1;
+
+                  retryTimeoutRef.current = setTimeout(() => {
+                    if (hlsRef.current) {
+                      try {
+                        console.log("[Player][HLS] Retrying stream...");
+                        hlsRef.current.loadSource(url);
+                      } catch (error) {
+                        console.error("[Player][HLS] Retry failed:", error);
+                      }
+                    }
+                  }, retryDelayMs);
                 }
 
-                retryCountRef.current += 1;
-
-                retryTimeoutRef.current = setTimeout(() => {
-                  if (hlsRef.current) {
-                    try {
-                      console.log("[Player][HLS] Retrying stream...");
-                      hlsRef.current.loadSource(url);
-                    } catch (error) {
-                      console.error("[Player][HLS] Retry failed:", error);
-                    }
-                  }
-                }, retryDelayMs);
+                message =
+                  messages?.eventFinished ?? "Live event will be back shortly.";
+                code = "LIVE_MANIFEST_LOAD_ERROR";
               }
-              setError({
-                message:
-                  messages?.eventFinished ?? "Live event will be back shortly.",
-                code: "LIVE_MANIFEST_LOAD_ERROR",
-                tech: "hls",
-              });
             } else {
-              setError({
-                message:
-                  messages?.unableToPlay ??
-                  "Unable to play the video. Please try again later.",
-                code: "NETWORK_ERROR",
-                tech: "hls",
-              });
               hlsRef.current.startLoad();
             }
+
+            setError({ message, code, tech: "hls" });
             break;
           case Hls.ErrorTypes.MEDIA_ERROR:
             hlsRef.current.recoverMediaError();
