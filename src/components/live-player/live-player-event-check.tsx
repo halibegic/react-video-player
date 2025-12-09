@@ -54,7 +54,8 @@ function EventNotice({
     return (
       <div className={styles.playerNotice}>
         <h3 className={styles.playerNoticeTitle}>
-          {messages?.unableToPlay ?? "Event has not started yet."}
+          {messages?.unableToPlay ??
+            "Unable to play the video. Please try again later."}
         </h3>
       </div>
     );
