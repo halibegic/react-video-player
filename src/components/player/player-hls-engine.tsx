@@ -104,34 +104,32 @@ function PlayerHlsEngine({ url, isLive, messages }: PlayerHlsEngineProps) {
         switch (data.type) {
           case Hls.ErrorTypes.NETWORK_ERROR:
             console.log("[Player][HLS] NETWORK_ERROR", data);
-            if (isLive) {
-              if (data.details === "manifestLoadError") {
-                if (retryCountRef.current < maxRetries) {
-                  // Clear any existing retry timeout
-                  if (retryTimeoutRef.current) {
-                    clearTimeout(retryTimeoutRef.current);
-                  }
-
-                  retryCountRef.current += 1;
-
-                  retryTimeoutRef.current = setTimeout(() => {
-                    if (hlsRef.current) {
-                      try {
-                        console.log("[Player][HLS] Retrying stream...");
-                        hlsRef.current.loadSource(url);
-                      } catch (error) {
-                        console.error("[Player][HLS] Retry failed:", error);
-                      }
-                    }
-                  }, retryDelayMs);
+            if (isLive && data.details === "manifestLoadError") {
+              if (retryCountRef.current < maxRetries) {
+                // Clear any existing retry timeout
+                if (retryTimeoutRef.current) {
+                  clearTimeout(retryTimeoutRef.current);
                 }
-                setError({
-                  message:
-                    messages?.eventFinished ?? "Live event will be back shortly.",
-                  code: "LIVE_MANIFEST_LOAD_ERROR",
-                  tech: "hls",
-                });
+
+                retryCountRef.current += 1;
+
+                retryTimeoutRef.current = setTimeout(() => {
+                  if (hlsRef.current) {
+                    try {
+                      console.log("[Player][HLS] Retrying stream...");
+                      hlsRef.current.loadSource(url);
+                    } catch (error) {
+                      console.error("[Player][HLS] Retry failed:", error);
+                    }
+                  }
+                }, retryDelayMs);
               }
+              setError({
+                message:
+                  messages?.eventFinished ?? "Live event will be back shortly.",
+                code: "LIVE_MANIFEST_LOAD_ERROR",
+                tech: "hls",
+              });
             } else {
               setError({
                 message:
