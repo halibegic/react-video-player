@@ -85,7 +85,7 @@ function DesktopGesture({ className, onClick, ...props }: DesktopGestureProps) {
 
   const isDoubleClickTimerActive = () => doubleClickTimerRef.current !== null;
 
-  const handleMouseMove = () => {
+  const handleMouseEnter = () => {
     resetIdle();
   };
 
@@ -98,7 +98,7 @@ function DesktopGesture({ className, onClick, ...props }: DesktopGestureProps) {
   return (
     <button
       onClick={handleClick}
-      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
       className={[styles.playbackButton, className].filter(Boolean).join(" ")}
       aria-label="Player gestures"
       {...props}
