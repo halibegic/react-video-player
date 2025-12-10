@@ -7,9 +7,8 @@ import { useCallback, useEffect, useRef } from "react";
 type PlayerHlsEngineProps = {
   url: string;
   isLive: boolean;
-  messages?: {
-    eventFinished?: string;
-    unableToPlay?: string;
+  messages: {
+    unableToPlay: string;
   };
 };
 
@@ -101,12 +100,12 @@ function PlayerHlsEngine({ url, isLive, messages }: PlayerHlsEngineProps) {
       if (!hlsRef.current) return;
 
       if (data.fatal) {
+        let message: string | undefined;
+        let code = "UNKNOWN_ERROR";
+
         switch (data.type) {
           case Hls.ErrorTypes.NETWORK_ERROR:
-            let message =
-              messages?.unableToPlay ??
-              "Unable to play the video. Please try again later.";
-            let code = "NETWORK_ERROR";
+            message = messages.unableToPlay;
 
             console.log("[Player][HLS] NETWORK_ERROR", data);
 
@@ -138,12 +137,11 @@ function PlayerHlsEngine({ url, isLive, messages }: PlayerHlsEngineProps) {
                 }, retryDelayMs);
               }
 
-              // message =
-              //   messages?.eventFinished ?? "Live event will be back shortly.";
               code = "LIVE_MANIFEST_LOAD_ERROR";
               // }
             } else {
               hlsRef.current.startLoad();
+              code = "NETWORK_ERROR";
             }
 
             setError({ message, code, tech: "hls" });
@@ -156,13 +154,13 @@ function PlayerHlsEngine({ url, isLive, messages }: PlayerHlsEngineProps) {
         }
       }
     },
-    [isLive, url, setError]
+    [isLive, url, setError, messages]
   );
 
   const prepareHls = useCallback(() => {
     if (!techRef.current) return;
 
-    let config = {
+    const config = {
       startLevel: -1,
       maxBufferSize: 30 * 1024 * 1024, // 30MB
     } as HlsConfig;

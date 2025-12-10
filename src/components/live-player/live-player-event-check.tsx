@@ -8,10 +8,10 @@ import { PropsWithChildren, useCallback, useEffect, useState } from "react";
 
 type LivePlayerEventCheckProps = PropsWithChildren & {
   url: string;
-  messages?: {
-    eventNotStarted?: string;
-    eventStartingSoon?: string;
-    unableToPlay?: string;
+  messages: {
+    eventNotStarted: string;
+    eventStartingSoon: string;
+    unableToPlay: string;
   };
 };
 
@@ -43,7 +43,7 @@ function LivePlayerEventCheck({ url, ...props }: LivePlayerEventCheckProps) {
 
 function EventNotice({
   children,
-  messages = {},
+  messages,
 }: Omit<LivePlayerEventCheckProps, "url">) {
   const startDate = useLivePlayerStore((s) => s.startDate);
   const isStarted = usePlayerStore((s) => s.isStarted);
@@ -53,10 +53,7 @@ function EventNotice({
   if (!startDate) {
     return (
       <div className={styles.playerNotice}>
-        <h3 className={styles.playerNoticeTitle}>
-          {messages?.unableToPlay ??
-            "Unable to play the video. Please try again later."}
-        </h3>
+        <h3 className={styles.playerNoticeTitle}>{messages.unableToPlay}</h3>
       </div>
     );
   }
@@ -68,8 +65,8 @@ function EventNotice({
     return (
       <EventNotStarted
         startDate={startDate}
-        title={messages?.eventNotStarted ?? "Event has not started yet."}
-        message={messages?.eventStartingSoon ?? "Starting in few seconds..."}
+        title={messages.eventNotStarted}
+        message={messages.eventStartingSoon}
       />
     );
   }

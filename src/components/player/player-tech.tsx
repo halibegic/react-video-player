@@ -7,9 +7,8 @@ type PlayerTechProps = {
   url: string;
   isLive: boolean;
   isMuted?: boolean;
-  messages?: {
-    eventFinished?: string;
-    unableToPlay?: string;
+  messages: {
+    unableToPlay: string;
   };
 };
 
@@ -17,7 +16,7 @@ function PlayerTech({
   url,
   isLive,
   isMuted = false,
-  messages = {},
+  messages,
 }: PlayerTechProps) {
   const handleDurationChange = usePlayerStore((s) => s.handleDurationChange);
   const handleEnd = usePlayerStore((s) => s.handleEnd);

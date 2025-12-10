@@ -100,7 +100,9 @@ function LivePlayerProgress() {
   useInterval(() => calculateTime(), isPlaying ? 1000 : null);
 
   useEffect(() => {
-    calculateTime();
+    // Schedule to avoid synchronous setState in effect body
+    const frame = requestAnimationFrame(() => calculateTime());
+    return () => cancelAnimationFrame(frame);
   }, [calculateTime]);
 
   return (
@@ -118,9 +120,7 @@ function LivePlayerProgress() {
       <div
         ref={tipRef}
         className={`${styles.tipContainer} ${
-          isTipVisible
-            ? styles.tipContainerVisible
-            : styles.tipContainerHidden
+          isTipVisible ? styles.tipContainerVisible : styles.tipContainerHidden
         }`}
       >
         <p className={styles.tipContent}>{`-${formatTime(tipTime)}`}</p>

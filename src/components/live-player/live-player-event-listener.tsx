@@ -25,7 +25,7 @@ function LivePlayerEventListener({ callback }: PlayerEventListenerProps) {
     return () => {
       eventEmitter.off("timeUpdate", handleTimeUpdate);
     };
-  }, [callback, eventEmitter, startTime, delay]);
+  }, [callback, delay, eventEmitter, startTime]);
 
   return <PlayerEventListener callback={callback} />;
 }

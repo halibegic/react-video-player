@@ -320,15 +320,16 @@ function MobileGesture({
   };
 
   useEffect(() => {
+    const timers = timersRef.current;
     return () => {
-      if (timersRef.current.single) {
-        window.clearTimeout(timersRef.current.single);
+      if (timers?.single) {
+        window.clearTimeout(timers.single);
       }
-      if (timersRef.current.indicator) {
-        window.clearTimeout(timersRef.current.indicator);
+      if (timers?.indicator) {
+        window.clearTimeout(timers.indicator);
       }
-      if (timersRef.current.accumulate) {
-        window.clearTimeout(timersRef.current.accumulate);
+      if (timers?.accumulate) {
+        window.clearTimeout(timers.accumulate);
       }
     };
   }, []);

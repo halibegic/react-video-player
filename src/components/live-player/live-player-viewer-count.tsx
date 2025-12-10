@@ -1,7 +1,7 @@
 import { useInterval } from "@/hooks/use-interval";
 import { useLivePlayerStore } from "@/stores/live-player-store";
 import { usePlayerStore } from "@/stores/player-store";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 type LivePlayerViewerCountProps = {
   url: string;
@@ -34,7 +34,7 @@ function ViewerCount({ url }: LivePlayerViewerCountProps) {
     }
   };
 
-  const fetchViewerCount = async () => {
+  const fetchViewerCount = useCallback(async () => {
     const uri = extractUri(url);
     if (!uri) {
       console.error("Could not extract URI from URL:", url);
@@ -73,7 +73,7 @@ function ViewerCount({ url }: LivePlayerViewerCountProps) {
       console.error("Failed to fetch viewer count:", error);
       setViewerCount(null);
     }
-  };
+  }, [setViewerCount, url]);
 
   useEffect(() => {
     fetchViewerCount();
@@ -83,7 +83,7 @@ function ViewerCount({ url }: LivePlayerViewerCountProps) {
         abortRef.current.abort();
       }
     };
-  }, [url]);
+  }, [fetchViewerCount, url]);
 
   useInterval(fetchViewerCount, 15000); // Fetch every 15 seconds
 

@@ -24,7 +24,7 @@ function PlayerIdleCheck({ children }: PropsWithChildren) {
     clearTimer();
 
     timerRef.current = window.setTimeout(() => setIsIdle(true), HideTimeout);
-  }, [clearTimer]);
+  }, [clearTimer, setIsIdle]);
 
   useEffect(() => {
     setIsIdle(false);
@@ -34,7 +34,7 @@ function PlayerIdleCheck({ children }: PropsWithChildren) {
     return () => {
       clearTimer();
     };
-  }, [clearTimer, startTimer]);
+  }, [clearTimer, setIsIdle, startTimer]);
 
   useEffect(() => {
     const handleResetIdle = () => {

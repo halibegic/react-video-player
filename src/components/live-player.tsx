@@ -24,11 +24,11 @@ import packageJson from "../../package.json";
 type LivePlayerProps = {
   url: string;
   messages?: {
-    eventFinished: string;
-    eventNotStarted: string;
-    eventStartingSoon: string;
-    live: string;
-    unableToPlay: string;
+    eventFinished?: string;
+    eventNotStarted?: string;
+    eventStartingSoon?: string;
+    live?: string;
+    unableToPlay?: string;
   };
   onEvent?: (event: string, data: unknown) => void;
 };
@@ -41,8 +41,16 @@ function LivePlayer(props: LivePlayerProps) {
   );
 }
 
-function Player({ url, messages, onEvent }: LivePlayerProps) {
+function Player({ url, messages = {}, onEvent }: LivePlayerProps) {
   const containerRef = usePlayerStore((s) => s.containerRef);
+
+  const defaultMessages: Required<LivePlayerProps["messages"]> = {
+    eventFinished: "Live stream has ended.",
+    eventNotStarted: "Event has not started yet.",
+    eventStartingSoon: "Starting in few seconds...",
+    live: "Live",
+    unableToPlay: "Unable to play the live stream. Please try again later.",
+  };
 
   useEffect(() => {
     console.log(`[Player][Live] Version: ${packageJson.version}`);
@@ -56,16 +64,18 @@ function Player({ url, messages, onEvent }: LivePlayerProps) {
       <LivePlayerEventCheck
         url={url}
         messages={{
-          eventNotStarted: messages?.eventNotStarted,
-          eventStartingSoon: messages?.eventStartingSoon,
-          unableToPlay: messages?.unableToPlay,
+          eventNotStarted:
+            messages?.eventNotStarted ?? defaultMessages.eventNotStarted,
+          eventStartingSoon:
+            messages?.eventStartingSoon ?? defaultMessages.eventStartingSoon,
+          unableToPlay: messages?.unableToPlay ?? defaultMessages.unableToPlay,
         }}
       >
         <LivePlayerTech
           url={url}
           messages={{
-            eventFinished: messages?.eventFinished,
-            unableToPlay: messages?.unableToPlay,
+            unableToPlay:
+              messages?.unableToPlay ?? defaultMessages.unableToPlay,
           }}
         />
         <PlayerErrorNotice />

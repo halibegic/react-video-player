@@ -4,13 +4,12 @@ import { useCallback, useEffect, useState } from "react";
 
 type LivePlayerTechProps = {
   url: string;
-  messages?: {
-    eventFinished?: string;
-    unableToPlay?: string;
+  messages: {
+    unableToPlay: string;
   };
 };
 
-function LivePlayerTech({ url, messages = {} }: LivePlayerTechProps) {
+function LivePlayerTech({ url, messages }: LivePlayerTechProps) {
   const [currentUrl, setCurrentUrl] = useState<string | null>(null);
   const delay = useLivePlayerStore((s) => s.delay);
 
@@ -27,7 +26,9 @@ function LivePlayerTech({ url, messages = {} }: LivePlayerTechProps) {
   }, [delay, url]);
 
   useEffect(() => {
-    prepareData();
+    // Schedule to avoid synchronous setState in effect body
+    const frame = requestAnimationFrame(() => prepareData());
+    return () => cancelAnimationFrame(frame);
   }, [prepareData]);
 
   return currentUrl ? (

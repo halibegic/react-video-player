@@ -38,6 +38,10 @@ function Player({ url, messages, onEvent, startTime }: VodPlayerProps) {
   const setStartTime = usePlayerStore((s) => s.setStartTime);
   const containerRef = usePlayerStore((s) => s.containerRef);
 
+  const defaultMessages: Required<VodPlayerProps["messages"]> = {
+    unableToPlay: "Unable to play the video. Please try again later.",
+  };
+
   useEffect(() => {
     if (startTime) setStartTime(startTime);
   }, [startTime, setStartTime]);
@@ -51,7 +55,13 @@ function Player({ url, messages, onEvent, startTime }: VodPlayerProps) {
       ref={containerRef as RefObject<HTMLDivElement>}
       className={styles.playerContainer}
     >
-      <PlayerTech url={url} isLive={false} messages={messages} />
+      <PlayerTech
+        url={url}
+        isLive={false}
+        messages={{
+          unableToPlay: messages?.unableToPlay ?? defaultMessages.unableToPlay,
+        }}
+      />
       <PlayerErrorNotice />
       <PlayerLoading />
       <VodPlayerGestures />
