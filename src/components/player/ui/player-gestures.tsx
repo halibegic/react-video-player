@@ -29,9 +29,9 @@ function PlayerGestures({
   maxBackwardTime,
   ...props
 }: PlayerGesturesProps) {
-  const isDesktop = useMediaQuery("(min-width: 1024px)");
+  const isTouch = useMediaQuery("(pointer: coarse)");
 
-  if (isDesktop) {
+  if (!isTouch) {
     return (
       <DesktopGesture className={className} onClick={onClick} {...props} />
     );
