@@ -1,6 +1,6 @@
 import { PlayerHlsEngine } from "@/components/player/player-hls-engine";
 import { usePlayerStore } from "@/stores/player-store";
-import { RefObject, useRef, type VideoHTMLAttributes } from "react";
+import { RefObject, useEffect, useRef, type VideoHTMLAttributes } from "react";
 import styles from "./player-tech.module.css";
 
 type PlayerTechProps = {
@@ -18,6 +18,7 @@ function PlayerTech({
   isMuted = false,
   messages,
 }: PlayerTechProps) {
+  const destroy = usePlayerStore((s) => s.destroy);
   const handleDurationChange = usePlayerStore((s) => s.handleDurationChange);
   const handleEnd = usePlayerStore((s) => s.handleEnd);
   const handleLoadedMetadata = usePlayerStore((s) => s.handleLoadedMetadata);
@@ -60,6 +61,12 @@ function PlayerTech({
   };
 
   const nonLiveHandlers = handleNonLiveHandlers();
+
+  useEffect(() => {
+    return () => {
+      destroy();
+    };
+  }, [destroy]);
 
   return (
     <>

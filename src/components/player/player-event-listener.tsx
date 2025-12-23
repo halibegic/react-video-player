@@ -12,6 +12,8 @@ function PlayerEventListener({ callback }: PlayerEventListenerProps) {
   useEffect(() => {
     const handlePlay = () => callback("play", undefined);
     const handlePause = () => callback("pause", undefined);
+    const handleResume = () => callback("resume", undefined);
+    const handleRestart = () => callback("restart", undefined);
     const handleEnded = () => callback("ended", undefined);
     const handleSeeking = () => callback("seeking", undefined);
     const handleSeeked = () => callback("seeked", undefined);
@@ -30,6 +32,8 @@ function PlayerEventListener({ callback }: PlayerEventListenerProps) {
 
     eventEmitter.on("play", handlePlay);
     eventEmitter.on("pause", handlePause);
+    eventEmitter.on("resume", handleResume);
+    eventEmitter.on("restart", handleRestart);
     eventEmitter.on("ended", handleEnded);
     eventEmitter.on("seeking", handleSeeking);
     eventEmitter.on("seeked", handleSeeked);
@@ -45,6 +49,8 @@ function PlayerEventListener({ callback }: PlayerEventListenerProps) {
     return () => {
       eventEmitter.off("play", handlePlay);
       eventEmitter.off("pause", handlePause);
+      eventEmitter.off("resume", handleResume);
+      eventEmitter.off("restart", handleRestart);
       eventEmitter.off("ended", handleEnded);
       eventEmitter.off("seeking", handleSeeking);
       eventEmitter.off("seeked", handleSeeked);

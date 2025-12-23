@@ -53,6 +53,7 @@ type PlaybackActions = {
   handleError: (event: SyntheticEvent | undefined | null) => void;
   pause: () => void;
   play: () => void;
+  restart: () => void;
   seek: (time: number) => void;
   setIsLoading: (isLoading: boolean) => void;
   setIsLoop: (isLoop: boolean) => void;
@@ -179,7 +180,7 @@ const createPlaybackSlice: StateCreator<
   seekTime: -1,
   startTime: -1,
   volume: 100,
-  destroy: () => {},
+  destroy: () => get().eventEmitter.emit("ended"),
   handleDurationChange: () => {
     const video = get().techRef.current;
 
@@ -270,14 +271,15 @@ const createPlaybackSlice: StateCreator<
 
     if (!video) return;
 
-    get().eventEmitter.emit("play");
+    get().eventEmitter.emit(
+      get().isStarted && !get().isEnded ? "resume" : "play"
+    );
 
     set({
       isPlaying: true,
       pauseTime: 0,
     });
   },
-
   handlePlaying: () => {
     const video = get().techRef.current;
 
@@ -393,6 +395,9 @@ const createPlaybackSlice: StateCreator<
           isPlaying: false,
         });
       });
+  },
+  restart: () => {
+    get().eventEmitter.emit("restart");
   },
   seek: (time: number) => {
     const video = get().techRef.current;

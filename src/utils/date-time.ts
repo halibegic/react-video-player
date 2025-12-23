@@ -1,33 +1,3 @@
-function convertTime(value: number, fromUnit: string, toUnit: string): number {
-  const unitMap: { [key: string]: number } = {
-    days: 3600 * 24,
-    hours: 3600,
-    minutes: 60,
-    seconds: 1,
-    milliseconds: 0.001,
-  };
-
-  return value * (unitMap[fromUnit] / unitMap[toUnit]);
-}
-
-function millisecondsToSeconds(value: number): number {
-  return convertTime(value, "milliseconds", "seconds");
-}
-
-const formatTime = (seconds: number): string => {
-  if (isNaN(seconds) || seconds === Infinity) return "0:00";
-
-  const pad = (s: number): string => (s < 10 ? "0" : "") + s;
-
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  const secs = Math.floor(seconds % 60);
-
-  if (hours === 0) return `${minutes}:${pad(secs)}`;
-
-  return `${hours}:${pad(minutes)}:${pad(secs)}`;
-};
-
 // This replaces date-fns-tz's toZonedTime for better browser compatibility.
 function dateToTimeZone(date: Date, timeZone: string): Date {
   // Check if Intl.DateTimeFormat is available (IE11+)
@@ -92,4 +62,84 @@ function dateToTimeZone(date: Date, timeZone: string): Date {
   return date;
 }
 
-export { dateToTimeZone, formatTime, millisecondsToSeconds };
+function diffDate(startDate: Date, endDate: Date, unit: string): number {
+  return convertTime(
+    endDate.getTime() - startDate.getTime(),
+    unit,
+    "milliseconds"
+  );
+}
+
+function getLogDate(): string {
+  const date = new Date();
+  const format = "YYYY-MM-DD HH:mm:ss.SSSSSS";
+
+  const pad = (value: number, length = 2) =>
+    String(value).padStart(length, "0");
+
+  const replacements: Record<string, string> = {
+    YYYY: String(date.getFullYear()),
+    MM: pad(date.getMonth() + 1),
+    DD: pad(date.getDate()),
+    HH: pad(date.getHours()),
+    mm: pad(date.getMinutes()),
+    ss: pad(date.getSeconds()),
+    SSSSSS: pad(date.getMilliseconds(), 3) + "000",
+  };
+
+  return Object.entries(replacements).reduce(
+    (result, [key, value]) => result.replace(key, value),
+    format
+  );
+}
+
+const formatTime = (seconds: number): string => {
+  if (isNaN(seconds) || seconds === Infinity) return "0:00";
+
+  const pad = (s: number): string => (s < 10 ? "0" : "") + s;
+
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = Math.floor(seconds % 60);
+
+  if (hours === 0) return `${minutes}:${pad(secs)}`;
+
+  return `${hours}:${pad(minutes)}:${pad(secs)}`;
+};
+
+function getTimeZone(): string {
+  try {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone;
+  } catch (error) {
+    console.warn(
+      "Failed to get time zone, returning default time zone:",
+      error
+    );
+    return "Europe/Sarajevo";
+  }
+}
+
+function millisecondsToSeconds(value: number): number {
+  return convertTime(value, "milliseconds", "seconds");
+}
+
+function convertTime(value: number, fromUnit: string, toUnit: string): number {
+  const unitMap: { [key: string]: number } = {
+    days: 3600 * 24,
+    hours: 3600,
+    minutes: 60,
+    seconds: 1,
+    milliseconds: 0.001,
+  };
+
+  return value * (unitMap[fromUnit] / unitMap[toUnit]);
+}
+
+export {
+  dateToTimeZone,
+  diffDate,
+  formatTime,
+  getLogDate,
+  getTimeZone,
+  millisecondsToSeconds,
+};

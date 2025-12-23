@@ -11,6 +11,7 @@ import { VodPlayerGestures } from "@/components/vod-player/ui/vod-player-gesture
 import { VodPlayerPlayback } from "@/components/vod-player/ui/vod-player-playback";
 import { VodPlayerProgress } from "@/components/vod-player/ui/vod-player-progress";
 import { VodPlayerRemainingTime } from "@/components/vod-player/ui/vod-player-remaining-time";
+import { VodPlayerActivityListener } from "@/components/vod-player/vod-player-activity-listener";
 import { VodPlayerEventListener } from "@/components/vod-player/vod-player-event-listener";
 import { VodPlayerKeyboard } from "@/components/vod-player/vod-player-keyboard";
 import { usePlayerStore } from "@/stores/player-store";
@@ -88,6 +89,7 @@ function Player({ url, messages, onEvent, startTime }: VodPlayerProps) {
         </div>
       </PlayerIdleCheck>
       <VodPlayerKeyboard />
+      <VodPlayerActivityListener url={url} />
       {onEvent && <VodPlayerEventListener callback={onEvent} />}
     </div>
   );

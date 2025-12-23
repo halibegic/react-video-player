@@ -1,3 +1,4 @@
+import { LivePlayerActivityListener } from "@/components/live-player/live-player-activity-listener";
 import { LivePlayerEventCheck } from "@/components/live-player/live-player-event-check";
 import { LivePlayerEventListener } from "@/components/live-player/live-player-event-listener";
 import { LivePlayerKeyboard } from "@/components/live-player/live-player-keyboard";
@@ -111,9 +112,10 @@ function Player({ url, messages = {}, onEvent }: LivePlayerProps) {
             </div>
           </div>
         </PlayerIdleCheck>
+        <LivePlayerActivityListener url={url} />
+        <LivePlayerKeyboard />
+        <LivePlayerViewerCount url={url} />
       </LivePlayerEventCheck>
-      <LivePlayerKeyboard />
-      <LivePlayerViewerCount url={url} />
       {onEvent && <LivePlayerEventListener callback={onEvent} />}
     </div>
   );
