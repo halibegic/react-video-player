@@ -18,6 +18,7 @@ function PlayerHlsEngine({ url, isLive, messages }: PlayerHlsEngineProps) {
   const levels = usePlayerStore((s) => s.levels);
   const setLevel = usePlayerStore((s) => s.setLevel);
   const setLevels = usePlayerStore((s) => s.setLevels);
+  const logLevel = usePlayerStore((s) => s.logLevel);
   const techRef = usePlayerStore((s) => s.techRef);
   const setError = usePlayerStore((s) => s.setError);
 
@@ -44,7 +45,7 @@ function PlayerHlsEngine({ url, isLive, messages }: PlayerHlsEngineProps) {
         setLevels(items);
       }
     },
-    [levels, setLevel, setLevels, hlsRef]
+    [levels, setLevel, setLevels]
   );
 
   const handleMediaAttached = useCallback((): void => {
@@ -91,6 +92,29 @@ function PlayerHlsEngine({ url, isLive, messages }: PlayerHlsEngineProps) {
       })
     );
   }, [setError, setLevels]);
+
+  const handleLevelSwitched = useCallback((): void => {
+    if (!hlsRef.current) return;
+
+    console.log("[Player][HLS] LEVEL_SWITCHED");
+
+    const _levels = hlsRef.current.levels;
+    const _level = hlsRef.current.currentLevel;
+
+    const _label = _levels[_level] ? JSON.stringify(_levels[_level]) : null;
+
+    if (_label) {
+      let value = "";
+
+      if (_levels[_level].height) {
+        value = `${_levels[_level].height}p`;
+      } else if (_levels[_level].bitrate) {
+        value = `${_levels[_level].bitrate}bps`;
+      }
+
+      logLevel(value);
+    }
+  }, [logLevel]);
 
   const handleError = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -186,6 +210,7 @@ function PlayerHlsEngine({ url, isLive, messages }: PlayerHlsEngineProps) {
 
       hlsRef.current.on(Hls.Events.MEDIA_ATTACHED, handleMediaAttached);
       hlsRef.current.on(Hls.Events.MANIFEST_LOADED, handleManifestLoaded);
+      hlsRef.current.on(Hls.Events.LEVEL_SWITCHED, handleLevelSwitched);
       hlsRef.current.on(Hls.Events.ERROR, handleError);
     } catch (error) {
       throw new Error(`Error initializing Hls: ${error}`);
@@ -193,6 +218,7 @@ function PlayerHlsEngine({ url, isLive, messages }: PlayerHlsEngineProps) {
   }, [
     handleManifestLoaded,
     handleMediaAttached,
+    handleLevelSwitched,
     handleError,
     isLive,
     techRef,
@@ -203,6 +229,7 @@ function PlayerHlsEngine({ url, isLive, messages }: PlayerHlsEngineProps) {
     if (hlsRef.current) {
       hlsRef.current.off(Hls.Events.MEDIA_ATTACHED, handleMediaAttached);
       hlsRef.current.off(Hls.Events.MANIFEST_LOADED, handleManifestLoaded);
+      hlsRef.current.off(Hls.Events.LEVEL_SWITCHED, handleLevelSwitched);
       hlsRef.current.off(Hls.Events.ERROR, handleError);
 
       hlsRef.current.destroy();
@@ -215,7 +242,12 @@ function PlayerHlsEngine({ url, isLive, messages }: PlayerHlsEngineProps) {
       retryTimeoutRef.current = null;
     }
     retryCountRef.current = 0;
-  }, [handleManifestLoaded, handleMediaAttached, handleError]);
+  }, [
+    handleLevelSwitched,
+    handleManifestLoaded,
+    handleMediaAttached,
+    handleError,
+  ]);
 
   useEffect(() => {
     if (level !== null) handleQuality(level);

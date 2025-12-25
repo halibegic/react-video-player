@@ -88,17 +88,18 @@ function App() {
         eventFinished: "Live stream je završen.",
         eventStartingSoon: "Počinje za nekoliko sekundi...",
         live: "Uživo",
-        unableToPlay: "Stream ne može biti reprodukovan. Molimo pokušajte kasnije.",
+        unableToPlay:
+          "Stream ne može biti reprodukovan. Molimo pokušajte kasnije.",
       }}
     />
   );
 }
 ```
 
-| Prop       | Type                                                                                             | Description                                                                                | Default                                                                                                                                        |
-| ---------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `url`      | `string`                                                                                         | The live stream URL                                                                        | -                                                                                                                                              |
-| `onEvent`  | `(event: string, data: unknown) => void`                                                         | (Optional) Event handler callback for player events                                        | -                                                                                                                                              |
+| Prop       | Type                                                                                                                    | Description                                                                                                       | Default                                                                                                                                        |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `url`      | `string`                                                                                                                | The live stream URL                                                                                               | -                                                                                                                                              |
+| `onEvent`  | `(event: string, data: unknown) => void`                                                                                | (Optional) Event handler callback for player events                                                               | -                                                                                                                                              |
 | `messages` | `{ eventNotStarted: string; eventFinished: string; eventStartingSoon?: string; live?: string; unableToPlay?: string; }` | (Optional) Custom messages for event not started, finished, starting soon, live states, and unable to play errors | `{ eventNotStarted: "Event has not started yet.", eventFinished: "Event has finished.", eventStartingSoon: "Starting soon...", live: "Live" }` |
 
 ## Keyboard Shortcuts
@@ -131,7 +132,7 @@ Both `VodPlayer` and `LivePlayer` support event handling through the `onEvent` p
 | `timeUpdate`       | `{ currentTime: number; duration: number }` | Fired during playback with current time and duration  |
 | `volumeChange`     | `{ volume: number }`                        | Fired when volume changes (0-1)                       |
 | `fullscreenChange` | `{ isFullscreen: boolean }`                 | Fired when fullscreen mode changes                    |
-| `qualityChange`    | `{ level: number \| null }`                 | Fired when video quality changes                      |
+| `qualityChange`    | `{ level: string \| null }`                 | Fired when video quality changes                      |
 | `loadedMetadata`   | `{ duration: number }`                      | Fired when video metadata is loaded                   |
 | `loadStart`        | `void`                                      | Fired when loading starts                             |
 | `playing`          | `void`                                      | Fired when playback actually starts (after buffering) |

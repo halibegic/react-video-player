@@ -47,7 +47,9 @@ const useLivePlayerStore = <T,>(selector: (state: LivePlayerStore) => T): T => {
   const store = useContext(LivePlayerStoreContext);
 
   if (!store)
-    throw new Error("usePlayerStore must be used within PlayerStoreProvider");
+    throw new Error(
+      "useLivePlayerStore must be used within PlayerStoreProvider"
+    );
 
   return useStore(store, selector);
 };

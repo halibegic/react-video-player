@@ -53,6 +53,7 @@ type PlaybackActions = {
   handleError: (event: SyntheticEvent | undefined | null) => void;
   pause: () => void;
   play: () => void;
+  restart: () => void;
   seek: (time: number) => void;
   setIsLoading: (isLoading: boolean) => void;
   setIsLoop: (isLoop: boolean) => void;
@@ -100,6 +101,7 @@ type QualityState = {
 type QualityActions = {
   setLevel: (level: number | null) => void;
   setLevels: (levels: PlayerLevel[] | null) => void;
+  logLevel: (level: string | null) => void;
 };
 
 type QualitySlice = QualityState & QualityActions;
@@ -179,7 +181,9 @@ const createPlaybackSlice: StateCreator<
   seekTime: -1,
   startTime: -1,
   volume: 100,
-  destroy: () => {},
+  destroy: () => {
+    if (get().isStarted) get().eventEmitter.emit("ended");
+  },
   handleDurationChange: () => {
     const video = get().techRef.current;
 
@@ -270,14 +274,15 @@ const createPlaybackSlice: StateCreator<
 
     if (!video) return;
 
-    get().eventEmitter.emit("play");
+    get().eventEmitter.emit(
+      get().isStarted && !get().isEnded ? "resume" : "play"
+    );
 
     set({
       isPlaying: true,
       pauseTime: 0,
     });
   },
-
   handlePlaying: () => {
     const video = get().techRef.current;
 
@@ -394,6 +399,9 @@ const createPlaybackSlice: StateCreator<
         });
       });
   },
+  restart: () => {
+    get().eventEmitter.emit("restart");
+  },
   seek: (time: number) => {
     const video = get().techRef.current;
 
@@ -489,10 +497,9 @@ const createQualitySlice: StateCreator<
   level: null,
   levels: null,
   setLevels: (levels) => set({ levels }),
-  setLevel: (level) => {
+  setLevel: (level) => set({ level }),
+  logLevel: (level) => {
     if (level) get().eventEmitter.emit("qualityChange", { level });
-
-    set({ level });
   },
 });
 

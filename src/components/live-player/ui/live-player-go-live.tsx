@@ -3,6 +3,7 @@ import {
   PlayerButtonProps,
 } from "@/components/player/ui/player-button";
 import { useLivePlayerStore } from "@/stores/live-player-store";
+import { usePlayerStore } from "@/stores/player-store";
 import styles from "./live-player-go-live.module.css";
 
 type LivePlayerGoLiveProps = PlayerButtonProps & {
@@ -10,11 +11,13 @@ type LivePlayerGoLiveProps = PlayerButtonProps & {
 };
 
 function LivePlayerGoLive({ message, ...props }: LivePlayerGoLiveProps) {
+  const restart = usePlayerStore((s) => s.restart);
   const delay = useLivePlayerStore((s) => s.delay);
   const setDelay = useLivePlayerStore((s) => s.setDelay);
 
   const handleLive = () => {
     if (!delay) return;
+    restart();
     setDelay(0);
   };
 

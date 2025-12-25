@@ -23,10 +23,13 @@ type PlayerEvents = {
   pause: void;
   play: void;
   playing: void;
-  qualityChange: { level: number | null };
+  qualityChange: { level: string | null };
   resetIdle: void;
+  restart: void;
+  resume: void;
   seeked: void;
   seeking: void;
+  stop: void;
   timeUpdate: { currentTime: number; duration: number };
   volumeChange: { volume: number };
   waiting: void;
