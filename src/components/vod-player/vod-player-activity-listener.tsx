@@ -7,13 +7,11 @@ type VodPlayerActivityListenerProps = {
 
 function VodPlayerActivityListener({ url }: VodPlayerActivityListenerProps) {
   const { video_id } = extractQueryParams(url);
-  return (
-    <PlayerActivityListener
-      kind="vod"
-      url={url}
-      id={video_id ? Number(video_id) : undefined}
-    />
-  );
+  const id = video_id ? Number(video_id) : undefined;
+
+  if (!id) return null;
+
+  return <PlayerActivityListener kind="vod" url={url} id={id} />;
 }
 
 export { VodPlayerActivityListener };
