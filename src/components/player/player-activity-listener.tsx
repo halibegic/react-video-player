@@ -50,6 +50,10 @@ function PlayerActivityListener({
     environment === "stg"
       ? "https://collector-staging.spectar.tv/ingest"
       : "https://collector.spectar.tv/ingest";
+  const installation =
+    environment === "stg"
+      ? "spectar_fitnessanny_staging"
+      : "spectar_fitnessanny_production";
 
   // Keep isPlaying ref in sync
   isPlayingRef.current = isPlaying;
@@ -69,6 +73,7 @@ function PlayerActivityListener({
           date: getLogDate(),
           timezone: getTimeZone(),
         },
+        installation,
         level_num: level,
         log_source: "fitnessanny_player",
         capp_version: packageJson.version,
