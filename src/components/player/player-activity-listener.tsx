@@ -102,7 +102,7 @@ function PlayerActivityListener({
         throw new Error(`HTTP error! status: ${response.status}`);
       }
     },
-    [apiUrl, delay, id, kind, title]
+    [apiUrl, delay, id, installation, kind, title]
   );
 
   const handleWatchDate = useCallback((date?: Date | null) => {
