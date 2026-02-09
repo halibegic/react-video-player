@@ -275,7 +275,7 @@ const createPlaybackSlice: StateCreator<
     if (!video) return;
 
     get().eventEmitter.emit(
-      get().isStarted && !get().isEnded ? "resume" : "play"
+      get().isStarted && !get().isEnded ? "resume" : "play",
     );
 
     set({
@@ -371,7 +371,7 @@ const createPlaybackSlice: StateCreator<
     if (!get().isStarted || !get().pauseTime) return 0;
 
     return parseInt(
-      millisecondsToSeconds(Date.now() - get().pauseTime).toFixed(0)
+      millisecondsToSeconds(Date.now() - get().pauseTime).toFixed(0),
     );
   },
   play: () => {
@@ -409,14 +409,14 @@ const createPlaybackSlice: StateCreator<
 
     video.currentTime = time;
 
-    if (video.paused || video.ended) video.play();
+    // if (video.paused || video.ended) video.play();
 
     set({
       seekTime: -1,
       currentTime: time,
       isStarted: true,
       isEnded: false,
-      isPlaying: true,
+      // isPlaying: true,
     });
   },
   setIsLoading: (isLoading) => set({ isLoading }),
@@ -542,7 +542,7 @@ const createFullscreenSlice: StateCreator<
 // Error slice creator
 
 const createErrorSlice: StateCreator<ErrorSlice, [], [], ErrorSlice> = (
-  set
+  set,
 ) => ({
   error: null,
   setError: (error) => set({ error }),
@@ -562,7 +562,7 @@ const createEventEmitterSlice: StateCreator<
 // Refs slice creator
 
 type CreatePropsSlice = (
-  args: RefSlice
+  args: RefSlice,
 ) => StateCreator<RefSlice, [], [], RefSlice>;
 
 const createRefSlice: CreatePropsSlice = (props: RefSlice) => () => ({
@@ -571,7 +571,7 @@ const createRefSlice: CreatePropsSlice = (props: RefSlice) => () => ({
 
 const createPlayerStore = (
   techRef: RefObject<HTMLVideoElement | null>,
-  containerRef: RefObject<HTMLDivElement | null>
+  containerRef: RefObject<HTMLDivElement | null>,
 ) =>
   create<PlayerStore>()((...a) => ({
     ...createPlaybackSlice(...a),
