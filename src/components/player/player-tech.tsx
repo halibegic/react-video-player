@@ -75,7 +75,6 @@ function PlayerTech({
         ref={techRef as RefObject<HTMLVideoElement>}
         className={styles.playerVideo}
         playsInline
-        autoPlay
         controls={false}
         muted={isMuted}
         preload="auto"
