@@ -237,6 +237,11 @@ const createPlaybackSlice: StateCreator<
 
     set({ isReady: true });
 
+    // If the content was paused (started but not playing),
+    // don't auto-play, let the user resume.
+    // Skip this guard for retry (autoplay is expected)
+    if (get().isStarted && !get().isPlaying) return;
+
     video
       .play()
       .then(() => {
